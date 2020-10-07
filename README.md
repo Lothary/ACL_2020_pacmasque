@@ -1,4 +1,5 @@
 # ACL-2020-pacmasque
 
-Valérie MARISSENS CUEVA.
-Nicolas BOMBARDE.
+Valérie MARISSENS CUEVA.  
+Nicolas BOMBARDE.  
+Ugo COTTIN.  
