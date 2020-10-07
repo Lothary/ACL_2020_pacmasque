@@ -1,1 +1,8 @@
 /out
+/.gradle
+
+# Core
+/core/build
+
+# Desktop
+/desktop/build
