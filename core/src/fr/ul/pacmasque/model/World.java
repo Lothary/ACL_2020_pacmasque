@@ -9,4 +9,5 @@
 package fr.ul.pacmasque.model;
 
 public class World {
+
 }
