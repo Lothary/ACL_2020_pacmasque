@@ -8,6 +8,19 @@
 
 package fr.ul.pacmasque.model;
 
-public class World {
+public class World implements Object2D {
 
+	public Labyrinth getLabyrinth() {
+		return new Labyrinth(15,10);
+	}
+
+	@Override
+	public int getWidth() {
+		return 0;
+	}
+
+	@Override
+	public int getHeight() {
+		return 0;
+	}
 }

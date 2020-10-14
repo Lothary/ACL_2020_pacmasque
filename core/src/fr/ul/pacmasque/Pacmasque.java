@@ -2,8 +2,7 @@ package fr.ul.pacmasque;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import fr.ul.pacmasque.model.World;
 import fr.ul.pacmasque.view.GameView;
 import fr.ul.pacmasque.view.View;
 
@@ -13,10 +12,7 @@ import java.util.List;
 public class Pacmasque extends Game {
 
 	private View renderedView;
-	private List<View> views = new ArrayList<>();
-
-	SpriteBatch batch;
-	Texture img;
+	private final List<View> views = new ArrayList<>();
 
 	public View getRenderedView() {
 		return renderedView;
@@ -25,23 +21,20 @@ public class Pacmasque extends Game {
 	@Override
 	public void create() {
 		Gdx.graphics.setContinuousRendering(true);
-		View view = new GameView();
+		View view = new GameView(new World());
 		this.setScreen(view);
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
 	}
 
-	public void setScreen(View screen) {
+	private void setScreen(View screen) {
 		this.renderedView = screen;
+		if (!this.views.contains(screen)) {
+			this.views.add(screen);
+		}
 		super.setScreen(screen);
 	}
 
 	@Override
 	public void dispose() {
-		if (this.getRenderedView() != null) {
-			this.getRenderedView().dispose();
-		}
-
 		this.views.forEach(View::dispose);
 	}
 }

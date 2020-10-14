@@ -32,11 +32,17 @@ package libgdx {
 
 package pacmasque {
 	package model {
-		class World {
+
+	    interface Object2D {
+	        int getWidth()
+	        int getHeight()
+	    }
+
+		class World implements Object2D {
  			+ World(File fichierConstruction)
 		}
-		class Labyrinth {
-		 	+ Labyrinth(int x, int y)
+		class Labyrinth implements Object2D {
+		 	+ Labyrinth(int width, int height)
 		}
 	}
 
@@ -59,13 +65,16 @@ package pacmasque {
 		}
 	}
 
-	class PacMasque extends Game { }
+	class PacMasque extends Game {
+	    + void getRenderedView()
+	}
 
 
 	package views {
 		abstract View extends ScreenAdapter { }
 
 		class GameView {
+		    + GameView(World world)
 		 	- KeyboardListener keyboardListener
 		}
 	}
