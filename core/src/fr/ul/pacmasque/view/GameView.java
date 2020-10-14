@@ -21,7 +21,7 @@ import fr.ul.pacmasque.model.World;
 
 import java.util.List;
 
-public class GameView extends View {
+public class GameView implements View {
 
 	private final Batch batch;
 	private final Texture texture = new Texture("badlogic.jpg");
@@ -44,24 +44,44 @@ public class GameView extends View {
 	}
 
 	@Override
-	public void render(float delta) {
-		super.render(delta);
+	public void show() {
 
+	}
+
+	@Override
+	public void render(float delta) {
 		this.batch.begin();
 		Labyrinth labyrinth = world.getLabyrinth();
 		this.renderWalls(labyrinth.getMursPosition(), this.batch);
 		this.batch.end();
 	}
 
+	@Override
+	public void resize(int width, int height) {
+
+	}
+
+	@Override
+	public void pause() {
+
+	}
+
+	@Override
+	public void resume() {
+
+	}
+
+	@Override
+	public void hide() {
+
+	}
+
 	private void renderWalls(List<Vector2> walls, Batch batch) {
-		walls.forEach(wall -> {
-			batch.draw(texture, wall.x, wall.y, 1, 1);
-		});
+		walls.forEach(wall -> batch.draw(texture, wall.x, wall.y, 1, 1));
 	}
 
 	@Override
 	public void dispose() {
-		super.dispose();
 		this.batch.dispose();
 		this.texture.dispose();
 	}

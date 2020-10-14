@@ -8,8 +8,8 @@
 
 package fr.ul.pacmasque.view;
 
-import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.Screen;
 
-public abstract class View extends ScreenAdapter {
+public interface View extends Screen {
 
 }

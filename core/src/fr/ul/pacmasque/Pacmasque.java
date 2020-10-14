@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import fr.ul.pacmasque.model.World;
 import fr.ul.pacmasque.view.GameView;
+import fr.ul.pacmasque.view.MenuView;
 import fr.ul.pacmasque.view.View;
 
 import java.util.ArrayList;
@@ -21,7 +22,9 @@ public class Pacmasque extends Game {
 	@Override
 	public void create() {
 		Gdx.graphics.setContinuousRendering(true);
-		View view = new GameView(new World());
+		View view;
+		view = new MenuView();
+		//view = new GameView(new World());
 		this.setScreen(view);
 	}
 
