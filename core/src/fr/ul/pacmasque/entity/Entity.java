@@ -14,7 +14,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 public interface Entity {
 	Body body = null;
-	Vector2 position = null;
+	Vector2 position = new Vector2();
 
 
 	void draw();

@@ -8,5 +8,9 @@
 
 package fr.ul.pacmasque.entity;
 
-public interface Player {
+public interface Player extends Entity{
+
+
+
+	void move(int direction);
 }

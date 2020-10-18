@@ -8,6 +8,11 @@
 
 package fr.ul.pacmasque.model;
 
+import fr.ul.pacmasque.entity.Player;
+
 public class World {
 
+	private Player player;
+
+	public Player getPlayer() { return player; }
 }
