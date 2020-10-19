@@ -9,6 +9,7 @@
 package fr.ul.pacmasque.view;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.g2d.Batch;
 
 public interface View extends Screen {
 
