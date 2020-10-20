@@ -2,7 +2,6 @@ package fr.ul.pacmasque;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import fr.ul.pacmasque.view.SplashView;
 import fr.ul.pacmasque.view.View;
 
@@ -25,7 +24,7 @@ public class Pacmasque extends Game {
 	public void create() {
 		Gdx.graphics.setContinuousRendering(true);
 		View view;
-		view = new SplashView();
+		view = new SplashView(V_WIDTH, V_HEIGHT);
 		//view = new GameView(new World());
 		this.setScreen(view);
 	}
@@ -36,16 +35,6 @@ public class Pacmasque extends Game {
 			this.views.add(screen);
 		}
 		super.setScreen(screen);
-	}
-
-	@Override
-	public void render() {
-		super.render();
-
-		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-			Gdx.app.exit();
-		}
-
 	}
 
 	@Override

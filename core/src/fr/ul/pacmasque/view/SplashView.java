@@ -9,136 +9,54 @@
 package fr.ul.pacmasque.view;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.ul.pacmasque.Pacmasque;
 
 
-public class SplashView implements View {
+public class SplashView extends View {
 
-	private Batch batch;
+	private final Stage stage;
+	private final Texture texture;
 
-	private Camera camera;
-	private Viewport viewport;
-	private Stage stage;
+	public SplashView(float viewPortWidth, float viewPortHeight) {
+		super(viewPortWidth, viewPortHeight);
 
-	private Image splashImage;
-
-	public SplashView() {
-		this.batch = new SpriteBatch();
-
-		OrthographicCamera camera = new OrthographicCamera();
-		camera.setToOrtho(false, Pacmasque.V_WIDTH, Pacmasque.V_HEIGHT);
-		this.camera = camera;
-
-		this.viewport = new FitViewport(Pacmasque.V_WIDTH, Pacmasque.V_HEIGHT, this.camera);
-
-		this.stage = new Stage(this.viewport);
+		this.stage = new Stage(this.getViewport());
 		Gdx.input.setInputProcessor(this.stage);
 
-		InputProcessor inputProcessor = new InputMultiplexer(new InputProcessor() {
-			@Override
-			public boolean keyDown(int keycode) {
-				return false;
-			}
-
-			@Override
-			public boolean keyUp(int keycode) {
-				return false;
-			}
-
-			@Override
-			public boolean keyTyped(char character) {
-				return false;
-			}
-
-			@Override
-			public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-				return false;
-			}
-
-			@Override
-			public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-				return false;
-			}
-
-			@Override
-			public boolean touchDragged(int screenX, int screenY, int pointer) {
-				return false;
-			}
-
-			@Override
-			public boolean mouseMoved(int screenX, int screenY) {
-				return false;
-			}
-
-			@Override
-			public boolean scrolled(int amount) {
-				camera.zoom += amount / 10f;
-				camera.update();
-				return false;
-			}
-		}, this.stage);
-
-		Gdx.input.setInputProcessor(inputProcessor);
-
-		Texture texture = new Texture(Gdx.files.internal("badlogic.jpg"));
-		this.splashImage = new Image(texture);
-		this.splashImage.setPosition((Pacmasque.V_WIDTH - texture.getWidth()) / 2f,
+		texture = new Texture(Gdx.files.internal("badlogic.jpg"));
+		Image splashImage = new Image(texture);
+		//texture.dispose();
+		splashImage.setPosition((Pacmasque.V_WIDTH - texture.getWidth()) / 2f,
 				(Pacmasque.V_HEIGHT - texture.getHeight()) / 2f);
 
-		this.stage.addActor(this.splashImage);
+		this.stage.addActor(splashImage);
 	}
 
 	@Override
-	public void show() {
-		this.batch.setProjectionMatrix(this.camera.combined);
+	public void update(float delta) {
+		this.stage.act(delta);
 	}
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(.1f, .12f, .18f, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-		this.stage.act(delta);
+		super.render(delta);
 
 		this.stage.draw();
 
-		this.batch.begin();
-		// Drawing
+		Batch batch = this.getBatch();
+		batch.begin();
+		// Tout le dessin des entités se fait ici
 
-		this.batch.end();
-	}
-
-	@Override
-	public void resize(int width, int height) {
-		this.viewport.update(width, height, false);
-	}
-
-	@Override
-	public void pause() {
-
-	}
-
-	@Override
-	public void resume() {
-
-	}
-
-	@Override
-	public void hide() {
-
+		batch.end();
 	}
 
 	@Override
 	public void dispose() {
-
+		super.dispose();
+		this.texture.dispose();
 	}
 }
