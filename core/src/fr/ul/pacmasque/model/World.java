@@ -26,14 +26,11 @@ public class World {
 		} catch (PacMasqueExceptions pacMasqueExceptions) {
 			pacMasqueExceptions.printStackTrace();
 		}
+		this.player = new BasicPlayer();
 	}
 
 	private int width, height;
 	private Player player;
-
-	public World(){
-		this.player = new BasicPlayer();
-	}
 
 	public Player getPlayer() { return player; }
 

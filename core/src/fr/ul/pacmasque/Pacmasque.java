@@ -7,6 +7,7 @@ import fr.ul.pacmasque.view.GameView;
 import fr.ul.pacmasque.view.SplashView;
 import fr.ul.pacmasque.view.View;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class Pacmasque extends Game {
 		Gdx.graphics.setContinuousRendering(true);
 		View view;
 		//view = new SplashView(V_WIDTH, V_HEIGHT);
-		view = new GameView(new World());
+		view = new GameView(new World(new File("assets/labys.txt")));
 		this.setScreen(view);
 	}
 
