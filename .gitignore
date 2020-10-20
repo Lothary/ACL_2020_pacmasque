@@ -5,5 +5,5 @@
 /core/build
 
 # Desktop
-/desktop/build
+/desktop/build/
 /.gradle/
