@@ -71,11 +71,30 @@ package pacmasque {
 
 
 	package views {
-		abstract View extends ScreenAdapter { }
+		abstract View extends ScreenAdapter {
+		    - Batch batch
+		    - Camera camera
+		    - Viewport viewport
+
+		    + View(float viewportWidth, float viewportHeight)
+		    + View(Batch batch, Camera camera, Viewport viewport)
+		    + Viewport getViewport()
+		    + Batch getBatch()
+		    + Camera getCamera()
+		    + {abstract} void update(float delta)
+
+		}
 
 		class GameView {
 		    + GameView(World world)
 		 	- KeyboardListener keyboardListener
+		}
+
+		class SplashView extends View {
+		    - Stage stage
+		    - Texture texture
+
+		    + SplashView(float viewPortWidth, float viewPortHeight)
 		}
 	}
 

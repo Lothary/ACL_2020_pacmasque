@@ -24,14 +24,20 @@ public abstract class View extends ScreenAdapter {
 	private final Camera camera;
 	private final Viewport viewport;
 
-	public View(float viewPortWidth, float viewPortHeight) {
+	public View(float viewportWidth, float viewportHeight) {
 		this.batch = new SpriteBatch();
 
 		OrthographicCamera camera = new OrthographicCamera();
-		camera.setToOrtho(false, viewPortWidth, viewPortHeight);
+		camera.setToOrtho(false, viewportWidth, viewportHeight);
 		this.camera = camera;
 
-		this.viewport = new FitViewport(viewPortWidth, viewPortHeight, this.camera);
+		this.viewport = new FitViewport(viewportWidth, viewportHeight, this.camera);
+	}
+
+	public View(Batch batch, Camera camera, Viewport viewport) {
+		this.batch = batch;
+		this.camera = camera;
+		this.viewport = viewport;
 	}
 
 	public Viewport getViewport() {
