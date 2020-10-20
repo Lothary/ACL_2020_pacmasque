@@ -1,33 +1,46 @@
 package fr.ul.pacmasque;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import fr.ul.pacmasque.model.World;
+import fr.ul.pacmasque.view.GameView;
+import fr.ul.pacmasque.view.SplashView;
+import fr.ul.pacmasque.view.View;
 
-public class Pacmasque extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	
-	@Override
-	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+import java.util.ArrayList;
+import java.util.List;
+
+public class Pacmasque extends Game {
+
+	public static final int V_WIDTH = 1080;
+	public static final int V_HEIGHT = 720;
+
+	private View renderedView;
+	private final List<View> views = new ArrayList<>();
+
+	public View getRenderedView() {
+		return renderedView;
 	}
 
 	@Override
-	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
+	public void create() {
+		Gdx.graphics.setContinuousRendering(true);
+		View view;
+		//view = new SplashView(V_WIDTH, V_HEIGHT);
+		view = new GameView(new World());
+		this.setScreen(view);
 	}
-	
+
+	private void setScreen(View screen) {
+		this.renderedView = screen;
+		if (!this.views.contains(screen)) {
+			this.views.add(screen);
+		}
+		super.setScreen(screen);
+	}
+
 	@Override
-	public void dispose () {
-		batch.dispose();
-		img.dispose();
+	public void dispose() {
+		this.views.forEach(View::dispose);
 	}
 }

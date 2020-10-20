@@ -13,6 +13,9 @@ import fr.ul.pacmasque.util.LabyrinthConstructor;
 
 import java.io.File;
 
+import fr.ul.pacmasque.entity.BasicPlayer;
+import fr.ul.pacmasque.entity.Player;
+
 public class World {
 	private LabyrinthConstructor labyrinthConstructor;
 
@@ -24,5 +27,17 @@ public class World {
 			pacMasqueExceptions.printStackTrace();
 		}
 	}
+
+	private int width, height;
+	private Player player;
+
+	public World(){
+		this.player = new BasicPlayer();
+	}
+
+	public Player getPlayer() { return player; }
+
+
+
 
 }

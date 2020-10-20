@@ -1,0 +1,135 @@
+@startuml
+package libgdx {
+    interface ApplicationListener {
+        # Screen screen
+
+        + void create()
+        + void resize(int width, int height)
+        + void render()
+        + void pause()
+        + void resume()
+        + void dispose()
+    }
+
+    abstract class Game {
+        + void create()
+        + void dispose()
+    }
+
+    class ScreenAdapter {
+        + void render(float delta)
+        + void resize(int width, int height)
+        + void show()
+        + void hide()
+        + void pause()
+        + void resume()
+        + void dispose()
+    }
+
+    Game .up.|> ApplicationListener
+}
+
+
+package pacmasque {
+	package model {
+
+	    interface Object2D {
+	        int getWidth()
+	        int getHeight()
+	    }
+
+		class World implements Object2D {
+ 			+ World(File fichierConstruction)
+		}
+		class Labyrinth implements Object2D {
+		 	+ Labyrinth(int width, int height)
+		}
+	}
+
+	package entity {
+		interface Player {
+			 - int lifePoints
+			 + void move()
+		}
+
+
+		interface Pastille { }
+
+		interface Monster { }
+
+		interface Entity {
+			- Body body
+			- Vector2 position
+			- World world
+			+ void draw()
+		}
+	}
+
+	class PacMasque extends Game {
+	    + void getRenderedView()
+	}
+
+
+	package views {
+		abstract View extends ScreenAdapter {
+		    - Batch batch
+		    - Camera camera
+		    - Viewport viewport
+
+		    + View(float viewportWidth, float viewportHeight)
+		    + View(Batch batch, Camera camera, Viewport viewport)
+		    + Viewport getViewport()
+		    + Batch getBatch()
+		    + Camera getCamera()
+		    + {abstract} void update(float delta)
+
+		}
+
+		class GameView {
+		    + GameView(World world)
+		 	- KeyboardListener keyboardListener
+		}
+
+		class SplashView extends View {
+		    - Stage stage
+		    - Texture texture
+
+		    + SplashView(float viewPortWidth, float viewPortHeight)
+		}
+	}
+
+	package utils {
+		class TexturePackFactory <<(S,#FF7700)>> {
+			+ TexturePack getTexturePack(String name)
+        }
+
+		class TexturePack {
+			 - Map<String, String> resources
+			 + Texture get(String name)
+		}
+
+		class LabyrinthConstructor {
+			+ LabyrinthConstructor(File fileBuilder)
+		 	+ Labyrinth build(String name)
+		}
+
+		TexturePackFactory --"*" TexturePack
+	}
+
+
+	World --"*" Entity
+	World -"1" LabyrinthConstructor
+	World -up-"1" Labyrinth
+
+	Player .up.|> Entity
+	Pastille .up.|> Entity
+	Monster .up.|> Entity
+
+	PacMasque --"1" World
+	PacMasque --"1" View : renderedView
+	PacMasque ---"*" View : views
+
+	GameView -right-"1" World
+	GameView -up-|> View
+}
+@enduml
