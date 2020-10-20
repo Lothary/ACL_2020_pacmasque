@@ -8,11 +8,21 @@
 
 package fr.ul.pacmasque.model;
 
+import fr.ul.pacmasque.entity.BasicPlayer;
 import fr.ul.pacmasque.entity.Player;
 
 public class World {
 
+	private int width, height;
 	private Player player;
 
+	public World(){
+		this.player = new BasicPlayer();
+	}
+
 	public Player getPlayer() { return player; }
+
+
+
+
 }

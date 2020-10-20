@@ -2,6 +2,8 @@ package fr.ul.pacmasque;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import fr.ul.pacmasque.model.World;
+import fr.ul.pacmasque.view.GameView;
 import fr.ul.pacmasque.view.SplashView;
 import fr.ul.pacmasque.view.View;
 
@@ -24,8 +26,8 @@ public class Pacmasque extends Game {
 	public void create() {
 		Gdx.graphics.setContinuousRendering(true);
 		View view;
-		view = new SplashView(V_WIDTH, V_HEIGHT);
-		//view = new GameView(new World());
+		//view = new SplashView(V_WIDTH, V_HEIGHT);
+		view = new GameView(new World());
 		this.setScreen(view);
 	}
 
