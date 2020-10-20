@@ -13,18 +13,15 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class LabyrinthConstructorTest {
 	private static LabyrinthConstructor labyrinthConstructor;
-	private static File file;
 
 	@BeforeAll
 	static void start(){
-		file = new File("assets/labys.txt");
+		File file = new File("assets/labys.txt");
 		labyrinthConstructor = new LabyrinthConstructor(file);
 	}
 
