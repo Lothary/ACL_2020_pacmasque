@@ -28,7 +28,7 @@ public class Pacmasque extends Game {
 		Gdx.graphics.setContinuousRendering(true);
 		View view;
 		//view = new SplashView(V_WIDTH, V_HEIGHT);
-		view = new GameView(new World(new File("assets/labys.txt")));
+		view = new GameView(new World(new File("labys.txt")));
 		this.setScreen(view);
 	}
 
