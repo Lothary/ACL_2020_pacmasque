@@ -1,3 +1,7 @@
+meta {
+    title: Hello
+    builder: fr.ul.pacmasque.util.LabyrinthConstructor
+} meta
 1001110
 1001010
 1111010

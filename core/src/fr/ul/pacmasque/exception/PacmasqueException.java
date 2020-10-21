@@ -8,8 +8,8 @@
 
 package fr.ul.pacmasque.exception;
 
-public class PacMasqueExceptions extends Exception{
-	public PacMasqueExceptions(String message){
-		super(message);
+public abstract class PacmasqueException extends Exception{
+	public PacmasqueException(String message){
+		super("[Pacmasque] " + message);
 	}
 }

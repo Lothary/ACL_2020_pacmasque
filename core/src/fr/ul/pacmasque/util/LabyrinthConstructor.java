@@ -8,7 +8,8 @@
 
 package fr.ul.pacmasque.util;
 
-import fr.ul.pacmasque.exception.PacMasqueExceptions;
+import fr.ul.pacmasque.exception.LabyrinthConstructorException;
+import fr.ul.pacmasque.exception.PacmasqueException;
 import fr.ul.pacmasque.model.Labyrinth;
 
 import javax.swing.*;
@@ -66,9 +67,9 @@ public class LabyrinthConstructor {
 	 * @param key du labyrinthe souhaité
 	 * @return le Labyrinth
 	 */
-	public Labyrinth build(int key) throws PacMasqueExceptions {
+	public Labyrinth build(int key) throws PacmasqueException {
 		if (!labyrinths.containsKey(key)){
-			throw new PacMasqueExceptions("Le labyrinthe n'existe pas");
+			throw new LabyrinthConstructorException("Le labyrinthe n'existe pas");
 		}
 
 		String laby = labyrinths.get(key);
