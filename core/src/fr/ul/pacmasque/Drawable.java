@@ -6,7 +6,7 @@
  * Copyright © 2020 ugocottin. All rights reserved.
  */
 
-package fr.ul.pacmasque.model;
+package fr.ul.pacmasque;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 

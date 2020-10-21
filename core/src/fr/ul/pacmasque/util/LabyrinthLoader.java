@@ -8,8 +8,6 @@
 
 package fr.ul.pacmasque.util;
 
-import com.badlogic.gdx.Gdx;
-
 import java.io.File;
 
 /**

@@ -11,7 +11,6 @@ package fr.ul.pacmasque.util;
 import fr.ul.pacmasque.exception.PacMasqueExceptions;
 import fr.ul.pacmasque.model.Labyrinth;
 
-import javax.swing.*;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +35,7 @@ public class LabyrinthConstructor {
 	 */
 	private void fillMap(File fileBuilder){
 		String labysTogether = "";
+		System.out.println(fileBuilder.getAbsolutePath());
 		try {
 			BufferedReader bufferedReader = new BufferedReader(new FileReader(fileBuilder));
 			StringBuilder stringBuilder = new StringBuilder();
@@ -78,8 +78,8 @@ public class LabyrinthConstructor {
 
 		Labyrinth labyrinth = new Labyrinth(x, y);
 
-		for (int i=0; i<x-1; i++){
-			for (int j=0; j<y-1; j++){
+		for (int i=0; i<x; i++){
+			for (int j=0; j<y; j++){
 				if (labyLines[i].charAt(j) == '0'){
 					labyrinth.setMur(i, j);
 				}

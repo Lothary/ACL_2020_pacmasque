@@ -53,11 +53,8 @@ public class BasicPlayer implements Player{
 	public void setPositionY(int pos){this.position.y = pos;}
 
 	@Override
-	public void draw(Batch batch) {
+	public void draw(Batch batch, float x, float y, float width, float height) {
 		Texture texture = new Texture(Gdx.files.internal("badlogic.jpg"));
 		batch.draw(texture,this.position.x,this.position.y, 1,1);
 	}
-
-
-
 }

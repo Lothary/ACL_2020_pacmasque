@@ -9,6 +9,7 @@
 package fr.ul.pacmasque.model;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import fr.ul.pacmasque.Drawable;
 import fr.ul.pacmasque.entity.BasicPlayer;
 import fr.ul.pacmasque.entity.Player;
 
@@ -27,6 +28,7 @@ public class World implements Drawable {
 
 	@Override
 	public void draw(Batch batch, float x, float y, float width, float height) {
-
+		this.labyrinth.draw(batch, x, y, width, height);
+		this.player.draw(batch, x, y, width, height);
 	}
 }
