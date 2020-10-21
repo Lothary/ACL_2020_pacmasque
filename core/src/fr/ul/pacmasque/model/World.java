@@ -8,24 +8,15 @@
 
 package fr.ul.pacmasque.model;
 
-import fr.ul.pacmasque.exception.PacMasqueExceptions;
-import fr.ul.pacmasque.util.LabyrinthConstructor;
-
-import java.io.File;
-
+import com.badlogic.gdx.graphics.g2d.Batch;
 import fr.ul.pacmasque.entity.BasicPlayer;
 import fr.ul.pacmasque.entity.Player;
 
-public class World {
-	private LabyrinthConstructor labyrinthConstructor;
+public class World implements Drawable {
+	private final Labyrinth labyrinth;
 
-	public World(File fileBuilder){
-		labyrinthConstructor = new LabyrinthConstructor(fileBuilder);
-		try {
-			labyrinthConstructor.build(0);
-		} catch (PacMasqueExceptions pacMasqueExceptions) {
-			pacMasqueExceptions.printStackTrace();
-		}
+	public World(Labyrinth labyrinth) {
+		this.labyrinth = labyrinth;
 		this.player = new BasicPlayer();
 	}
 
@@ -34,7 +25,8 @@ public class World {
 
 	public Player getPlayer() { return player; }
 
+	@Override
+	public void draw(Batch batch, float x, float y, float width, float height) {
 
-
-
+	}
 }
