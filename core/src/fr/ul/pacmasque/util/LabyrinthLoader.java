@@ -45,6 +45,7 @@ public class LabyrinthLoader {
 	private final String fieldSeparator;
 
 	private Map<String, String> lastHeader = null;
+	private String lastPayload = null;
 
 	public LabyrinthLoader(String metaTag, String delimiterIn, String delimiterOut, String lineSeparator, String fieldSeparator) {
 		this.metaTag = metaTag;
@@ -70,16 +71,33 @@ public class LabyrinthLoader {
 		String[] splitContent = this.splitHeaderAndPayload(content, inputDelimiter(), outputDelimiter());
 
 		this.lastHeader = keyedHeader(splitContent[0], this.lineSeparator, this.fieldSeparator);
+		this.lastPayload = splitContent[1];
 	}
 
-	public Class<?> builderClass() throws ClassNotFoundException {
+	public Class<? extends LabyrinthBuilder> builderClass() throws LabyrinthLoaderException {
 		if (this.lastHeader == null) {
 			return null;
 		}
 
 		String className = this.lastHeader.get("builder");
 		//return this.getClass().getClassLoader().loadClass(className);
-		return Class.forName(className, false, ClassLoader.getSystemClassLoader());
+		Class<?> builderClass = null;
+		try {
+			builderClass = Class.forName(className, false, ClassLoader.getSystemClassLoader());
+		} catch (ClassNotFoundException e) {
+			throw new LabyrinthLoaderException("La class du builder n'a pas pu être trouvée: " + e.getLocalizedMessage());
+		}
+
+		if (!builderClass.isAssignableFrom(LabyrinthBuilder.class)) {
+			throw new LabyrinthLoaderException("La class du builder ne correspond pas à un constructeur de labyrinth");
+		}
+
+		//noinspection unchecked
+		return (Class<? extends LabyrinthBuilder>) builderClass;
+	}
+
+	public LabyrinthLoader builder() {
+		return null;
 	}
 
 	private String contentOf(FileHandle handle) {
