@@ -12,7 +12,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Vector3;
 import fr.ul.pacmasque.model.World;
 
 public class GameView extends View implements InputProcessor {
@@ -94,7 +93,7 @@ public class GameView extends View implements InputProcessor {
 
 		Batch batch = getBatch();
 		batch.begin();
-		this.world.getPlayer().draw(batch);
+		this.world.draw(batch, 0, 0, 7, 7);
 		batch.end();
 	}
 }

@@ -8,9 +8,10 @@
 
 package fr.ul.pacmasque.util;
 
+import fr.ul.pacmasque.exception.PacmasqueException;
 import fr.ul.pacmasque.model.Labyrinth;
 
 public interface LabyrinthBuilder {
 
-	Labyrinth build(String content);
+	Labyrinth build(String content) throws PacmasqueException;
 }

@@ -22,7 +22,7 @@ class LabyrinthConstructorTest {
 	@BeforeAll
 	static void start(){
 		File file = new File("assets/labys.txt");
-		labyrinthConstructor = new LabyrinthConstructor(file);
+		//labyrinthConstructor = new LabyrinthConstructor(file);
 	}
 
 	@Test

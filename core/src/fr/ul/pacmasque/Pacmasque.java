@@ -2,9 +2,13 @@ package fr.ul.pacmasque;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import fr.ul.pacmasque.exception.LabyrinthLoaderException;
+import fr.ul.pacmasque.exception.PacmasqueException;
+import fr.ul.pacmasque.model.Labyrinth;
 import fr.ul.pacmasque.model.World;
+import fr.ul.pacmasque.util.LabyrinthConstructor;
+import fr.ul.pacmasque.util.LabyrinthLoader;
 import fr.ul.pacmasque.view.GameView;
-import fr.ul.pacmasque.view.SplashView;
 import fr.ul.pacmasque.view.View;
 
 import java.io.File;
@@ -27,9 +31,16 @@ public class Pacmasque extends Game {
 	public void create() {
 		Gdx.graphics.setContinuousRendering(true);
 		View view;
-		//view = new SplashView(V_WIDTH, V_HEIGHT);
-		view = new GameView(new World(new File("labys.txt")));
-		this.setScreen(view);
+
+		LabyrinthLoader loader = LabyrinthLoader.shared();
+		try {
+			Labyrinth labyrinth = loader.loadFile("labys.txt");
+			view = new GameView(new World(labyrinth));
+			this.setScreen(view);
+		} catch (LabyrinthLoaderException e) {
+			e.printStackTrace();
+			Gdx.app.exit();
+		}
 	}
 
 	private void setScreen(View screen) {

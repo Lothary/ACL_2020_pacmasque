@@ -11,7 +11,11 @@ package fr.ul.pacmasque.util;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import fr.ul.pacmasque.exception.LabyrinthLoaderException;
+import fr.ul.pacmasque.exception.PacmasqueException;
+import fr.ul.pacmasque.model.Labyrinth;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,9 +48,6 @@ public class LabyrinthLoader {
 	private final String lineSeparator;
 	private final String fieldSeparator;
 
-	private Map<String, String> lastHeader = null;
-	private String lastPayload = null;
-
 	public LabyrinthLoader(String metaTag, String delimiterIn, String delimiterOut, String lineSeparator, String fieldSeparator) {
 		this.metaTag = metaTag;
 		this.delimiterIn = delimiterIn;
@@ -63,32 +64,34 @@ public class LabyrinthLoader {
 		return this.delimiterOut + " " + this.metaTag;
 	}
 
-	public void loadFile(String path) throws LabyrinthLoaderException {
+	public Labyrinth loadFile(String path) throws LabyrinthLoaderException {
 		FileHandle fileHandle = Gdx.files.internal(path);
 
 		String content = this.contentOf(fileHandle);
 
 		String[] splitContent = this.splitHeaderAndPayload(content, inputDelimiter(), outputDelimiter());
 
-		this.lastHeader = keyedHeader(splitContent[0], this.lineSeparator, this.fieldSeparator);
-		this.lastPayload = splitContent[1];
+		Map<String, String> header = keyedHeader(splitContent[0], this.lineSeparator, this.fieldSeparator);
+		String payload = splitContent[1];
+
+		Class<? extends LabyrinthBuilder> builderClass = builderClass(header.get("builder"));
+		LabyrinthBuilder builderInstance = instanceOfBuilder(builderClass);
+		try {
+			return builderInstance.build(payload);
+		} catch (PacmasqueException e) {
+			throw new LabyrinthLoaderException("Impossible de créer le labyrinthe, le builder à renvoyé une erreur lors de sa construction: " + e.getLocalizedMessage());
+		}
 	}
 
-	public Class<? extends LabyrinthBuilder> builderClass() throws LabyrinthLoaderException {
-		if (this.lastHeader == null) {
-			return null;
-		}
-
-		String className = this.lastHeader.get("builder");
-		//return this.getClass().getClassLoader().loadClass(className);
-		Class<?> builderClass = null;
+	private Class<? extends LabyrinthBuilder> builderClass(String className) throws LabyrinthLoaderException {
+		Class<?> builderClass;
 		try {
 			builderClass = Class.forName(className, false, ClassLoader.getSystemClassLoader());
 		} catch (ClassNotFoundException e) {
 			throw new LabyrinthLoaderException("La class du builder n'a pas pu être trouvée: " + e.getLocalizedMessage());
 		}
 
-		if (!builderClass.isAssignableFrom(LabyrinthBuilder.class)) {
+		if (!LabyrinthBuilder.class.isAssignableFrom(builderClass)) {
 			throw new LabyrinthLoaderException("La class du builder ne correspond pas à un constructeur de labyrinth");
 		}
 
@@ -96,8 +99,20 @@ public class LabyrinthLoader {
 		return (Class<? extends LabyrinthBuilder>) builderClass;
 	}
 
-	public LabyrinthLoader builder() {
-		return null;
+	private LabyrinthBuilder instanceOfBuilder(Class<? extends LabyrinthBuilder> builderClass) throws LabyrinthLoaderException {
+		Constructor<? extends LabyrinthBuilder> cons;
+		try {
+			cons = builderClass.getConstructor();
+			return cons.newInstance();
+		} catch (NoSuchMethodException e) {
+			throw new LabyrinthLoaderException("Impossible d'instancier le builder " + builderClass.getSimpleName() + ", il ne possède pas de constructeur standart");
+		} catch (IllegalAccessException e) {
+			throw new LabyrinthLoaderException("Impossible d'instancier le builder " + builderClass.getSimpleName() + ", il ne possède pas de constructeur accessible");
+		} catch (InvocationTargetException e) {
+			throw new LabyrinthLoaderException("Impossible d'instancier le builder " + builderClass.getSimpleName() + ", son constructeur a renvoyé une erreur");
+		} catch (InstantiationException e) {
+			throw new LabyrinthLoaderException("Impossible d'instancier le builder " + builderClass.getSimpleName() + ", une erreur est survenue lors de sa création");
+		}
 	}
 
 	private String contentOf(FileHandle handle) {
