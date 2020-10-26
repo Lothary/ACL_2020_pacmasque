@@ -12,6 +12,7 @@ import fr.ul.pacmasque.exception.LabyrinthConstructorException;
 import fr.ul.pacmasque.exception.PacmasqueException;
 import fr.ul.pacmasque.model.Labyrinth;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +38,10 @@ public class LabyrinthConstructor implements LabyrinthBuilder {
 		}
 
 		String laby = labyrinths.get(key);
-		String[] labyLines = laby.split("\n");
+		String[] labyLines = laby.split("\r?\n");
+
+		labyLines = Arrays.stream(labyLines).filter(str -> !str.isEmpty()).toArray(String[]::new);
+
 		int x = labyLines.length;
 		int y = labyLines[0].length();
 

@@ -34,7 +34,7 @@ public class LabyrinthLoader {
 					"meta",
 					"{",
 					"}",
-					"\n",
+					"\r?\n",
 					":"
 			);
 		}
@@ -143,8 +143,10 @@ public class LabyrinthLoader {
 
 		for (String headersField : headerFields) {
 			String header = headersField.trim();
-			String[] splitHeader = header.split(String.valueOf(fieldSeparator));
-			headerMap.put(splitHeader[0].trim(), splitHeader[1].trim());
+			if (!header.isEmpty()) {
+				String[] splitHeader = header.split(String.valueOf(fieldSeparator));
+				headerMap.put(splitHeader[0].trim(), splitHeader[1].trim());
+			}
 		}
 
 		return headerMap;
