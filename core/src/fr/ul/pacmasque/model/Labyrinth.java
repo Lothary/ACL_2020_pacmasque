@@ -36,9 +36,12 @@ public class Labyrinth implements Drawable {
 	public int getX() {
 		return x;
 	}
-
 	public int getY() {
 		return y;
+	}
+
+	public boolean isWall(Vector2 vec){
+		return positionsMurs.contains(vec);
 	}
 
 	@Override

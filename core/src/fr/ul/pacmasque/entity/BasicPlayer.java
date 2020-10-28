@@ -21,36 +21,16 @@ public class BasicPlayer implements Player{
 
 	public BasicPlayer(){
 		this.lifePoints = 3;
-		this.position.x = 3;
+		this.position.x = 2;
 		this.position.y = 3;
 	}
 
 
-	public void move(int direction){
-		float moveAmount = 1.0f;
-		switch(direction) {
-			case Input.Keys.LEFT:
-				this.position.x -= moveAmount;
-				break;
-			case Input.Keys.RIGHT:
-				this.position.x += moveAmount;
-				break;
-			case Input.Keys.UP:
-				this.position.y += moveAmount;
-				break;
-			case Input.Keys.DOWN:
-				this.position.y -= moveAmount;
-				break;
-		}
-
-
-	}
-
 	public float getPositionX(){return this.position.x;}
 	public float getPositionY(){return this.position.y;}
 
-	public void setPositionX(int pos){this.position.x = pos;}
-	public void setPositionY(int pos){this.position.y = pos;}
+	public void setPositionX(float pos){this.position.x = pos;}
+	public void setPositionY(float pos){this.position.y = pos;}
 
 	@Override
 	public void draw(Batch batch, float x, float y, float width, float height) {

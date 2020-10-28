@@ -27,21 +27,14 @@ public class GameView extends View implements InputProcessor {
 	@Override
 	public boolean keyDown(int keycode) {
 
-		if(keycode == Input.Keys.LEFT) {  // et si position.x > 0
-			this.world.getPlayer().move(Input.Keys.LEFT);
-		}
-
-		if(keycode == Input.Keys.RIGHT) {  // et si position.x < tailleLabyrintheLargeur
-			this.world.getPlayer().move(Input.Keys.RIGHT);
-		}
-
-		if(keycode == Input.Keys.UP) {  // et si position.y > 0
-			this.world.getPlayer().move(Input.Keys.UP);
-		}
-
-		if(keycode == Input.Keys.DOWN) {  // et si position.y < tailleLabyrintheHauteur
-			this.world.getPlayer().move(Input.Keys.DOWN);
-		}
+		if(keycode == Input.Keys.LEFT)
+			this.world.movePlayer(Input.Keys.LEFT);
+		else if(keycode == Input.Keys.RIGHT)
+			this.world.movePlayer(Input.Keys.RIGHT);
+		else if(keycode == Input.Keys.UP)
+			this.world.movePlayer(Input.Keys.UP);
+		else if(keycode == Input.Keys.DOWN)
+			this.world.movePlayer(Input.Keys.DOWN);
 
 		return true;
 	}
