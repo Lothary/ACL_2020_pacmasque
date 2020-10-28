@@ -15,7 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import fr.ul.pacmasque.Pacmasque;
 
-
+/**
+ * Écran de chargement du jeu
+ */
 public class SplashView extends View {
 
 	private final Stage stage;

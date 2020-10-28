@@ -8,5 +8,10 @@
 
 package fr.ul.pacmasque.entity;
 
-public interface Pastille {
+import fr.ul.pacmasque.Drawable;
+
+/**
+ * Représente un objet présent sur le plateau et ayant une interaction avec le joueur
+ */
+public interface Pastille extends Drawable {
 }

@@ -18,12 +18,31 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+/**
+ * Vue 2D comprenant un viewport, ainsi qu'un batch et une camera
+ */
 public abstract class View extends ScreenAdapter {
 
+	/**
+	 * Le batch de la vue
+	 */
 	private final Batch batch;
+
+	/**
+	 * La camera de la vue
+	 */
 	private final Camera camera;
+
+	/**
+	 * Le viewport de la vue
+	 */
 	private final Viewport viewport;
 
+	/**
+	 * Crée une vue de taille donnée
+	 * @param viewportWidth la largeur du viewport
+	 * @param viewportHeight la hauteur du viewport
+	 */
 	public View(float viewportWidth, float viewportHeight) {
 		this.batch = new SpriteBatch();
 
@@ -34,20 +53,23 @@ public abstract class View extends ScreenAdapter {
 		this.viewport = new FitViewport(viewportWidth, viewportHeight, this.camera);
 	}
 
-	public View(Batch batch, Camera camera, Viewport viewport) {
-		this.batch = batch;
-		this.camera = camera;
-		this.viewport = viewport;
-	}
-
+	/**
+	 * @return le viewport de la vue
+	 */
 	public Viewport getViewport() {
 		return viewport;
 	}
 
+	/**
+	 * @return le batch de la vue
+	 */
 	public Batch getBatch() {
 		return batch;
 	}
 
+	/**
+	 * @return la camera de la vue
+	 */
 	public Camera getCamera() {
 		return camera;
 	}

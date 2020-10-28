@@ -12,12 +12,23 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.ul.pacmasque.model.World;
 
+/**
+ * Vue de jeu, affichant un monde
+ */
 public class GameView extends View implements InputProcessor {
 
+	/**
+	 * le monde de la vue
+	 */
 	private final World world;
 
+	/**
+	 * Crée une nouvelle vue pour un monde donné
+	 * @param world un monde
+	 */
 	public GameView(World world) {
 		super(world.getWidth(),world.getHeight());
 		this.world = world;
@@ -85,8 +96,9 @@ public class GameView extends View implements InputProcessor {
 		super.render(delta);
 
 		Batch batch = getBatch();
+		Viewport viewport = this.getViewport();
 		batch.begin();
-		this.world.draw(batch, 0, 0, 7, 7);
+		this.world.draw(batch, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
 		batch.end();
 	}
 }

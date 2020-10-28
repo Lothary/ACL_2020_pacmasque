@@ -8,6 +8,9 @@
 
 package fr.ul.pacmasque.entity;
 
+/**
+ * Représente un personnage, jouable par le joueur
+ */
 public interface Player extends Entity {
 
 	void setPositionX(float x);

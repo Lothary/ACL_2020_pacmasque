@@ -11,18 +11,29 @@ package fr.ul.pacmasque.util;
 import fr.ul.pacmasque.exception.LabyrinthConstructorException;
 import fr.ul.pacmasque.exception.PacmasqueException;
 import fr.ul.pacmasque.model.Labyrinth;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Constructeur de labyrinthe.
+ * Construit un labyrinthe à partir d'une représentation binaire.
+ * Exemple:
+ *  0   1   1   1
+ *  0   0   1   0
+ *  0   1   1   0
+ *  0   0   0   0
+ *  Les 1 correspondent aux emplacement ou le joueur peut se déplacer, et les 0 à des murs
+ */
 public class LabyrinthConstructor implements LabyrinthBuilder {
 	/**
 	 * Map qui contient tous les labyrinthes du fichier.
 	 * La clé est le nom du labyrinthe, qui est sous forme
 	 * binaire.
 	 */
-	private Map<Integer, String> labyrinths = new HashMap<>();
+	private final Map<Integer, String> labyrinths = new HashMap<>();
 
 	public LabyrinthConstructor(){ }
 
@@ -31,10 +42,11 @@ public class LabyrinthConstructor implements LabyrinthBuilder {
 	 * le string en Labyrinth.
 	 * @param key du labyrinthe souhaité
 	 * @return le Labyrinth
+	 * @throws PacmasqueException si le labyrinthe correspondant à la clé `key` n'existe pas,
 	 */
 	public Labyrinth build(int key) throws PacmasqueException {
 		if (!labyrinths.containsKey(key)){
-			throw new LabyrinthConstructorException("Le labyrinthe n'existe pas");
+			throw new LabyrinthConstructorException("Le labyrinthe ayant pour clé " + key + " n'existe pas");
 		}
 
 		String laby = labyrinths.get(key);
@@ -59,7 +71,7 @@ public class LabyrinthConstructor implements LabyrinthBuilder {
 	}
 
 	@Override
-	public Labyrinth build(String content) throws PacmasqueException {
+	public @NotNull Labyrinth build(@NotNull String content) throws PacmasqueException {
 		String[] labys = content.split("#");
 
 		for (int i = 0; i < labys.length; i++) {

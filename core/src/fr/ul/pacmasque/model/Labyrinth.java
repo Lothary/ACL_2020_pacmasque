@@ -16,30 +16,52 @@ import fr.ul.pacmasque.Drawable;
 
 import java.util.ArrayList;
 
+/**
+ * Un labyrinthe en deux dimensions, ayant une largeur et une hauteur
+ */
 public class Labyrinth implements Drawable {
-	private int x;
-	private int y;
-	private ArrayList<Vector2> positionsMurs;
+	private final int width;
+	private final int height;
+	private final ArrayList<Vector2> positionsMurs;
 
 	private Texture texture = new Texture(Gdx.files.internal("packs/basepack/stone_1.png"));
 
-	public Labyrinth(int x, int y){
-		this.x = x;
-		this.y = y;
+	public Labyrinth(int width, int height) {
+		this.width = width;
+		this.height = height;
 		this.positionsMurs = new ArrayList<>();
 	}
 
+
+	/**
+	 * Ajoute un mur à la position `x` et `y`
+	 * @param x la coordonnée `x` du mur
+	 * @param y la coordonnée `y` du mur
+	 */
 	public void setMur(int x, int y){
 		positionsMurs.add(new Vector2(x, y));
 	}
 
-	public int getX() {
-		return x;
-	}
-	public int getY() {
-		return y;
+	/**
+	 * @return la largeur du labyrinthe
+	 */
+	public int getWidth() {
+		return width;
 	}
 
+
+	/**
+	 * @return la hauteur du labyrinthe
+	 */
+	public int getHeight() {
+		return height;
+	}
+
+	/**
+	 * Indique si la position donnée est un mur dans le labyrinthe
+	 * @param vec un vecteur position
+	 * @return si la position est un mur
+	 */
 	public boolean isWall(Vector2 vec){
 		return positionsMurs.contains(vec);
 	}
