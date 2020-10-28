@@ -16,19 +16,25 @@ import fr.ul.pacmasque.entity.BasicPlayer;
 import fr.ul.pacmasque.entity.Player;
 
 public class World implements Drawable {
+
 	private final Labyrinth labyrinth;
+
+	private final Player player;
 
 	public World(Labyrinth labyrinth) {
 		this.labyrinth = labyrinth;
 		this.player = new BasicPlayer();
 	}
 
-	private int width, height;
-	private Player player;
+	public int getWidth() {
+		return this.labyrinth.getX();
+	}
 
-	public Player getPlayer() { return player; }
+	public int getHeight() {
+		return this.labyrinth.getY();
+	}
 
-	public void movePlayer(int direction){
+	public void movePlayer(int direction) {
 		float moveAmount = 1.0f;
 		Vector2 finalCase = new Vector2(this.player.getPositionX(), this.player.getPositionY());
 

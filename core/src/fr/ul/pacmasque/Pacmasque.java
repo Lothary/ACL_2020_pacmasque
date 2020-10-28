@@ -3,15 +3,12 @@ package fr.ul.pacmasque;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import fr.ul.pacmasque.exception.LabyrinthLoaderException;
-import fr.ul.pacmasque.exception.PacmasqueException;
 import fr.ul.pacmasque.model.Labyrinth;
 import fr.ul.pacmasque.model.World;
-import fr.ul.pacmasque.util.LabyrinthConstructor;
 import fr.ul.pacmasque.util.LabyrinthLoader;
 import fr.ul.pacmasque.view.GameView;
 import fr.ul.pacmasque.view.View;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -16,10 +16,10 @@ import fr.ul.pacmasque.model.World;
 
 public class GameView extends View implements InputProcessor {
 
-	private World world;
+	private final World world;
 
-	public GameView(World world){
-		super(7,7);
+	public GameView(World world) {
+		super(world.getWidth(),world.getHeight());
 		this.world = world;
 		Gdx.input.setInputProcessor(this);
 	}
