@@ -21,8 +21,8 @@ public class BasicPlayer implements Player{
 
 	public BasicPlayer(){
 		this.lifePoints = 3;
-		this.position.x = 3;
-		this.position.y = 3;
+		this.position.x = 9;
+		this.position.y = 9;
 	}
 
 
