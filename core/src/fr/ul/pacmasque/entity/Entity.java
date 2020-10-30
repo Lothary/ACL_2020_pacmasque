@@ -14,7 +14,10 @@ import fr.ul.pacmasque.Drawable;
 
 
 public interface Entity extends Drawable {
-	Body body = null;
-	Vector2 position = new Vector2();
 
+	/**
+	 * La position de l'entité
+	 * @return un vecteur position
+	 */
+	Vector2 getPosition();
 }

@@ -17,22 +17,20 @@ import fr.ul.pacmasque.entity.Player;
 
 public class World implements Drawable {
 	private final Labyrinth labyrinth;
-	private Monster monster;
+	private final Monster monster;
 	private int width, height;
-	private Player player;
-	private Monster monster2;
+	private final Player player;
+	private final Monster monster2;
 
 	public World(Labyrinth labyrinth) {
 		this.labyrinth = labyrinth;
 		this.player = new BasicPlayer();
-        this.monster=new BasicMonster();
-        this.monster2=new BasicMonster();
+        this.monster = new BasicMonster();
+        this.monster2 = new BasicMonster();
 
 	}
 
 	public Player getPlayer() { return player; }
-	public Monster getMonster(){ return monster;}
-	public Monster getMonster2(){ return monster2;}
 
 	@Override
 	public void draw(Batch batch, float x, float y, float width, float height) {
