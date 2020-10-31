@@ -8,5 +8,5 @@
 
 package fr.ul.pacmasque.entity;
 
-public interface Pastille {
+public interface Pastille extends Entity {
 }

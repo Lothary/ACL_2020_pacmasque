@@ -13,25 +13,26 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 
-import static com.badlogic.gdx.math.MathUtils.random;
-
 public class BasicMonster implements Monster {
-
-	private final Vector2 position;
-
+	private final Vector2 position = null;
 	public BasicMonster(){
-		this.position = new Vector2(0, 0);
+
+		this.position.x=(float)Math.random() * 5;
+		this.position.y=(float)Math.random() * 5;
 
 	}
 
+
+
+
 	public void draw(Batch batch, float x, float y, float width, float height) {
-		Texture texture = new Texture(Gdx.files.internal("packs/basepack/stone_1.png"));
-		batch.draw(texture,this.position.x,this.position.y, 1,1);
+		Texture texture = new Texture(Gdx.files.internal("monster_3.png"));
+		batch.draw(texture,this.position.x,this.position.y,1,1);
 	}
 
 
 	@Override
 	public Vector2 getPosition() {
-		return this.position;
+		return null;
 	}
 }
