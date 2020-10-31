@@ -13,6 +13,9 @@ package fr.ul.pacmasque.entity;
  */
 public interface Player extends Entity {
 
+	float getPositionX();
+	float getPositionY();
+
 	void setPositionX(float x);
 	void setPositionY(float y);
 }

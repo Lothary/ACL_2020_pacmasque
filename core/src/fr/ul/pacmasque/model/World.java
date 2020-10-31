@@ -34,30 +34,30 @@ public class World implements Drawable {
 		return this.labyrinth.getHeight();
 	}
 
-	public void movePlayer(int direction){
+	public void movePlayer(int direction) {
 		float moveAmount = 1.0f;
-		Vector2 finalCase = this.player.getPosition();
+		Vector2 finalCase = new Vector2(this.player.getPositionX(), this.player.getPositionY());
 
 		switch(direction) {
 			case Input.Keys.LEFT:
-				finalCase.x = this.player.getPosition().x - moveAmount;
+				finalCase.x = this.player.getPositionX() - moveAmount;
 				if(!this.labyrinth.isWall(finalCase) && finalCase.x >= 0.0)
-					this.player.setPositionX(this.player.getPosition().x - moveAmount);
+					this.player.setPositionX(this.player.getPositionX() - moveAmount);
 				break;
 			case Input.Keys.RIGHT:
-				finalCase.x = this.player.getPosition().x + moveAmount;
+				finalCase.x = this.player.getPositionX() + moveAmount;
 				if(!this.labyrinth.isWall(finalCase) && finalCase.x < this.labyrinth.getWidth())
-					this.player.setPositionX(this.player.getPosition().x + moveAmount);
+					this.player.setPositionX(this.player.getPositionX() + moveAmount);
 				break;
 			case Input.Keys.UP:
-				finalCase.y = this.player.getPosition().y + moveAmount;
+				finalCase.y = this.player.getPositionY() + moveAmount;
 				if(!this.labyrinth.isWall(finalCase) && finalCase.y < this.labyrinth.getHeight())
-					this.player.setPositionY(this.player.getPosition().y + moveAmount);
+					this.player.setPositionY(this.player.getPositionY() + moveAmount);
 				break;
 			case Input.Keys.DOWN:
-				finalCase.y = this.player.getPosition().y - moveAmount;
+				finalCase.y = this.player.getPositionY() - moveAmount;
 				if(!this.labyrinth.isWall(finalCase) && finalCase.y >= 0.0)
-					this.player.setPositionY(this.player.getPosition().y - moveAmount);
+					this.player.setPositionY(this.player.getPositionY() - moveAmount);
 				break;
 		}
 	}
