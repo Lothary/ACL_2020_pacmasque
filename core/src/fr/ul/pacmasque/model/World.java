@@ -23,9 +23,9 @@ public class World implements Drawable {
 	public World(Labyrinth labyrinth) {
 		this.labyrinth = labyrinth;
 		this.player = new BasicPlayer();
-		this.monster = new BasicMonster();
-		this.monster2 = new BasicMonster();
-		this.pastille = new BasicPastille();
+		this.monster = new BasicMonster(1,1);
+		this.monster2 = new BasicMonster(2, 2);
+		this.pastille = new BasicPastille(3,3);
 	}
 
 	public Player getPlayer() {

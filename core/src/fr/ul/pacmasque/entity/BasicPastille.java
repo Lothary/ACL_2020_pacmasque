@@ -14,22 +14,13 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 
 public class BasicPastille  implements Pastille {
-	private final Vector2 position ;
-	public BasicPastille(){
-
-
-		this.position = new Vector2((float)Math.random() * 6,(float)Math.random() * 6);
-
-
+	private final Vector2 position;
+	public BasicPastille(int x, int y){
+		this.position = new Vector2(x,y);
 	}
 
-
-
-
-
-
 	public Vector2 getPosition() {
-		return null;
+		return this.position;
 	}
 
 	@Override
