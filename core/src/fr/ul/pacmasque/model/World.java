@@ -10,10 +10,7 @@ package fr.ul.pacmasque.model;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import fr.ul.pacmasque.Drawable;
-import fr.ul.pacmasque.entity.BasicMonster;
-import fr.ul.pacmasque.entity.BasicPlayer;
-import fr.ul.pacmasque.entity.Monster;
-import fr.ul.pacmasque.entity.Player;
+import fr.ul.pacmasque.entity.*;
 
 public class World implements Drawable {
 	private final Labyrinth labyrinth;
@@ -21,16 +18,19 @@ public class World implements Drawable {
 	private int width, height;
 	private final Player player;
 	private final Monster monster2;
+	private final Pastille pastille;
 
 	public World(Labyrinth labyrinth) {
 		this.labyrinth = labyrinth;
 		this.player = new BasicPlayer();
-        this.monster = new BasicMonster();
-        this.monster2 = new BasicMonster();
-
+		this.monster = new BasicMonster();
+		this.monster2 = new BasicMonster();
+		this.pastille = new BasicPastille();
 	}
 
-	public Player getPlayer() { return player; }
+	public Player getPlayer() {
+		return player;
+	}
 
 	@Override
 	public void draw(Batch batch, float x, float y, float width, float height) {
@@ -38,5 +38,6 @@ public class World implements Drawable {
 		this.player.draw(batch, x, y, width, height);
 		this.monster.draw(batch, x, y, width, height);
 		this.monster2.draw(batch, x, y, width, height);
+		this.pastille.draw(batch, x, y, width, height);
 	}
 }
