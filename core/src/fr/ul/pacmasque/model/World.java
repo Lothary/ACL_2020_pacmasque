@@ -28,6 +28,14 @@ public class World implements Drawable {
 		this.pastille = new BasicPastille(3,3);
 	}
 
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
 	public Player getPlayer() {
 		return player;
 	}

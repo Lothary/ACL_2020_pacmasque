@@ -15,7 +15,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 
-public class BasicPlayer implements Player{
+public class BasicPlayer implements Player {
 
 	private final Vector2 position;
 	private int lifePoints;
@@ -24,7 +24,6 @@ public class BasicPlayer implements Player{
 		this.lifePoints = 3;
 		this.position = new Vector2(3,3);
 	}
-
 
 	public void move(int direction){
 		float moveAmount = 1.0f;
