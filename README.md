@@ -17,10 +17,10 @@ sous forme de release, ou chacune apporte une nouvelle fonctionnalité.
 - [ ] Première version, 1.0.0
     - [x] Affichage graphique d'un labyrinthe (0.2.0)
     - [x] Déplacement d'un joueur avec les touches directionnelles du clavier (0.2.0)
-    - [ ] Murs, ne pouvant être traversés
+    - [x] Murs, ne pouvant être traversés
     - [ ] Présence sur le plateau de pastilles (points à récupérer), et de 
     monstres statiques
-    - [ ] Textures basiques
+    - [x] Textures basiques
 
 - [ ] Deuxième version, 2.0.0
     - [ ] Déplacements des monstres dans le labyrinthe
