@@ -55,4 +55,14 @@ public class BasicPlayer implements Player {
 	public Vector2 getPosition() {
 		return this.position;
 	}
+
+	@Override
+	public void setPositionX(float x) {
+
+	}
+
+	@Override
+	public void setPositionY(float y) {
+
+	}
 }

@@ -8,44 +8,63 @@
 
 package fr.ul.pacmasque.model;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
 import fr.ul.pacmasque.Drawable;
-import fr.ul.pacmasque.entity.*;
+import fr.ul.pacmasque.entity.BasicPlayer;
+import fr.ul.pacmasque.entity.Player;
 
 public class World implements Drawable {
+
 	private final Labyrinth labyrinth;
-	private final Monster monster;
-	private int width, height;
+
 	private final Player player;
-	private final Monster monster2;
-	private final Pastille pastille;
 
 	public World(Labyrinth labyrinth) {
 		this.labyrinth = labyrinth;
 		this.player = new BasicPlayer();
-		this.monster = new BasicMonster(1,1);
-		this.monster2 = new BasicMonster(2, 2);
-		this.pastille = new BasicPastille(3,3);
 	}
 
 	public int getWidth() {
-		return width;
+		return this.labyrinth.getWidth();
 	}
 
 	public int getHeight() {
-		return height;
+		return this.labyrinth.getHeight();
 	}
 
-	public Player getPlayer() {
-		return player;
+	public void movePlayer(int direction){
+		float moveAmount = 1.0f;
+		Vector2 finalCase = this.player.getPosition();
+
+		switch(direction) {
+			case Input.Keys.LEFT:
+				finalCase.x = this.player.getPosition().x - moveAmount;
+				if(!this.labyrinth.isWall(finalCase) && finalCase.x >= 0.0)
+					this.player.setPositionX(this.player.getPosition().x - moveAmount);
+				break;
+			case Input.Keys.RIGHT:
+				finalCase.x = this.player.getPosition().x + moveAmount;
+				if(!this.labyrinth.isWall(finalCase) && finalCase.x < this.labyrinth.getWidth())
+					this.player.setPositionX(this.player.getPosition().x + moveAmount);
+				break;
+			case Input.Keys.UP:
+				finalCase.y = this.player.getPosition().y + moveAmount;
+				if(!this.labyrinth.isWall(finalCase) && finalCase.y < this.labyrinth.getHeight())
+					this.player.setPositionY(this.player.getPosition().y + moveAmount);
+				break;
+			case Input.Keys.DOWN:
+				finalCase.y = this.player.getPosition().y - moveAmount;
+				if(!this.labyrinth.isWall(finalCase) && finalCase.y >= 0.0)
+					this.player.setPositionY(this.player.getPosition().y - moveAmount);
+				break;
+		}
 	}
 
 	@Override
 	public void draw(Batch batch, float x, float y, float width, float height) {
 		this.labyrinth.draw(batch, x, y, width, height);
 		this.player.draw(batch, x, y, width, height);
-		this.monster.draw(batch, x, y, width, height);
-		this.monster2.draw(batch, x, y, width, height);
-		this.pastille.draw(batch, x, y, width, height);
 	}
 }
