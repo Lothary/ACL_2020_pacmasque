@@ -20,7 +20,7 @@ public interface LabyrinthBuilder {
 
 	/**
 	 * Crée le labyrinthe correspondant à la chaîne de caractères.
-	 * @param content le labyrinthe sous forme de chaîne de caractères
+	 * @param content le labyrinthe sous forme de chaîne de caractère
 	 * @return un labyrinthe correspondant
 	 * @throws PacmasqueException si il n'est pas possible de construire le labyrinthe
 	 */
