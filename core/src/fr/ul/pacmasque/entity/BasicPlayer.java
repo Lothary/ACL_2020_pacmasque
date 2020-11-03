@@ -10,35 +10,87 @@ package fr.ul.pacmasque.entity;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BasicPlayer implements Player{
 
 	private Vector2 position;
 	private int lifePoints;
+	private Vector2 nextPosition;
+	private Texture texture;
+
+	private boolean moving;
+	private List<Integer> movesList;
+
+
 
 	public BasicPlayer(){
 		this.lifePoints = 3;
 		this.position = new Vector2(2,2);
+		this.nextPosition = new Vector2(2,2);
+		moving = false;
+		movesList = new ArrayList<>();
+		texture = new Texture(Gdx.files.internal("badlogic.jpg"));
 	}
 
-
-	public float getPositionX(){return this.position.x;}
-	public float getPositionY(){return this.position.y;}
-
-	public void setPositionX(float pos){this.position.x = pos;}
-	public void setPositionY(float pos){this.position.y = pos;}
+	
+	public float getNextPositionX(){return this.nextPosition.x;}
+	public float getNextPositionY(){return this.nextPosition.y;}
+	
+	public void setNextPositionX(float pos){ this.nextPosition.x = pos; }
+	public void setNextPositionY(float pos){ this.nextPosition.y = pos; }
 
 	@Override
 	public void draw(Batch batch, float x, float y, float width, float height) {
-		Texture texture = new Texture(Gdx.files.internal("badlogic.jpg"));
-		batch.draw(texture,this.position.x,this.position.y, 1,1);
+		batch.draw(texture, this.position.x, this.position.y, 1, 1);
+
+			//Si la liste des mouvements n'est pas vide, ajoute ce mouvement à la position du personnage
+			if(!this.movesList.isEmpty()){
+
+				int dir = this.movesList.get(0);
+				this.movesList.remove(0);
+				switch (dir){
+					case Input.Keys.UP:
+						this.position.y += 0.1f;
+						break;
+					case Input.Keys.DOWN:
+						this.position.y -= 0.1f;
+						break;
+					case Input.Keys.RIGHT:
+						this.position.x += 0.1f;
+						break;
+					case Input.Keys.LEFT:
+						this.position.x -= 0.1f;
+						break;
+
+				}
+			}
+
+
 	}
+
+
+
 
 	@Override
 	public Vector2 getPosition() {
 		return this.position;
 	}
+
+
+	//Ajoute le mouvement dir, x fois
+	public void addMouvement(int dir, int x){
+		for(int i = 1 ; i <= x ; i++)
+			this.movesList.add(dir);
+	}
+
+
+
+
 }
