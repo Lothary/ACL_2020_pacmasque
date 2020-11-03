@@ -10,7 +10,9 @@ route.
 ## Développement
 
 Pacmasque est développé à l'aide du moteur LibGDX, en java. Il est développé 
-sous forme de release, ou chacune apporte une nouvelle fonctionnalité.
+sous forme de release, où chacune apporte une nouvelle fonctionnalité.
+
+Vous trouverez dans le dossier <i>sprints</i> les documents relatifs à chaque sprint.
 
 ## Objectifs et fonctionnalités
 
