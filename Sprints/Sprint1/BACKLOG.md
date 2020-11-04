@@ -23,7 +23,8 @@ ont été réglés en normalisant le sens de ces axes pour tout le projet.
 
 ### Présence sur le plateau de pastilles (points à récupérer) et de monstres statiques
 
-?
+Nous avons eu un problème avec un champ dans une interface, nous ne savions pas qu'il était static. 
+Nous avons donc redéfinit l'interface par des getters.
 
 ### Textures basiques
 
