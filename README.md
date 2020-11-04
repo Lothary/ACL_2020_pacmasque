@@ -12,6 +12,27 @@ route.
 Pacmasque est développé à l'aide du moteur LibGDX, en java. Il est développé 
 sous forme de release, ou chacune apporte une nouvelle fonctionnalité.
 
+## Utilisation
+
+### Installation
+Clone le dépot
+
+Pour les commandes suivantes, deux exécutables sont disponibles:
+- Linux / MacOS: `gradlew`
+- Windows: `gradlew.bat`
+
+### Build
+
+`gradlew :desktop:build`
+
+### Exécuter
+
+`gradlew :desktop:run`
+
+### Créer une archive JAR
+
+`gradlew :desktop:dist`
+
 ## Objectifs et fonctionnalités
 
 - [ ] Première version, 1.0.0
