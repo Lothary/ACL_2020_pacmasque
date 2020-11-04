@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import fr.ul.pacmasque.Drawable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Un labyrinthe en deux dimensions, ayant une largeur et une hauteur
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 public class Labyrinth implements Drawable {
 	private final int width;
 	private final int height;
-	private final ArrayList<Vector2> positionsMurs;
+	private final List<Vector2> positionsMurs;
 
 	private Texture texture = new Texture(Gdx.files.internal("packs/basepack/stone_1.png"));
 

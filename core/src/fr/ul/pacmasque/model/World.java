@@ -13,17 +13,24 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import fr.ul.pacmasque.Drawable;
 import fr.ul.pacmasque.entity.BasicPlayer;
+import fr.ul.pacmasque.entity.Entity;
 import fr.ul.pacmasque.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class World implements Drawable {
 
 	private final Labyrinth labyrinth;
 
 	private final Player player;
+	private final List<Entity> entities;
 
 	public World(Labyrinth labyrinth) {
 		this.labyrinth = labyrinth;
-		this.player = new BasicPlayer();
+		this.player = new BasicPlayer(2, 2);
+		this.entities = new ArrayList<>();
+		this.entities.add(this.player);
 	}
 
 	public int getWidth() {
@@ -65,6 +72,6 @@ public class World implements Drawable {
 	@Override
 	public void draw(Batch batch, float x, float y, float width, float height) {
 		this.labyrinth.draw(batch, x, y, width, height);
-		this.player.draw(batch, x, y, width, height);
+		this.entities.forEach(en -> en.draw(batch, x, y, width, height));
 	}
 }

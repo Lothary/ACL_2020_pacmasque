@@ -35,7 +35,9 @@ public class LabyrinthConstructor implements LabyrinthBuilder {
 	 */
 	private final Map<Integer, String> labyrinths = new HashMap<>();
 
-	public LabyrinthConstructor(){ }
+	public LabyrinthConstructor() {
+
+	}
 
 	/**
 	 * Récupère le laby de la map et transforme

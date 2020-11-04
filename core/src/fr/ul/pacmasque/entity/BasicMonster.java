@@ -19,11 +19,11 @@ public class BasicMonster implements Monster {
 		this.position = new Vector2(x,y);
 	}
 
+	@Override
 	public void draw(Batch batch, float x, float y, float width, float height) {
 		Texture texture = new Texture(Gdx.files.internal("monster_3.png"));
 		batch.draw(texture,this.position.x,this.position.y,1,1);
 	}
-
 
 	@Override
 	public Vector2 getPosition() {

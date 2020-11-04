@@ -27,50 +27,154 @@ package libgdx {
     }
 
     Game .up.|> ApplicationListener
+
+    interface InputProcessor { }
 }
 
+package java {
+	package lang {
+		class Exception { }
+	}
+}
 
 package pacmasque {
+
+    package entity {
+
+        class BasicMonster implements Monster {
+			- Vector2 position
+			+ BasicMonster(int x, int y)
+        }
+
+        class BasicPastille implements Pastille {
+            - Vector2 position
+            + BasicPastille(int x, int y)
+        }
+
+        class BasicPlayer implements Player {
+            - Vector2 position
+            - int lifePoints
+            + BasicPlayer(int x, int y)
+        }
+
+		interface Entity implements pacmasque.Drawable {
+			Vector2 getPosition()
+		}
+
+		interface Monster extends Entity {
+
+		}
+
+		interface Pastille extends Entity {
+
+		}
+
+		interface Player extends Entity {
+			 float getPositionX()
+			 float getPositionY()
+			 float setPositionX(float x)
+			 float setPositionY(float y)
+
+		}
+
+	}
+
+	package exception {
+
+		class LabyrinthConstructorException extends PacmasqueException {
+        	+ LabyrinthConstructorException(String message)
+        }
+
+		class LabyrinthLoaderException extends PacmasqueException {
+        	+ LabyrinthLoaderException(String message)
+        }
+
+        abstract class PacmasqueException extends Exception {
+        	+ PacmasqueException(String message)
+        }
+
+	}
+
 	package model {
 
-	    interface Object2D {
-	        int getWidth()
-	        int getHeight()
-	    }
-
-		class World implements Drawable   {
- 			+ World(File fichierConstruction)
-		}
-		class Labyrinth implements Drawable {
+		class Labyrinth implements pacmasque.Drawable {
+			- int width
+			- int height
+			- List<Vector2> positionsMurs
 		 	+ Labyrinth(int width, int height)
-		}
-	}
 
-	package entity {
-		interface Player {
-			 - int lifePoints
-			 + void move()
+		 	+ void setMur(int x, int y)
+		 	+ int getWidth()
+		 	+ int getHeight()
+		 	+ boolean isWall(Vector2 vec)
 		}
 
-
-		interface Pastille { }
-
-		interface Monster { }
-
-		interface Entity {
-			- Body body
-			- Vector2 position
-			- World world
-			+ void draw()
+        class World implements pacmasque.Drawable {
+ 			+ World(Labyrinth labyrinth)
+ 			+ int getWidth()
+ 			+ int getHeight()
+ 			+ void movePlayer(int direction)
 		}
+
+		World --"*" Entity
+        World --"1" Player
+        World --"1" Labyrinth
 	}
 
-	class PacMasque extends Game {
-	    + void getRenderedView()
-	}
+	package utils {
 
+		interface LabyrinthBuilder {
+			Labyrinth build(String content) throws PacmasqueException
+		}
+
+		class LabyrinthConstructor implements LabyrinthBuilder {
+			- Map<Integer, String> labyrinths
+
+        	+ LabyrinthConstructor()
+        	+ Labyrinth build(int key) throws PacmasqueException
+        }
+
+        class LabyrinthLoader {
+            - {static} LabyrinthLoader _shared
+            + {static} LabyrinthLoader shared()
+            - String metaTag
+            - String delimiterIn
+            - String delimiterOut
+            - String lineSeparator
+            - String fieldSeparator
+
+            + LabyrinthLoader(String metaTag, String delimiterIn, String delimiterOut, String lineSeparator, String fieldSeparator)
+
+            - String inputDelimiter()
+            - String outputDelimiter()
+            + Labyrinth loadFile(String path) throws LabyrinthLoaderException
+        }
+
+		class TexturePack {
+			 - Map<String, String> resources
+			 + Texture get(String name)
+		}
+
+		class TexturePackFactory <<(S,#FF7700)>> {
+			+ TexturePack getTexturePack(String name)
+        }
+
+		TexturePackFactory --"*" TexturePack
+	}
 
 	package views {
+		class GameView extends View implements InputProcessor {
+		    + GameView(World world)
+		}
+
+		GameView --"1" World
+
+		class SplashView extends View {
+            - Stage stage
+        	- Texture texture
+			+ SplashView(float viewPortWidth, float viewPortHeight)
+        }
+
 		abstract View extends ScreenAdapter {
 		    - Batch batch
 		    - Camera camera
@@ -82,54 +186,23 @@ package pacmasque {
 		    + Batch getBatch()
 		    + Camera getCamera()
 		    + {abstract} void update(float delta)
-
 		}
 
-		class GameView {
-		    + GameView(World world)
-		 	- KeyboardListener keyboardListener
-		}
-
-		class SplashView extends View {
-		    - Stage stage
-		    - Texture texture
-
-		    + SplashView(float viewPortWidth, float viewPortHeight)
-		}
 	}
 
-	package utils {
-		class TexturePackFactory <<(S,#FF7700)>> {
-			+ TexturePack getTexturePack(String name)
-        }
-
-		class TexturePack {
-			 - Map<String, String> resources
-			 + Texture get(String name)
-		}
-
-		class LabyrinthConstructor {
-			+ LabyrinthConstructor(File fileBuilder)
-		 	+ Labyrinth build(String name)
-		}
-
-		TexturePackFactory --"*" TexturePack
+	interface Drawable {
+		void draw(Batch batch, float x, float y, float width, float height)
 	}
 
-
-	World --"*" Entity
-	World -"1" LabyrinthConstructor
-	World -up-"1" Labyrinth
-
-	Player .up.|> Entity
-	Pastille .up.|> Entity
-	Monster .up.|> Entity
+	class PacMasque extends Game {
+		+ {static} int V_WIDTH
+		+ {static} int V_HEIGHT
+        + View getRenderedView()
+        - void setScreen(View screen)
+    }
 
 	PacMasque --"1" World
 	PacMasque --"1" View : renderedView
-	PacMasque ---"*" View : views
-
-	GameView -right-"1" World
-	GameView -up-|> View
+	PacMasque --"*" View : views
 }
 @enduml

@@ -19,17 +19,31 @@ public class BasicPlayer implements Player{
 	private Vector2 position;
 	private int lifePoints;
 
-	public BasicPlayer(){
+	public BasicPlayer(int x, int y){
 		this.lifePoints = 3;
-		this.position = new Vector2(2,2);
+		this.position = new Vector2(x,y);
 	}
 
 
-	public float getPositionX(){return this.position.x;}
-	public float getPositionY(){return this.position.y;}
+	@Override
+	public float getPositionX() {
+		return this.position.x;
+	}
 
-	public void setPositionX(float pos){this.position.x = pos;}
-	public void setPositionY(float pos){this.position.y = pos;}
+	@Override
+	public float getPositionY() {
+		return this.position.y;
+	}
+
+	@Override
+	public void setPositionX(float pos) {
+		this.position.x = pos;
+	}
+
+	@Override
+	public void setPositionY(float pos) {
+		this.position.y = pos;
+	}
 
 	@Override
 	public void draw(Batch batch, float x, float y, float width, float height) {
