@@ -15,11 +15,15 @@ ont été réglés en normalisant le sens de ces axes pour tout le projet.
 
 ### Déplacement d'un joueur avec les touches directionnelles du clavier 
 
-?
+Le déplacement du joueur était ten premier lieu géré par la classe Player, il est apparu plus logique par la suite
+que la classe World s'occupe de ce déplacement.
+Nous avons donc modifié et interverti les fonctions de déplacement entre la classe Player et la classe World.
 
 ### Murs, ne pouvant être traversés
 
-?
+Nous avons eu un soucis de type lié à l'utilisation de libgdx, plus précisement de l'objet Vector2 de la librairie.
+Les Murs étaient tout d'abord définis par une position de type "int" qui a été modifiée en "float" afin de coller avec
+le type Vector2.
 
 ### Présence sur le plateau de pastilles (points à récupérer) et de monstres statiques
 
