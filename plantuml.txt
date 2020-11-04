@@ -38,10 +38,10 @@ package pacmasque {
 	        int getHeight()
 	    }
 
-		class World implements Object2D {
+		class World implements Drawable   {
  			+ World(File fichierConstruction)
 		}
-		class Labyrinth implements Object2D {
+		class Labyrinth implements Drawable {
 		 	+ Labyrinth(int width, int height)
 		}
 	}
