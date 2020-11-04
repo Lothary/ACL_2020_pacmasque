@@ -25,7 +25,7 @@ public class Labyrinth implements Drawable {
 	private final int height;
 	private final List<Vector2> positionsMurs;
 
-	private Texture texture = new Texture(Gdx.files.internal("packs/basepack/stone_1.png"));
+	private final Texture texture = new Texture(Gdx.files.internal("packs.basepack/stone_1.png"));
 
 	public Labyrinth(int width, int height) {
 		this.width = width;
@@ -33,14 +33,16 @@ public class Labyrinth implements Drawable {
 		this.positionsMurs = new ArrayList<>();
 	}
 
-
 	/**
-	 * Ajoute un mur à la position `x` et `y`
+	 * Ajoute un mur à la position `x` et `y`.
+	 * N'ajoute pas de mur si les coordonnées ne sont pas dans le labyrinthe
 	 * @param x la coordonnée `x` du mur
 	 * @param y la coordonnée `y` du mur
 	 */
-	public void setMur(int x, int y){
-		positionsMurs.add(new Vector2(x, y));
+	public void setMur(int x, int y) {
+		if (this.inRange(x, y)) {
+			positionsMurs.add(new Vector2(x, y));
+		}
 	}
 
 	/**
@@ -49,7 +51,6 @@ public class Labyrinth implements Drawable {
 	public int getWidth() {
 		return width;
 	}
-
 
 	/**
 	 * @return la hauteur du labyrinthe
@@ -61,15 +62,29 @@ public class Labyrinth implements Drawable {
 	/**
 	 * Indique si la position donnée est un mur dans le labyrinthe
 	 * @param vec un vecteur position
-	 * @return si la position est un mur
+	 * @return si la position est un mur, et vrai si la position n'est pas comprise dans le labyrinthe
 	 */
-	public boolean isWall(Vector2 vec){
-		return positionsMurs.contains(vec);
+	public boolean isWall(Vector2 vec) {
+		if (this.inRange(((int) vec.x), ((int) vec.y))) {
+			return positionsMurs.contains(vec);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Permet de savoir si les coordonnées sont valides pour le labyrinthe
+	 * @param x une coordonnée `x`
+	 * @param y une coordonnée `y`
+	 * @return si `x` et `y` sont dans le labyrinthe
+	 */
+	private boolean inRange(int x, int y) {
+		return x <= this.getWidth() && y <= this.getHeight() && x >= 0 && y >= 0;
+
 	}
 
 	@Override
 	public void draw(Batch batch, float x, float y, float width, float height) {
-
-		this.positionsMurs.forEach(pos -> batch.draw(texture,pos.x,pos.y, 1,1));
+		this.positionsMurs.forEach(pos -> batch.draw(texture, pos.x, pos.y, 1,1));
 	}
 }

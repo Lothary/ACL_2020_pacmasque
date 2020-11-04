@@ -63,4 +63,8 @@ project(":core") {
         api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         
     }
+
+    test {
+        useJUnitPlatform()
+    }
 }
