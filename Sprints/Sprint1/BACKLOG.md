@@ -15,7 +15,7 @@ ont été réglés en normalisant le sens de ces axes pour tout le projet.
 
 ### Déplacement d'un joueur avec les touches directionnelles du clavier 
 
-Le déplacement du joueur était ten premier lieu géré par la classe Player, il est apparu plus logique par la suite
+Le déplacement du joueur était en premier lieu géré par la classe Player, il est apparu plus logique par la suite
 que la classe World s'occupe de ce déplacement.
 Nous avons donc modifié et interverti les fonctions de déplacement entre la classe Player et la classe World.
 
