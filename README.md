@@ -42,11 +42,14 @@ Pour les commandes suivantes, deux exécutables sont disponibles:
     - [ ] Présence sur le plateau de pastilles (points à récupérer), et de 
     monstres statiques
     - [x] Textures basiques
+    - [x] Chargement d'un niveau depuis un fichier
 
 - [ ] Deuxième version, 2.0.0
+    - [ ] Déplacements linéaires
     - [ ] Déplacements des monstres dans le labyrinthe
-    - [ ] Chargement d'un niveau depuis un fichier
-    - [ ] Première dynamique des combats contre les monstres
+    - [ ] Mort du joueur en cas de contact avec un monstre
+    - [ ] Niveaux plus élaborés (monstres, pastilles, plus grand plateau, plusieurs types de murs, de sols…)
+    - [ ] Texture pack
     
 Plus d'autres fonctionnalités dans les futures releases
 

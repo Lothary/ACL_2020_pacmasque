@@ -50,6 +50,18 @@ package pacmasque {
         - void setScreen(View screen)
     }
 
+    package algorithm {
+
+        abstract class Algorithm {
+            + Algorithm(World world)
+            + {abstract} tick()
+        }
+
+        class AlgorithmImpl extends Algorithm {
+
+        }
+    }
+
     package entity {
 
         class BasicMonster implements Monster {
@@ -70,6 +82,8 @@ package pacmasque {
 
 		interface Entity {
 			Vector2 getPosition()
+			void setAlgorithm(Algorithm algorithm)
+			Algorithm getAlgorithm()
 		}
 
 		Entity -right-> Drawable
@@ -129,6 +143,7 @@ package pacmasque {
  			+ int getWidth()
  			+ int getHeight()
  			+ void movePlayer(int direction)
+ 			+ tick()
 		}
 
 		World -left-> Drawable
