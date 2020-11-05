@@ -8,6 +8,8 @@
 
 package fr.ul.pacmasque.model;
 
+import com.badlogic.gdx.Input;
+import fr.ul.pacmasque.entity.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -44,6 +46,13 @@ class WorldTest {
 
 	@Test
 	void movePlayer() {
-		// TODO
+		assertDoesNotThrow(() -> {
+			//x = 2, y = 2 au début
+			this.world.movePlayer(Input.Keys.LEFT);
+
+			Player player = this.world.getPlayer();
+			assertEquals(2, player.getPositionX());
+			assertEquals(1, player.getPositionY());
+		});
 	}
 }
