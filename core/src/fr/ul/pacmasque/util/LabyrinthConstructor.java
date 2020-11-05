@@ -28,6 +28,7 @@ import java.util.Map;
  *  Les 1 correspondent aux emplacement ou le joueur peut se déplacer, et les 0 à des murs
  */
 public class LabyrinthConstructor implements LabyrinthBuilder {
+
 	/**
 	 * Map qui contient tous les labyrinthes du fichier.
 	 * La clé est le nom du labyrinthe, qui est sous forme
@@ -40,7 +41,7 @@ public class LabyrinthConstructor implements LabyrinthBuilder {
 	}
 
 	/**
-	 * Récupère le laby de la map et transforme
+	 * Récupère le labyrinthe de la map et transforme
 	 * le string en Labyrinth.
 	 * @param key du labyrinthe souhaité
 	 * @return le Labyrinth

@@ -45,6 +45,10 @@ public class World implements Drawable {
 		return this.labyrinth.getHeight();
 	}
 
+	public Player getPlayer() {
+		return player;
+	}
+
 	public void movePlayer(int direction) {
 
 			float moveAmount = 1.0f;
