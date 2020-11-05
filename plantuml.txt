@@ -39,6 +39,17 @@ package java {
 
 package pacmasque {
 
+	interface Drawable {
+		void draw(Batch batch, float x, float y, float width, float height)
+	}
+
+	class PacMasque extends Game {
+		+ {static} int V_WIDTH
+		+ {static} int V_HEIGHT
+        + View getRenderedView()
+        - void setScreen(View screen)
+    }
+
     package entity {
 
         class BasicMonster implements Monster {
@@ -57,9 +68,11 @@ package pacmasque {
             + BasicPlayer(int x, int y)
         }
 
-		interface Entity implements pacmasque.Drawable {
+		interface Entity {
 			Vector2 getPosition()
 		}
+
+		Entity -right-> Drawable
 
 		interface Monster extends Entity {
 
@@ -97,7 +110,7 @@ package pacmasque {
 
 	package model {
 
-		class Labyrinth implements pacmasque.Drawable {
+		class Labyrinth {
 			- int width
 			- int height
 			- List<Vector2> positionsMurs
@@ -109,15 +122,18 @@ package pacmasque {
 		 	+ boolean isWall(Vector2 vec)
 		}
 
-        class World implements pacmasque.Drawable {
+		Labyrinth -left-> Drawable
+
+        class World {
  			+ World(Labyrinth labyrinth)
  			+ int getWidth()
  			+ int getHeight()
  			+ void movePlayer(int direction)
 		}
 
-		World --"*" Entity
-        World --"1" Player
+		World -left-> Drawable
+		World -up-"*" Entity
+        World -left-"1" Player
         World --"1" Labyrinth
 	}
 
@@ -163,11 +179,12 @@ package pacmasque {
 	}
 
 	package views {
-		class GameView extends View implements InputProcessor {
+		class GameView extends View {
 		    + GameView(World world)
 		}
 
-		GameView --"1" World
+		GameView .left.> InputProcessor
+		GameView -down-"1" World
 
 		class SplashView extends View {
             - Stage stage
@@ -189,17 +206,6 @@ package pacmasque {
 		}
 
 	}
-
-	interface Drawable {
-		void draw(Batch batch, float x, float y, float width, float height)
-	}
-
-	class PacMasque extends Game {
-		+ {static} int V_WIDTH
-		+ {static} int V_HEIGHT
-        + View getRenderedView()
-        - void setScreen(View screen)
-    }
 
 	PacMasque --"1" World
 	PacMasque --"1" View : renderedView
