@@ -49,7 +49,12 @@ public class BasicPlayer implements Player{
 	@Override
 	public void draw(Batch batch, float x, float y, float width, float height) {
 		batch.draw(texture, this.position.x, this.position.y, 1, 1);
+		updateMovement();
+	}
 
+
+
+	private void updateMovement(){
 		//Si la liste des mouvements n'est pas vide, ajoute ce mouvement à la position du personnage
 		if(!this.movesList.isEmpty()){
 
@@ -68,15 +73,9 @@ public class BasicPlayer implements Player{
 				case Input.Keys.LEFT:
 					this.position.x -= 0.1f;
 					break;
-
 			}
 		}
-
-
 	}
-
-
-
 
 	@Override
 	public Vector2 getPosition() {

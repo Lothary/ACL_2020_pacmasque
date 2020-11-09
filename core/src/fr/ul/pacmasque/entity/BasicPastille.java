@@ -15,8 +15,12 @@ import com.badlogic.gdx.math.Vector2;
 
 public class BasicPastille  implements Pastille {
 	private final Vector2 position;
+	private Texture texture;
+
 	public BasicPastille(int x, int y){
+
 		this.position = new Vector2(x,y);
+		texture = new Texture(Gdx.files.internal("monster_3.png"));
 	}
 
 	public Vector2 getPosition() {
@@ -25,7 +29,7 @@ public class BasicPastille  implements Pastille {
 
 	@Override
 	public void draw(Batch batch, float x, float y, float width, float height) {
-		Texture texture = new Texture(Gdx.files.internal("monster_3.png"));
+
 		batch.draw(texture,this.position.x,this.position.y,1,1);
 	}
 }
