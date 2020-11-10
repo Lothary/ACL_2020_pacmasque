@@ -9,8 +9,10 @@
 package fr.ul.pacmasque.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -21,7 +23,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 /**
  * Vue 2D comprenant un viewport, ainsi qu'un batch et une camera
  */
-public abstract class View extends ScreenAdapter {
+public abstract class View extends ScreenAdapter implements InputProcessor {
 
 	/**
 	 * Le batch de la vue
@@ -76,6 +78,7 @@ public abstract class View extends ScreenAdapter {
 
 	@Override
 	public void show() {
+		this.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		this.batch.setProjectionMatrix(this.camera.combined);
 	}
 
@@ -87,7 +90,11 @@ public abstract class View extends ScreenAdapter {
 	@Override
 	public void render(float delta) {
 		update(delta);
-		Gdx.gl.glClearColor(.1f, .12f, .18f, 1);
+		this.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		this.getViewport().apply(false);
+
+		Color color = this.getClearColor();
+		Gdx.gl.glClearColor(color.r, color.g, color.b, color.a);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	}
 
@@ -102,4 +109,54 @@ public abstract class View extends ScreenAdapter {
 	 * @param delta un delta
 	 */
 	public abstract void update(float delta);
+
+	/**
+	 * Indique si la vue dispose d'un input processor
+	 * @return si elle dispose d'un input processor
+	 */
+	public boolean hasInputProcessor() {
+		return false;
+	}
+
+	public Color getClearColor() { return Color.BLACK; }
+
+	@Override
+	public boolean keyDown(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		return false;
+	}
 }

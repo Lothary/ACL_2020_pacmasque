@@ -27,9 +27,8 @@ public class SplashView extends View {
 		super(viewPortWidth, viewPortHeight);
 
 		this.stage = new Stage(this.getViewport());
-		Gdx.input.setInputProcessor(this.stage);
 
-		texture = new Texture(Gdx.files.internal("badlogic.jpg"));
+		texture = new Texture(Gdx.files.internal("splashLogo.png"));
 		Image splashImage = new Image(texture);
 		//texture.dispose();
 		splashImage.setPosition((Pacmasque.V_WIDTH - texture.getWidth()) / 2f,
@@ -47,13 +46,12 @@ public class SplashView extends View {
 	public void render(float delta) {
 		super.render(delta);
 
-		this.stage.draw();
-
 		Batch batch = this.getBatch();
-		batch.begin();
-		// Tout le dessin des entités se fait ici
 
+		batch.begin();
+		batch.draw(this.texture, 0, 0);
 		batch.end();
+		//this.stage.draw();
 	}
 
 	@Override
