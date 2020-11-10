@@ -44,25 +44,25 @@ class BasicPlayerTest {
 
 	@Test
 	void getPositionX() {
-		assertEquals(this.vector.x, this.player.getPositionX());
+		assertEquals(this.vector.x, this.player.getPosition().x);
 	}
 
 	@Test
 	void getPositionY() {
-		assertEquals(this.vector.y, this.player.getPositionY());
+		assertEquals(this.vector.y, this.player.getPosition().y);
 	}
 
 	@Test
 	void setPositionX() {
 		int x = random.nextInt(100);
-		this.player.setPositionX(x);
-		assertEquals(x, this.player.getPositionX());
+		this.player.setNextPositionX(x);
+		assertEquals(x, this.player.getPosition().x);
 	}
 
 	@Test
 	void setPositionY() {
 		int y = random.nextInt(100);
-		this.player.setPositionY(y);
-		assertEquals(y, this.player.getPositionY());
+		this.player.setNextPositionY(y);
+		assertEquals(y, this.player.getPosition().y);
 	}
 }
