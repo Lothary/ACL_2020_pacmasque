@@ -15,6 +15,7 @@ import fr.ul.pacmasque.Drawable;
 import fr.ul.pacmasque.entity.BasicPlayer;
 import fr.ul.pacmasque.entity.Entity;
 import fr.ul.pacmasque.entity.Player;
+import fr.ul.pacmasque.entity.BasicPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,36 +43,49 @@ public class World implements Drawable {
 	}
 
 	public void movePlayer(int direction) {
-		float moveAmount = 1.0f;
-		Vector2 finalCase = new Vector2(this.player.getPositionX(), this.player.getPositionY());
 
-		switch(direction) {
-			case Input.Keys.LEFT:
-				finalCase.x = this.player.getPositionX() - moveAmount;
-				if(!this.labyrinth.isWall(finalCase) && finalCase.x >= 0.0)
-					this.player.setPositionX(this.player.getPositionX() - moveAmount);
-				break;
-			case Input.Keys.RIGHT:
-				finalCase.x = this.player.getPositionX() + moveAmount;
-				if(!this.labyrinth.isWall(finalCase) && finalCase.x < this.labyrinth.getWidth())
-					this.player.setPositionX(this.player.getPositionX() + moveAmount);
-				break;
-			case Input.Keys.UP:
-				finalCase.y = this.player.getPositionY() + moveAmount;
-				if(!this.labyrinth.isWall(finalCase) && finalCase.y < this.labyrinth.getHeight())
-					this.player.setPositionY(this.player.getPositionY() + moveAmount);
-				break;
-			case Input.Keys.DOWN:
-				finalCase.y = this.player.getPositionY() - moveAmount;
-				if(!this.labyrinth.isWall(finalCase) && finalCase.y >= 0.0)
-					this.player.setPositionY(this.player.getPositionY() - moveAmount);
-				break;
+			float moveAmount = 1.0f;
+			Vector2 finalCase = new Vector2(this.player.getNextPositionX(), this.player.getNextPositionY());
+
+			switch (direction) {
+				case Input.Keys.LEFT:
+					finalCase.x = this.player.getNextPositionX() - moveAmount;
+					if (!this.labyrinth.isWall(finalCase) && finalCase.x >= 0.0) {
+						this.player.setNextPositionX(this.player.getNextPositionX() - moveAmount);
+						this.player.addMouvement(Input.Keys.LEFT, 10);
+					}
+					break;
+				case Input.Keys.RIGHT:
+					finalCase.x = this.player.getNextPositionX() + moveAmount;
+					if (!this.labyrinth.isWall(finalCase) && finalCase.x < this.labyrinth.getWidth()) {
+						this.player.setNextPositionX(this.player.getNextPositionX() + moveAmount);
+						this.player.addMouvement(Input.Keys.RIGHT, 10);
+					}
+					break;
+				case Input.Keys.UP:
+					finalCase.y = this.player.getNextPositionY() + moveAmount;
+					if (!this.labyrinth.isWall(finalCase) && finalCase.y < this.labyrinth.getHeight()) {
+						this.player.setNextPositionY(this.player.getNextPositionY() + moveAmount);
+						this.player.addMouvement(Input.Keys.UP, 10);
+					}
+					break;
+				case Input.Keys.DOWN:
+					finalCase.y = this.player.getNextPositionY() - moveAmount;
+					if (!this.labyrinth.isWall(finalCase) && finalCase.y >= 0.0) {
+						this.player.setNextPositionY(this.player.getNextPositionY() - moveAmount);
+						this.player.addMouvement(Input.Keys.DOWN, 10);
+					}
+					break;
+			}
 		}
-	}
+
 
 	@Override
 	public void draw(Batch batch, float x, float y, float width, float height) {
 		this.labyrinth.draw(batch, x, y, width, height);
+		this.player.draw(batch, x, y, width, height);
+
+
 		this.entities.forEach(en -> en.draw(batch, x, y, width, height));
 	}
 }

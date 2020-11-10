@@ -47,8 +47,11 @@ public class GameView extends View implements InputProcessor {
 		else if(keycode == Input.Keys.DOWN)
 			this.world.movePlayer(Input.Keys.DOWN);
 
+
 		return true;
 	}
+
+
 
 	@Override
 	public boolean keyUp(int keycode) {
