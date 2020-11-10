@@ -8,19 +8,24 @@
 
 package fr.ul.pacmasque.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import fr.ul.pacmasque.exception.TextureException;
+import fr.ul.pacmasque.util.TexturePackFactory;
 
 public class BasicPastille  implements Pastille {
 	private final Vector2 position;
 	private Texture texture;
 
 	public BasicPastille(int x, int y){
-
 		this.position = new Vector2(x,y);
-		texture = new Texture(Gdx.files.internal("monster_3.png"));
+
+		try {
+			this.texture = TexturePackFactory.getInstance().getTexturePack("basePack").get("pastille");
+		} catch (TextureException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Vector2 getPosition() {
@@ -29,7 +34,6 @@ public class BasicPastille  implements Pastille {
 
 	@Override
 	public void draw(Batch batch, float x, float y, float width, float height) {
-
-		batch.draw(texture,this.position.x,this.position.y,1,1);
+		batch.draw(texture,this.position.x,this.position.y,0.5f,0.5f);
 	}
 }
