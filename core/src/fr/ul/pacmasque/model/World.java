@@ -22,6 +22,10 @@ import java.util.List;
 
 public class World implements Drawable {
 
+	public Labyrinth getLabyrinth() {
+		return labyrinth;
+	}
+
 	private final Labyrinth labyrinth;
 
 	private final Player player;
