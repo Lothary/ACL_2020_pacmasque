@@ -14,21 +14,20 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import fr.ul.pacmasque.view.sprite.Sprite;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BasicPlayer implements Player{
 
-	private Vector2 position;
+	private final Vector2 position;
 	private int lifePoints;
-	private Vector2 nextPosition;
-	private Texture texture;
+	private final Vector2 nextPosition;
+	private Sprite sprite;
 
 	private boolean moving;
-	private List<Integer> movesList;
-
-
+	private final List<Integer> movesList;
 
 	public BasicPlayer(int x, int y){
 		this.lifePoints = 3;
@@ -36,9 +35,10 @@ public class BasicPlayer implements Player{
 		this.nextPosition = new Vector2(x,y);
 		moving = false;
 		movesList = new ArrayList<>();
-		texture = new Texture(Gdx.files.internal("badlogic.jpg"));
-	}
 
+		Texture texture = new Texture(Gdx.files.internal("pac3sprite.png"));
+		this.sprite = new Sprite(texture, 3, 1f);
+	}
 
 	public float getNextPositionX(){return this.nextPosition.x;}
 	public float getNextPositionY(){return this.nextPosition.y;}
@@ -48,11 +48,10 @@ public class BasicPlayer implements Player{
 
 	@Override
 	public void draw(Batch batch, float x, float y, float width, float height) {
-		batch.draw(texture, this.position.x, this.position.y, 1, 1);
+		batch.draw(this.sprite.getFrame(), this.position.x, this.position.y, 1, 1);
 		updateMovement();
+		this.sprite.update(0.001f);
 	}
-
-
 
 	private void updateMovement(){
 		//Si la liste des mouvements n'est pas vide, ajoute ce mouvement à la position du personnage
@@ -82,14 +81,10 @@ public class BasicPlayer implements Player{
 		return this.position;
 	}
 
-
 	//Ajoute le mouvement dir, x fois
 	public void addMouvement(int dir, int x){
 		for(int i = 1 ; i <= x ; i++)
 			this.movesList.add(dir);
 	}
-
-
-
 
 }
