@@ -7,6 +7,7 @@ import fr.ul.pacmasque.model.Labyrinth;
 import fr.ul.pacmasque.model.World;
 import fr.ul.pacmasque.util.LabyrinthLoader;
 import fr.ul.pacmasque.view.GameView;
+import fr.ul.pacmasque.view.MenuView;
 import fr.ul.pacmasque.view.View;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class Pacmasque extends Game {
 		Gdx.graphics.setContinuousRendering(true);
 		View view;
 
-		LabyrinthLoader loader = LabyrinthLoader.shared();
+		/*LabyrinthLoader loader = LabyrinthLoader.shared();
 		try {
 			Labyrinth labyrinth = loader.loadFile("labys.txt");
 			view = new GameView(new World(labyrinth));
@@ -37,7 +38,9 @@ public class Pacmasque extends Game {
 		} catch (LabyrinthLoaderException e) {
 			e.printStackTrace();
 			Gdx.app.exit();
-		}
+		}*/
+
+		setScreen(new MenuView(V_WIDTH, V_HEIGHT));
 	}
 
 	private void setScreen(View screen) {
