@@ -32,6 +32,6 @@ public class LabyrinthEncoder implements Encoder<Labyrinth> {
 		rootObject.put("width", labyrinth.getWidth());
 		rootObject.put("height", labyrinth.getHeight());
 		String encodedLabyrinth = rootObject.toString(4);
-		return encodedLabyrinth.getBytes();
+		return encodedLabyrinth.getBytes(STANDARD_CHARSET);
 	}
 }

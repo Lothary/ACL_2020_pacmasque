@@ -1,5 +1,5 @@
 /*
- * Encoder.java
+ * Decoder.java
  * ACL_2020_pacmasque
  *
  * Created by ugocottin on 11/11/2020.
@@ -8,7 +8,7 @@
 
 package fr.ul.pacmasque.util.encoder;
 
-public interface Encoder<T> extends Codable {
+public interface Decoder<T> extends Codable {
 
-	byte[] encode(T encodable);
+	T decode(byte[] decodable) throws DecoderException;
 }

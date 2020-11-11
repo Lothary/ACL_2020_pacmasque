@@ -24,10 +24,20 @@ public class BuilderView extends GameView {
 	private boolean ctrlDown = false;
 
 	/**
-	 * Crée une nouvelle vue pour un monde donné
+	 * Crée un constructeur de labyrinthe vide, de taille donnée
+	 * @param width la largeur du labyrinthe
+	 * @param height la hauteur du labyrinthe
 	 */
 	public BuilderView(int width, int height) {
 		super(new World(new Labyrinth(width, height)));
+	}
+
+	/**
+	 * Crée un constructeur de labyrinthe sur un labyrinthe déjà existant
+	 * @param labyrinth un labyrinthe déjà existant
+	 */
+	public BuilderView(Labyrinth labyrinth) {
+		super(new World(labyrinth));
 	}
 
 	@Override
