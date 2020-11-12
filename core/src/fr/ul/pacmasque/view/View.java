@@ -18,6 +18,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Vue 2D comprenant un viewport, ainsi qu'un batch et une camera
@@ -41,14 +43,15 @@ public abstract class View extends ScreenAdapter {
 	 */
 	private final Viewport viewport;
 
-	private Color clearColor;
+	private final Color clearColor;
 
 	/**
 	 * Crée une vue de taille donnée, avec une couleur de fond noir
 	 * @param viewportWidth la largeur du viewport
 	 * @param viewportHeight la hauteur du viewport
+	 * @param clearColor la couleur de fond
 	 */
-	public View(float viewportWidth, float viewportHeight) {
+	public View(float viewportWidth, float viewportHeight, @Nullable Color clearColor) {
 		this.batch = new SpriteBatch();
 
 		OrthographicCamera camera = new OrthographicCamera();
@@ -57,18 +60,11 @@ public abstract class View extends ScreenAdapter {
 
 		this.viewport = new FitViewport(viewportWidth, viewportHeight, this.camera);
 
-		this.clearColor = View.DEFAULT_CLEAR_COLOR;
-	}
-
-	/**
-	 * Crée une vue de taille donnée, avec une couleur de fond
-	 * @param viewportWidth la largeur du viewport
-	 * @param viewportHeight la hauteur du viewport
-	 * @param clearColor la couleur de fond
-	 */
-	public View(float viewportWidth, float viewportHeight, Color clearColor) {
-		this(viewportWidth, viewportHeight);
-		this.clearColor = clearColor;
+		if (clearColor != null) {
+			this.clearColor = clearColor;
+		} else {
+			this.clearColor = View.DEFAULT_CLEAR_COLOR;
+		}
 	}
 
 	/**
@@ -112,7 +108,10 @@ public abstract class View extends ScreenAdapter {
 	@Override
 	public void render(float delta) {
 		update(delta);
-		Gdx.gl.glClearColor(.1f, .12f, .18f, 1);
+
+		Color color = this.getClearColor();
+		Gdx.gl.glClearColor(color.r, color.g, color.b, color.a);
+		//Gdx.gl.glClearColor(.1f, .12f, .18f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	}
 

@@ -24,7 +24,7 @@ public class SplashView extends View {
 	private final Texture texture;
 
 	public SplashView(float viewPortWidth, float viewPortHeight) {
-		super(viewPortWidth, viewPortHeight);
+		super(viewPortWidth, viewPortHeight, null);
 
 		this.stage = new Stage(this.getViewport());
 		Gdx.input.setInputProcessor(this.stage);

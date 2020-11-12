@@ -30,7 +30,7 @@ public class GameView extends View implements InputProcessor {
 	 * @param world un monde
 	 */
 	public GameView(World world) {
-		super(world.getWidth(),world.getHeight());
+		super(world.getWidth(),world.getHeight(), null);
 		this.world = world;
 		Gdx.input.setInputProcessor(this);
 	}
