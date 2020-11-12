@@ -32,14 +32,9 @@ public class MainMenuView extends MenuView {
 	}
 
 	@Override
-	public void show() {
-		super.show();
-
-		Stage stage = this.getStage();
-		Gdx.input.setInputProcessor(stage);
-
+	public void build(Stage stage, boolean debug) {
 		Skin skin = this.getSkin();
-		Table table = this.getMenuTable(false, skin);
+		Table table = this.getMenuTable(debug, skin);
 		stage.addActor(table);
 	}
 
@@ -51,16 +46,28 @@ public class MainMenuView extends MenuView {
 		table.setDebug(debug);
 		table.center();
 
+		// Main label
 		Label label = new Label("PACMASQUE!", skin);
 		label.setAlignment(Align.center);
 
+		// New world button
 		TextButton newWorldButton = new TextButton("Nouveau monde", skin);
+		newWorldButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				// Afficher NewWorldMenuView
+			}
+		});
+
+		// Load world button
 		TextButton loadWorldButton = new TextButton("Charger un monde", skin);
 
+		// Options button
 		TextButton optionsButton = new TextButton("Options...", skin);
 		optionsButton.setDisabled(true);
-		TextButton exitButton = new TextButton("Exit", skin);
 
+		// Exit button
+		TextButton exitButton = new TextButton("Exit", skin);
 		exitButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {

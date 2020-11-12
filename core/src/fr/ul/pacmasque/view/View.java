@@ -26,6 +26,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public abstract class View extends ScreenAdapter {
 
+	public static final boolean DEBUG = false;
 	public static final Color DEFAULT_CLEAR_COLOR = Color.BLACK;
 
 	/**
@@ -111,7 +112,6 @@ public abstract class View extends ScreenAdapter {
 
 		Color color = this.getClearColor();
 		Gdx.gl.glClearColor(color.r, color.g, color.b, color.a);
-		//Gdx.gl.glClearColor(.1f, .12f, .18f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	}
 

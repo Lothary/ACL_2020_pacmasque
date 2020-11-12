@@ -10,7 +10,6 @@ package fr.ul.pacmasque.view.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import fr.ul.pacmasque.view.View;
@@ -42,6 +41,21 @@ public abstract class MenuView extends View {
 
 	public Skin getSkin() {
 		return this.skin;
+	}
+
+	/**
+	 * Construit le menu sur la scène `stage`
+	 * @param stage la scène sur laquelle le menu doit être construit
+	 */
+	public abstract void build(Stage stage, boolean debug);
+
+	@Override
+	public void show() {
+		super.show();
+
+		Stage stage = this.getStage();
+		Gdx.input.setInputProcessor(stage);
+		this.build(stage, View.DEBUG);
 	}
 
 	@Override
