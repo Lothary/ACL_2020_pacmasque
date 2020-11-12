@@ -2,12 +2,7 @@ package fr.ul.pacmasque;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import fr.ul.pacmasque.exception.LabyrinthLoaderException;
-import fr.ul.pacmasque.model.Labyrinth;
-import fr.ul.pacmasque.model.World;
-import fr.ul.pacmasque.util.LabyrinthLoader;
-import fr.ul.pacmasque.view.GameView;
-import fr.ul.pacmasque.view.MenuView;
+import fr.ul.pacmasque.view.menu.MenuView;
 import fr.ul.pacmasque.view.View;
 
 import java.util.ArrayList;

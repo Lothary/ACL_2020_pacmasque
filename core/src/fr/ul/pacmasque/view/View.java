@@ -11,6 +11,7 @@ package fr.ul.pacmasque.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -22,6 +23,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  * Vue 2D comprenant un viewport, ainsi qu'un batch et une camera
  */
 public abstract class View extends ScreenAdapter {
+
+	public static final Color DEFAULT_CLEAR_COLOR = Color.BLACK;
 
 	/**
 	 * Le batch de la vue
@@ -38,8 +41,10 @@ public abstract class View extends ScreenAdapter {
 	 */
 	private final Viewport viewport;
 
+	private Color clearColor;
+
 	/**
-	 * Crée une vue de taille donnée
+	 * Crée une vue de taille donnée, avec une couleur de fond noir
 	 * @param viewportWidth la largeur du viewport
 	 * @param viewportHeight la hauteur du viewport
 	 */
@@ -51,27 +56,47 @@ public abstract class View extends ScreenAdapter {
 		this.camera = camera;
 
 		this.viewport = new FitViewport(viewportWidth, viewportHeight, this.camera);
+
+		this.clearColor = View.DEFAULT_CLEAR_COLOR;
 	}
 
 	/**
-	 * @return le viewport de la vue
+	 * Crée une vue de taille donnée, avec une couleur de fond
+	 * @param viewportWidth la largeur du viewport
+	 * @param viewportHeight la hauteur du viewport
+	 * @param clearColor la couleur de fond
 	 */
-	public Viewport getViewport() {
-		return viewport;
+	public View(float viewportWidth, float viewportHeight, Color clearColor) {
+		this(viewportWidth, viewportHeight);
+		this.clearColor = clearColor;
 	}
 
 	/**
 	 * @return le batch de la vue
 	 */
 	public Batch getBatch() {
-		return batch;
+		return this.batch;
 	}
 
 	/**
 	 * @return la camera de la vue
 	 */
 	public Camera getCamera() {
-		return camera;
+		return this.camera;
+	}
+
+	/**
+	 * @return le viewport de la vue
+	 */
+	public Viewport getViewport() {
+		return this.viewport;
+	}
+
+	/**
+	 * @return la couleur de fond
+	 */
+	public Color getClearColor() {
+		return this.clearColor;
 	}
 
 	@Override

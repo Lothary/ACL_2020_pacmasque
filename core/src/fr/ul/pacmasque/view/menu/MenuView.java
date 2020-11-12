@@ -2,11 +2,11 @@
  * MenuView.java
  * ACL_2020_pacmasque
  *
- * Created by ugocottin on 11/11/2020.
+ * Created by ugocottin on 12/11/2020.
  * Copyright © 2020 ugocottin. All rights reserved.
  */
 
-package fr.ul.pacmasque.view;
+package fr.ul.pacmasque.view.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import fr.ul.pacmasque.view.View;
 import org.jetbrains.annotations.Contract;
 
 public class MenuView extends View {
@@ -78,6 +79,7 @@ public class MenuView extends View {
 		TextButton loadWorldButton = new TextButton("Charger un monde", skin);
 
 		TextButton optionsButton = new TextButton("Options...", skin);
+		optionsButton.setDisabled(true);
 		TextButton exitButton = new TextButton("Exit", skin);
 
 		exitButton.addListener(new ClickListener() {
