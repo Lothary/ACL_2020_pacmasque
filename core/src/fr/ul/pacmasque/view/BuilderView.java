@@ -66,13 +66,4 @@ public class BuilderView extends GameView {
 
 		return super.keyDown(keycode);
 	}
-
-	public void export() {
-		Labyrinth labyrinth = this.getWorld().getLabyrinth();
-		JSONArray array = new JSONArray();
-		JSONObject object = new JSONObject();
-		array.put(object);
-
-		System.out.println(array.toString());
-	}
 }
