@@ -8,20 +8,17 @@
 
 package fr.ul.pacmasque;
 
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.backends.headless.HeadlessApplication;
+import com.badlogic.gdx.graphics.GL20;
+
+import static org.mockito.Mockito.mock;
 
 public class PacmasqueTest {
 
 	static {
-		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-
-		cfg.title = "Test";
-		cfg.width = 2;
-		cfg.height = 2;
-		LwjglApplicationConfiguration.disableAudio = true;
-
-		new LwjglApplication(new Pacmasque(), cfg);
+		new HeadlessApplication(new Pacmasque());
+		Gdx.gl = mock(GL20.class);
 	}
 
 }
