@@ -8,20 +8,20 @@
 
 package fr.ul.pacmasque.util;
 
+import fr.ul.pacmasque.PacmasqueTest;
 import fr.ul.pacmasque.exception.LabyrinthConstructorException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class LabyrinthConstructorTest {
+class LabyrinthConstructorTest extends PacmasqueTest {
 	private LabyrinthConstructor constructor;
 	private String binaryLaby;
 
 	@BeforeEach
 	void setUp() {
 		this.constructor = new LabyrinthConstructor();
-
 		this.binaryLaby = "0111\n" +
 				"0010\n" +
 				"0110\n" +
@@ -38,11 +38,6 @@ class LabyrinthConstructorTest {
 		// Comme build crée un Labyrinth, il a besoin des Textures
 		// Or pb de Gdx.files = null...
 		assertDoesNotThrow(() -> constructor.build(binaryLaby));
-	}
-
-	@Test
-	void buildWithKey() {
-		assertDoesNotThrow(() -> constructor.build(0));
 	}
 
 	@Test

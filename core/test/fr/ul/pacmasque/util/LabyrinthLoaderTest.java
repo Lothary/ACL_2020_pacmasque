@@ -9,6 +9,7 @@
 package fr.ul.pacmasque.util;
 
 import com.badlogic.gdx.Gdx;
+import fr.ul.pacmasque.PacmasqueTest;
 import fr.ul.pacmasque.exception.LabyrinthLoaderException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class LabyrinthLoaderTest {
+class LabyrinthLoaderTest extends PacmasqueTest {
 	private LabyrinthLoader loader;
 
 	@BeforeEach
