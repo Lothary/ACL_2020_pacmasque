@@ -33,12 +33,12 @@ public class TexturePackFactory {
 		return instance;
 	}
 
-	private final String path;
+	@Nullable private final FileHandle path;
 
 	@NotNull private final Map<String, TexturePack> cache;
 
 	private TexturePackFactory(String path) {
-		this.path = path;
+		this.path = Gdx.files.internal(path);
 		this.cache = new HashMap<>();
 	}
 
@@ -55,14 +55,18 @@ public class TexturePackFactory {
 			return this.cache.get(packName);
 		}
 
-		FileHandle handle = Gdx.files.internal(this.path + "/" + packName);
+		if (this.path == null) {
+			return null;
+		}
+
+		FileHandle handle = this.path.child(packName);
 
 		// Est ce que la cible existe ?
 		if (!handle.exists()) {
 			return null;
 		}
 
-		TexturePack texturePack = new TexturePack(packName);
+		TexturePack texturePack = new TexturePack(handle);
 		this.cache.put(packName, texturePack);
 
 		return texturePack;

@@ -8,25 +8,27 @@
 
 package fr.ul.pacmasque.util;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import fr.ul.pacmasque.exception.TextureException;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class TexturePack {
-	private final Map<String, String> resources;
-	private final String packName;
 
-	public TexturePack(String packName){
-		resources = new HashMap<>();
-		this.packName = packName;
-		String path = "packs/" + packName + "/";
-		resources.put("pacman", path+"pacman.png");
-		resources.put("stone", path+"stone.png");
-		resources.put("monster", path+"monster.png");
-		resources.put("pastille", path+"pastille.png");
+	@NotNull private final Map<String, String> resources;
+	private final FileHandle handle;
+
+	public TexturePack(FileHandle handle) {
+		this.resources = new HashMap<>();
+		this.handle = handle;
+
+		this.resources.put("pacman", "pacman.png");
+		this.resources.put("stone", "stone.png");
+		this.resources.put("monster", "monster.png");
+		this.resources.put("pastille", "pastille.png");
 	}
 
 	/**
@@ -38,15 +40,20 @@ public class TexturePack {
 	 * texture -> peut être dû à une faute dans "name"
 	 * ou la texture n'existe pas.
 	 */
-	public Texture get(String name) throws TextureException {
-		Texture texture;
-		if (resources.containsKey(name)){
-			String path = resources.get(name);
-			texture = new Texture(Gdx.files.internal(path));
+	@NotNull public Texture get(String name) throws TextureException {
+
+		if (!this.resources.containsKey(name)) {
+			throw new TextureException("La texture \"" + name + "\" n'est pas une resource disponible");
 		}
-		else{
-			throw new TextureException("La texture de "+name+" dans le pack "+packName+" n'a pas été trouvée.");
+
+		String textureName = this.resources.get(name);
+
+		final FileHandle textureHandle = this.handle.child(textureName);
+
+		if (!textureHandle.exists()) {
+			throw new TextureException("La texture \"" + name + "\" n'a pas été trouvée dans le pack \"" + this.handle.name() + "\"");
 		}
-		return texture;
+
+		return new Texture(textureHandle);
 	}
 }
