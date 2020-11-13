@@ -33,7 +33,7 @@ public class GameView extends View implements InputProcessor {
 	 * @param world un monde
 	 */
 	public GameView(World world) {
-		super(world.getWidth(),world.getHeight(), null);
+		super(world.getWidth(),world.getHeight(), null, null);
 		this.world = world;
 	}
 

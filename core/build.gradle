@@ -2,6 +2,7 @@ sourceCompatibility = 1.8
 dependencies {
     implementation 'org.junit.jupiter:junit-jupiter:5.4.2'
     implementation 'org.jetbrains:annotations:19.0.0'
+    implementation 'org.junit.jupiter:junit-jupiter:5.4.2'
 }
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
@@ -14,7 +15,7 @@ sourceSets {
     test {
         java {
             srcDirs = [ "test/" ]
-            resources.srcDirs = [ "testsAssets/" ]
+            resources.srcDirs = [ "assets/" ]
         }
     }
 }

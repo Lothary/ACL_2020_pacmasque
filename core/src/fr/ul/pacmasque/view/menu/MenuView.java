@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import fr.ul.pacmasque.view.View;
+import fr.ul.pacmasque.view.hierarchy.NavigationController;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,8 +29,8 @@ public abstract class MenuView extends View {
 	 */
 	private final Skin skin;
 
-	public MenuView(float viewportWidth, float viewportHeight, @NotNull Skin skin, @Nullable Color clearColor) {
-		super(viewportWidth, viewportHeight, clearColor);
+	public MenuView(float viewportWidth, float viewportHeight, @NotNull Skin skin, @Nullable Color clearColor, @Nullable NavigationController<View> navigationController) {
+		super(viewportWidth, viewportHeight, clearColor, navigationController);
 
 		this.stage = new Stage(this.getViewport(), this.getBatch());
 		this.skin = skin;
@@ -61,6 +62,12 @@ public abstract class MenuView extends View {
 	@Override
 	public void update(float delta) {
 		this.stage.act();
+	}
+
+	@Override
+	public void resume() {
+		super.resume();
+		Gdx.input.setInputProcessor(this.getStage());
 	}
 
 	@Override

@@ -2,13 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/ACL-2020-pacmasque.iml" filepath="$PROJECT_DIR$/.idea/ACL-2020-pacmasque.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/ACL-2020-pacmasque.core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/ACL-2020-pacmasque.core.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/ACL-2020-pacmasque.core.main.iml" filepath="$PROJECT_DIR$/.idea/modules/core/ACL-2020-pacmasque.core.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/ACL-2020-pacmasque.core.test.iml" filepath="$PROJECT_DIR$/.idea/modules/core/ACL-2020-pacmasque.core.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/ACL-2020-pacmasque.desktop.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/ACL-2020-pacmasque.desktop.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/ACL-2020-pacmasque.desktop.main.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/ACL-2020-pacmasque.desktop.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/ACL-2020-pacmasque.desktop.test.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/ACL-2020-pacmasque.desktop.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ACL_2020_pacmasque.iml" filepath="$PROJECT_DIR$/.idea/ACL_2020_pacmasque.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/ACL_2020_pacmasque.core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/ACL_2020_pacmasque.core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/ACL_2020_pacmasque.core.main.iml" filepath="$PROJECT_DIR$/.idea/modules/core/ACL_2020_pacmasque.core.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/ACL_2020_pacmasque.core.test.iml" filepath="$PROJECT_DIR$/.idea/modules/core/ACL_2020_pacmasque.core.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/ACL_2020_pacmasque.desktop.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/ACL_2020_pacmasque.desktop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/ACL_2020_pacmasque.desktop.main.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/ACL_2020_pacmasque.desktop.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/ACL_2020_pacmasque.desktop.test.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/ACL_2020_pacmasque.desktop.test.iml" />
     </modules>
   </component>
 </project>

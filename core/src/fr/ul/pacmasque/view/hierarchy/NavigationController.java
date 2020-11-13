@@ -23,16 +23,18 @@ import fr.ul.pacmasque.view.hierarchy.transition.Transition;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 
 public class NavigationController<S extends View> implements ApplicationListener {
 
-	private final Batch batch = new SpriteBatch();
 	private final Queue<Pair<@NotNull S, @Nullable Transition>> transitionQueue = new LinkedList<>();
-	private final Color clearColor = Color.BLUE;
 	private FrameBuffer currFBO;
 	private FrameBuffer lastFBO;
+
+	@NotNull private final Stack<S> viewStack;
 
 	private int width;
 	private int height;
@@ -46,6 +48,9 @@ public class NavigationController<S extends View> implements ApplicationListener
 		this.width = width;
 		this.height = height;
 
+		this.viewStack = new Stack<S>();
+		this.viewStack.add(this.currentScreen);
+
 		initBuffers();
 	}
 
@@ -55,7 +60,12 @@ public class NavigationController<S extends View> implements ApplicationListener
 	}
 
 	public void popScreen() {
-
+		this.viewStack.pop();
+		S view = this.viewStack.peek();
+		if (view != null) {
+			this.currentScreen = view;
+			this.currentScreen.resume();
+		}
 	}
 
 	@Override
@@ -99,7 +109,9 @@ public class NavigationController<S extends View> implements ApplicationListener
 				this.previousScreen = this.currentScreen;
 				this.currentScreen = nextTransition.first();
 
+				this.previousScreen.pause();
 				this.currentScreen.show();
+				this.viewStack.add(this.currentScreen);
 				this.ongoingTransition = nextTransition.second();
 
 				if (this.ongoingTransition == null) {

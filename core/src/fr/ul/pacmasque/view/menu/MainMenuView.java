@@ -15,11 +15,15 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import fr.ul.pacmasque.view.View;
+import fr.ul.pacmasque.view.hierarchy.NavigationController;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class MainMenuView extends MenuView {
+
+	private MenuView newWorldMenu;
 
 	/**
 	 * Crée une vue de taille donnée
@@ -27,8 +31,10 @@ public class MainMenuView extends MenuView {
 	 * @param viewportWidth  la largeur du viewport
 	 * @param viewportHeight la hauteur du viewport
 	 */
-	public MainMenuView(float viewportWidth, float viewportHeight, @NotNull Skin skin, @Nullable Color clearColor) {
-		super(viewportWidth, viewportHeight, skin, clearColor);
+	public MainMenuView(float viewportWidth, float viewportHeight, @NotNull Skin skin, @Nullable Color clearColor, @Nullable NavigationController<View> navigationController) {
+		super(viewportWidth, viewportHeight, skin, clearColor, navigationController);
+
+		this.newWorldMenu = new NewWorldMenuView(viewportWidth, viewportHeight, skin, clearColor, navigationController);
 	}
 
 	@Override
@@ -55,7 +61,10 @@ public class MainMenuView extends MenuView {
 		newWorldButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				// Afficher NewWorldMenuView
+				NavigationController<View> navigationController = getNavigationController();
+				if (navigationController != null) {
+					navigationController.pushScreen(newWorldMenu, null);
+				}
 			}
 		});
 

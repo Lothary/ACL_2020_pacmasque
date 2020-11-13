@@ -62,7 +62,9 @@ project(":core") {
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         compile group: 'org.json', name: 'json', version: '20200518'
-        
+        api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
     }
 
     test {

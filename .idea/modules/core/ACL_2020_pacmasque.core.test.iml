@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4">
+  <component name="ExternalSystem" externalSystem="GRADLE" externalSystemModuleGroup="ACL_2020_pacmasque" externalSystemModuleType="sourceSet" externalSystemModuleVersion="1.0" linkedProjectId=":core:test" linkedProjectPath="$MODULE_DIR$/../../../core" rootProjectPath="$MODULE_DIR$/../../.." />
+  <component name="NewModuleRootManager">
+    <output-test url="file://$MODULE_DIR$/../../../core/build/classes/java/test" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../core/assets">
+      <sourceFolder url="file://$MODULE_DIR$/../../../core/assets" type="java-test-resource" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../../core/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../../core/test" isTestSource="true" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="ACL_2020_pacmasque.core.main" />
+    <orderEntry type="library" name="Gradle: com.badlogicgames.gdx:gdx-box2d:1.9.11" level="project" />
+    <orderEntry type="library" name="Gradle: com.badlogicgames.gdx:gdx-freetype:1.9.11" level="project" />
+    <orderEntry type="library" name="Gradle: com.badlogicgames.gdx:gdx-backend-lwjgl:1.9.11" level="project" />
+    <orderEntry type="library" name="Gradle: com.badlogicgames.gdx:gdx-backend-headless:1.9.11" level="project" />
+    <orderEntry type="library" name="Gradle: com.badlogicgames.gdx:gdx:1.9.11" level="project" />
+    <orderEntry type="library" name="Gradle: com.badlogicgames.gdx:gdx-platform:natives-desktop:1.9.11" level="project" />
+    <orderEntry type="library" name="Gradle: org.json:json:20200518" level="project" />
+    <orderEntry type="library" name="Gradle: org.junit.jupiter:junit-jupiter:5.4.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains:annotations:19.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.lwjgl.lwjgl:lwjgl_util:2.9.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.lwjgl.lwjgl:lwjgl:2.9.3" level="project" />
+    <orderEntry type="library" name="Gradle: com.badlogicgames.jlayer:jlayer:1.0.1-gdx" level="project" />
+    <orderEntry type="library" name="Gradle: org.jcraft:jorbis:0.0.17" level="project" />
+    <orderEntry type="library" name="Gradle: org.junit.jupiter:junit-jupiter-params:5.4.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.4.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.lwjgl.lwjgl:lwjgl-platform:natives-linux:2.9.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.lwjgl.lwjgl:lwjgl-platform:natives-osx:2.9.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.lwjgl.lwjgl:lwjgl-platform:natives-windows:2.9.3" level="project" />
+    <orderEntry type="library" name="Gradle: net.java.jinput:jinput:2.0.5" level="project" />
+    <orderEntry type="library" name="Gradle: org.apiguardian:apiguardian-api:1.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.junit.platform:junit-platform-commons:1.4.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.opentest4j:opentest4j:1.1.1" level="project" />
+    <orderEntry type="library" name="Gradle: net.java.jutils:jutils:1.0.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.4.2" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.junit.platform:junit-platform-engine:1.4.2" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: net.java.jinput:jinput-platform:natives-linux:2.0.5" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: net.java.jinput:jinput-platform:natives-osx:2.0.5" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: net.java.jinput:jinput-platform:natives-windows:2.0.5" level="project" />
+  </component>
+  <component name="TestModuleProperties" production-module="ACL_2020_pacmasque.core.main" />
+</module>

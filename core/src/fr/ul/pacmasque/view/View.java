@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import fr.ul.pacmasque.view.hierarchy.NavigationController;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,32 +29,41 @@ import org.jetbrains.annotations.Nullable;
 public abstract class View extends ScreenAdapter implements InputProcessor {
 
 	public static final boolean DEBUG = true;
-	public static final Color DEFAULT_CLEAR_COLOR = Color.BLACK;
+	@NotNull public static final Color DEFAULT_CLEAR_COLOR = Color.BLACK;
 
 	/**
 	 * Le batch de la vue
 	 */
-	private final Batch batch;
+	@NotNull private final Batch batch;
 
 	/**
 	 * La camera de la vue
 	 */
-	private final Camera camera;
+	@NotNull private final Camera camera;
 
 	/**
 	 * Le viewport de la vue
 	 */
-	private final Viewport viewport;
+	@NotNull private final Viewport viewport;
 
-	private final Color clearColor;
+	/**
+	 * Couleur de fond
+	 */
+	@NotNull private final Color clearColor;
+
+	/**
+	 * Contrôleur de navigation
+	 */
+	@Nullable private final NavigationController<View> navigationController;
 
 	/**
 	 * Crée une vue de taille donnée, avec une couleur de fond noir
 	 * @param viewportWidth la largeur du viewport
 	 * @param viewportHeight la hauteur du viewport
 	 * @param clearColor la couleur de fond
+	 * @param navigationController le contrôleur de navigation
 	 */
-	public View(float viewportWidth, float viewportHeight, @Nullable Color clearColor) {
+	public View(float viewportWidth, float viewportHeight, @Nullable Color clearColor, @Nullable NavigationController<View> navigationController) {
 		this.batch = new SpriteBatch();
 
 		OrthographicCamera camera = new OrthographicCamera();
@@ -67,34 +77,43 @@ public abstract class View extends ScreenAdapter implements InputProcessor {
 		} else {
 			this.clearColor = View.DEFAULT_CLEAR_COLOR;
 		}
+
+		this.navigationController = navigationController;
 	}
 
 	/**
 	 * @return le batch de la vue
 	 */
-	public Batch getBatch() {
+	public @NotNull Batch getBatch() {
 		return this.batch;
 	}
 
 	/**
 	 * @return la camera de la vue
 	 */
-	public Camera getCamera() {
+	public @NotNull Camera getCamera() {
 		return this.camera;
 	}
 
 	/**
 	 * @return le viewport de la vue
 	 */
-	public Viewport getViewport() {
+	public @NotNull Viewport getViewport() {
 		return this.viewport;
 	}
 
 	/**
 	 * @return la couleur de fond
 	 */
-	public Color getClearColor() {
+	public @NotNull Color getClearColor() {
 		return this.clearColor;
+	}
+
+	/**
+	 * @return le contrôleur de navigation, si présent
+	 */
+	public NavigationController<View> getNavigationController() {
+		return this.navigationController;
 	}
 
 	@Override
