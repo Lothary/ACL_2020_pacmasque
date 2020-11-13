@@ -8,7 +8,6 @@
 
 package fr.ul.pacmasque.view;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -36,7 +35,6 @@ public class GameView extends View implements InputProcessor {
 	public GameView(World world) {
 		super(world.getWidth(),world.getHeight());
 		this.world = world;
-		Gdx.input.setInputProcessor(this);
 	}
 
 	@Override
@@ -104,6 +102,7 @@ public class GameView extends View implements InputProcessor {
 
 		Batch batch = getBatch();
 		Viewport viewport = this.getViewport();
+
 		batch.begin();
 		this.world.draw(batch, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
 		batch.end();
