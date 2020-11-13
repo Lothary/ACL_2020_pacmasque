@@ -20,6 +20,10 @@ import fr.ul.pacmasque.model.World;
  */
 public class GameView extends View implements InputProcessor {
 
+	public World getWorld() {
+		return world;
+	}
+
 	/**
 	 * le monde de la vue
 	 */

@@ -24,6 +24,11 @@ import java.util.List;
 public class Labyrinth implements Drawable {
 	private final int width;
 	private final int height;
+
+	public List<Vector2> getWalls() {
+		return positionsMurs;
+	}
+
 	private final List<Vector2> positionsMurs;
 	private Texture texture;
 
@@ -47,7 +52,11 @@ public class Labyrinth implements Drawable {
 	 */
 	public void setMur(int x, int y) {
 		if (this.inRange(x, y)) {
-			positionsMurs.add(new Vector2(x, y));
+			Vector2 vector2 = new Vector2(x, y);
+			if (this.positionsMurs.contains(vector2))
+				this.positionsMurs.remove(vector2);
+			else
+				positionsMurs.add(vector2);
 		}
 	}
 
@@ -93,4 +102,5 @@ public class Labyrinth implements Drawable {
 	public void draw(Batch batch, float x, float y, float width, float height) {
 		this.positionsMurs.forEach(pos -> batch.draw(texture, pos.x, pos.y, 1,1));
 	}
+
 }

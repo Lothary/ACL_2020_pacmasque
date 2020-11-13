@@ -8,6 +8,8 @@
 
 package fr.ul.pacmasque.entity;
 
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -20,15 +22,13 @@ import java.util.List;
 
 public class BasicPlayer implements Player{
 
-	private Vector2 position;
+	private final Vector2 position;
 	private int lifePoints;
-	private Vector2 nextPosition;
+	private final Vector2 nextPosition;
 	private Texture texture;
 
 	private boolean moving;
-	private List<Integer> movesList;
-
-
+	private final List<Integer> movesList;
 
 	public BasicPlayer(int x, int y){
 		this.lifePoints = 3;
@@ -44,7 +44,6 @@ public class BasicPlayer implements Player{
 		}
 	}
 
-
 	public float getNextPositionX(){return this.nextPosition.x;}
 	public float getNextPositionY(){return this.nextPosition.y;}
 
@@ -56,8 +55,6 @@ public class BasicPlayer implements Player{
 		batch.draw(texture, this.position.x, this.position.y, 1, 1);
 		updateMovement();
 	}
-
-
 
 	private void updateMovement(){
 		//Si la liste des mouvements n'est pas vide, ajoute ce mouvement à la position du personnage
@@ -87,14 +84,10 @@ public class BasicPlayer implements Player{
 		return this.position;
 	}
 
-
 	//Ajoute le mouvement dir, x fois
 	public void addMouvement(int dir, int x){
 		for(int i = 1 ; i <= x ; i++)
 			this.movesList.add(dir);
 	}
-
-
-
 
 }
