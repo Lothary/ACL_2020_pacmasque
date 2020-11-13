@@ -8,12 +8,12 @@
 
 package fr.ul.pacmasque.entity;
 
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import fr.ul.pacmasque.exception.TextureException;
+import fr.ul.pacmasque.util.TexturePackFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,12 @@ public class BasicPlayer implements Player{
 		this.nextPosition = new Vector2(x,y);
 		moving = false;
 		movesList = new ArrayList<>();
-		texture = new Texture(Gdx.files.internal("badlogic.jpg"));
+
+		try {
+			this.texture = TexturePackFactory.getInstance().getTexturePack("basePack").get("pacman");
+		} catch (TextureException e) {
+			e.printStackTrace();
+		}
 	}
 
 

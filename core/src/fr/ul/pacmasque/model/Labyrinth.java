@@ -8,11 +8,12 @@
 
 package fr.ul.pacmasque.model;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import fr.ul.pacmasque.Drawable;
+import fr.ul.pacmasque.exception.TextureException;
+import fr.ul.pacmasque.util.TexturePackFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +25,18 @@ public class Labyrinth implements Drawable {
 	private final int width;
 	private final int height;
 	private final List<Vector2> positionsMurs;
-
-	private final Texture texture = new Texture(Gdx.files.internal("packs.basepack/stone_1.png"));
+	private Texture texture;
 
 	public Labyrinth(int width, int height) {
 		this.width = width;
 		this.height = height;
 		this.positionsMurs = new ArrayList<>();
+
+		try {
+			this.texture = TexturePackFactory.getInstance().getTexturePack("basePack").get("stone");
+		} catch (TextureException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
