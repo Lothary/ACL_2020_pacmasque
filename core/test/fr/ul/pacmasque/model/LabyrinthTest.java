@@ -8,13 +8,8 @@
 
 package fr.ul.pacmasque.model;
 
-import com.badlogic.gdx.backends.headless.HeadlessApplication;
-import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
-import com.badlogic.gdx.backends.headless.HeadlessNativesLoader;
 import com.badlogic.gdx.math.Vector2;
-import fr.ul.pacmasque.Pacmasque;
 import fr.ul.pacmasque.PacmasqueTest;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

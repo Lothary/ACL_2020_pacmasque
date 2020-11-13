@@ -9,6 +9,7 @@
 package fr.ul.pacmasque.entity;
 
 import com.badlogic.gdx.math.Vector2;
+import fr.ul.pacmasque.PacmasqueTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +17,7 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class BasicPlayerTest {
+class BasicPlayerTest extends PacmasqueTest {
 
 	private BasicPlayer player;
 	private Vector2 vector;
@@ -56,13 +57,13 @@ class BasicPlayerTest {
 	void setPositionX() {
 		int x = random.nextInt(100);
 		this.player.setNextPositionX(x);
-		assertEquals(x, this.player.getPosition().x);
+		assertEquals(x, this.player.getNextPositionX());
 	}
 
 	@Test
 	void setPositionY() {
 		int y = random.nextInt(100);
 		this.player.setNextPositionY(y);
-		assertEquals(y, this.player.getPosition().y);
+		assertEquals(y, this.player.getNextPositionY());
 	}
 }

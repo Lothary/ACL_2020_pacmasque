@@ -8,6 +8,7 @@
 
 package fr.ul.pacmasque.model;
 
+import fr.ul.pacmasque.PacmasqueTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +16,7 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class WorldTest {
+class WorldTest extends PacmasqueTest {
 
 	private final Random random = new Random(System.currentTimeMillis());
 	private int width;

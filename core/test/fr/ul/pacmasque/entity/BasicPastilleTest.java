@@ -9,6 +9,7 @@
 package fr.ul.pacmasque.entity;
 
 import com.badlogic.gdx.math.Vector2;
+import fr.ul.pacmasque.PacmasqueTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +17,7 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class BasicPastilleTest {
+class BasicPastilleTest extends PacmasqueTest {
 
 	private BasicPastille pastille;
 	private Vector2 vector;
