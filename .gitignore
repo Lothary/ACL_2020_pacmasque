@@ -3,7 +3,9 @@
 
 # Core
 /core/build
+/core/out
 
 # Desktop
 /desktop/build/
 /.gradle/
+/desktop/out
