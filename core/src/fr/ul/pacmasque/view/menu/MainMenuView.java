@@ -45,7 +45,7 @@ public class MainMenuView extends MenuView {
 	}
 
 	@Contract(pure = true)
-	private Table getMenuTable(@SuppressWarnings("SameParameterValue") boolean debug, @NotNull Skin skin) {
+	private Table getMenuTable(boolean debug, @NotNull Skin skin) {
 		Table table = new Table();
 		table.defaults().pad(10f);
 		table.setFillParent(true);
@@ -54,6 +54,7 @@ public class MainMenuView extends MenuView {
 
 		// Main label
 		Label label = new Label("PACMASQUE!", skin);
+		label.setDebug(debug);
 		label.setAlignment(Align.center);
 
 		// New world button

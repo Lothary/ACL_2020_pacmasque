@@ -10,6 +10,9 @@ package fr.ul.pacmasque.view;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.ul.pacmasque.model.World;
@@ -87,7 +90,14 @@ public class GameView extends View implements InputProcessor {
 
 	@Override
 	public boolean scrolled(int amount) {
-		return false;
+		Camera camera = getCamera();
+		if (camera instanceof OrthographicCamera) {
+			((OrthographicCamera) camera).zoom += amount / 100f;
+			camera.update();
+			getBatch().setProjectionMatrix(camera.combined);
+		}
+
+		return true;
 	}
 
 

@@ -14,6 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import fr.ul.pacmasque.model.Labyrinth;
+import fr.ul.pacmasque.model.World;
+import fr.ul.pacmasque.view.GameView;
 import fr.ul.pacmasque.view.View;
 import fr.ul.pacmasque.view.hierarchy.NavigationController;
 import org.jetbrains.annotations.NotNull;
@@ -30,14 +33,59 @@ public class NewWorldMenuView extends MenuView {
 
 		Skin skin = this.getSkin();
 
+		// Table setup
 		Table table = new Table();
 		table.defaults().pad(10f);
 		table.setFillParent(true);
 		table.setDebug(debug);
 		table.center();
 
-		TextButton button = new TextButton("Back", skin);
-		button.addListener(new ClickListener() {
+		// Title label
+		Label titleLabel = new Label("World name", skin);
+		titleLabel.setDebug(debug);
+		titleLabel.setAlignment(Align.left);
+
+		// Title text area
+		TextArea titleTextArea = new TextArea("New World", skin);
+		titleTextArea.setDebug(debug);
+		titleTextArea.setAlignment(Align.left);
+
+		// Title group
+		VerticalGroup titleGroup = new VerticalGroup();
+		titleGroup.setDebug(debug);
+		titleGroup.space(16f);
+		titleGroup.align(Align.left);
+		titleGroup.addActor(titleLabel);
+		titleGroup.addActor(titleTextArea);
+		titleGroup.expand().fill();
+
+		// Size label
+		Label sizeLabel = new Label("World size", skin);
+		sizeLabel.setDebug(debug);
+		sizeLabel.setAlignment(Align.left);
+
+		// Size check box
+		SelectBox<String> sizeSelectBox = new SelectBox<>(skin);
+		sizeSelectBox.setDebug(debug);
+		sizeSelectBox.setAlignment(Align.left);
+		sizeSelectBox.setItems("16x16", "32x32", "64x64");
+
+		// Size group
+		VerticalGroup sizeGroup = new VerticalGroup();
+		sizeGroup.setDebug(debug);
+		sizeGroup.space(16f);
+		sizeGroup.align(Align.left);
+		sizeGroup.addActor(sizeLabel);
+		sizeGroup.addActor(sizeSelectBox);
+		sizeGroup.expand().fill();
+
+		table.add(titleGroup).width(400).fillX();
+		table.add(sizeGroup).width(400).fillX();
+		table.row();
+
+		// Bakc button
+		TextButton backButton = new TextButton("Back", skin);
+		backButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				NavigationController<View> navigationController = getNavigationController();
@@ -47,29 +95,23 @@ public class NewWorldMenuView extends MenuView {
 			}
 		});
 
-		Label label = new Label("Nom du monde", skin);
-		label.setDebug(debug);
+		table.add(backButton).width(400).fillX();
 
-		TextArea textArea = new TextArea("New World", skin);
-		textArea.setDebug(debug);
-		textArea.setAlignment(Align.left);
+		TextButton createButton = new TextButton("Create", skin);
+		createButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				NavigationController<View> navigationController = getNavigationController();
+				if (navigationController != null) {
+					Labyrinth labyrinth = new Labyrinth(16,16);
+					World world = new World(labyrinth);
+					GameView gameView = new GameView(world);
+					navigationController.pushScreen(gameView, null);
+				}
+			}
+		});
 
-		VerticalGroup group = new VerticalGroup();
-		group.setDebug(debug);
-		group.space(10f);
-		group.align(Align.left);
-		group.addActor(button);
-		group.addActor(label);
-		group.addActor(textArea);
-		group.fill().expand();
-
-		table.add(group).expandX().width(300f);
-		table.row();
-
-		SelectBox<String> selectBox = new SelectBox<>(skin);
-		selectBox.setDebug(debug);
-		selectBox.setItems("16x16", "32x32", "64x64");
-		table.add(selectBox).expandX().width(300f);
+		table.add(createButton).width(400).fillX();
 
 		stage.addActor(table);
 	}

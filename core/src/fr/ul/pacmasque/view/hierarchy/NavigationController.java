@@ -48,7 +48,7 @@ public class NavigationController<S extends View> implements ApplicationListener
 		this.width = width;
 		this.height = height;
 
-		this.viewStack = new Stack<S>();
+		this.viewStack = new Stack<>();
 		this.viewStack.add(this.currentScreen);
 
 		initBuffers();

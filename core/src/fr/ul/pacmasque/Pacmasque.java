@@ -3,6 +3,7 @@ package fr.ul.pacmasque;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import fr.ul.pacmasque.view.SplashView;
 import fr.ul.pacmasque.view.View;
@@ -33,7 +34,7 @@ public class Pacmasque extends Game {
 		Skin skin = new Skin(skinFileHandle);
 
 		// Set up main menu view
-		@NotNull MenuView mainMenu = new MainMenuView(V_WIDTH, V_HEIGHT, skin, null, this.navigationController);
+		@NotNull MenuView mainMenu = new MainMenuView(V_WIDTH, V_HEIGHT, skin, Color.valueOf("#111111"), this.navigationController);
 
 		// Push the menu view on the view stack
 		this.navigationController.pushScreen(mainMenu, null);
