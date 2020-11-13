@@ -27,7 +27,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public abstract class View extends ScreenAdapter implements InputProcessor {
 
-	public static final boolean DEBUG = false;
+	public static final boolean DEBUG = true;
 	public static final Color DEFAULT_CLEAR_COLOR = Color.BLACK;
 
 	/**
