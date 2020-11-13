@@ -3,6 +3,10 @@ package fr.ul.pacmasque;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import fr.ul.pacmasque.view.menu.MainMenuView;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import fr.ul.pacmasque.exception.LabyrinthLoaderException;
 import fr.ul.pacmasque.model.Labyrinth;
@@ -15,6 +19,11 @@ import fr.ul.pacmasque.view.BuilderView;
 import fr.ul.pacmasque.view.GameView;
 import fr.ul.pacmasque.view.SplashView;
 import fr.ul.pacmasque.view.View;
+import fr.ul.pacmasque.view.menu.NewWorldMenuView;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 import fr.ul.pacmasque.view.hierarchy.NavigationController;
 import fr.ul.pacmasque.view.hierarchy.transition.BlendingTransition;
 import fr.ul.pacmasque.view.hierarchy.transition.Transition;
@@ -46,6 +55,20 @@ public class Pacmasque extends Game {
 				System.err.println(e.getMessage());
 			}
 		}
+		/*LabyrinthLoader loader = LabyrinthLoader.shared();
+		try {
+			Labyrinth labyrinth = loader.loadFile("labys.txt");
+			view = new GameView(new World(labyrinth));
+			this.setScreen(view);
+		} catch (LabyrinthLoaderException e) {
+			e.printStackTrace();
+			Gdx.app.exit();
+		}*/
+
+		FileHandle skinFileHandle = Gdx.files.internal("skin/craftacular/craftacular-ui.json");
+		Skin skin = new Skin(skinFileHandle);
+		Color color = new Color(.1f, .12f, .18f, 1);
+		setScreen(new NewWorldMenuView(V_WIDTH, V_HEIGHT, skin, color));
 
 		if (labyrinth == null) {
 			builderView = new BuilderView(25, 25);
