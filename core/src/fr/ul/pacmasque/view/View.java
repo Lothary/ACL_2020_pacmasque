@@ -78,6 +78,7 @@ public abstract class View extends ScreenAdapter implements InputProcessor {
 
 	@Override
 	public void show() {
+		Gdx.input.setInputProcessor(this);
 		this.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		this.batch.setProjectionMatrix(this.camera.combined);
 	}

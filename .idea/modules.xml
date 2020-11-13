@@ -9,10 +9,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/ACL-2020-pacmasque.desktop.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/ACL-2020-pacmasque.desktop.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/ACL-2020-pacmasque.desktop.main.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/ACL-2020-pacmasque.desktop.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/ACL-2020-pacmasque.desktop.test.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/ACL-2020-pacmasque.desktop.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/java.ACL-2020-pacmasque.core.main.iml" filepath="$PROJECT_DIR$/.idea/modules/core/java.ACL-2020-pacmasque.core.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/java.ACL-2020-pacmasque.core.test.iml" filepath="$PROJECT_DIR$/.idea/modules/core/java.ACL-2020-pacmasque.core.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/java.ACL-2020-pacmasque.desktop.main.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/java.ACL-2020-pacmasque.desktop.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/java.ACL-2020-pacmasque.desktop.test.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/java.ACL-2020-pacmasque.desktop.test.iml" />
     </modules>
   </component>
 </project>

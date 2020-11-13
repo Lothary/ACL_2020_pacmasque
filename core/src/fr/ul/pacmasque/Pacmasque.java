@@ -2,12 +2,18 @@ package fr.ul.pacmasque;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import fr.ul.pacmasque.exception.LabyrinthLoaderException;
 import fr.ul.pacmasque.model.Labyrinth;
 import fr.ul.pacmasque.model.World;
 import fr.ul.pacmasque.util.LabyrinthLoader;
+import fr.ul.pacmasque.util.encoder.Decoder;
+import fr.ul.pacmasque.util.encoder.DecoderException;
+import fr.ul.pacmasque.util.encoder.LabyrinthDecoder;
+import fr.ul.pacmasque.view.BuilderView;
 import fr.ul.pacmasque.view.GameView;
+import fr.ul.pacmasque.view.SplashView;
 import fr.ul.pacmasque.view.View;
 import fr.ul.pacmasque.view.hierarchy.NavigationController;
 import fr.ul.pacmasque.view.hierarchy.transition.BlendingTransition;
@@ -23,7 +29,8 @@ public class Pacmasque extends Game {
 	@Override
 	public void create() {
 		Gdx.graphics.setContinuousRendering(true);
-
+		Labyrinth labyrinth = null;
+		BuilderView builderView = null;
 		SplashView splashView = new SplashView(V_WIDTH, V_HEIGHT);
 
 		this.navigationController = new NavigationController<>(splashView, V_WIDTH, V_HEIGHT);
@@ -46,17 +53,8 @@ public class Pacmasque extends Game {
 			builderView = new BuilderView(labyrinth);
 		}
 
-		/*LabyrinthLoader loader = LabyrinthLoader.shared();
-		try {
-			Labyrinth labyrinth = loader.loadFile("labys.txt");
-			View view = new GameView(new World(labyrinth));
-
-			Transition transition = new BlendingTransition(new SpriteBatch(), 10);
-			this.navigationController.pushScreen(view, transition);
-		} catch (LabyrinthLoaderException e) {
-			e.printStackTrace();
-			Gdx.app.exit();
-		}
+		Transition transition = new BlendingTransition(new SpriteBatch(), 10);
+		this.navigationController.pushScreen(builderView, null);
 	}
 
 	@Override

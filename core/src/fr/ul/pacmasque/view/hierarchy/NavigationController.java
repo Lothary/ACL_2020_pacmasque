@@ -29,7 +29,7 @@ import java.util.Queue;
 public class NavigationController<S extends View> implements ApplicationListener {
 
 	private final Batch batch = new SpriteBatch();
-	private final Queue<Pair<S, Transition>> transitionQueue = new LinkedList<>();
+	private final Queue<Pair<@NotNull S, @Nullable Transition>> transitionQueue = new LinkedList<>();
 	private final Color clearColor = Color.BLUE;
 	private FrameBuffer currFBO;
 	private FrameBuffer lastFBO;
@@ -38,7 +38,7 @@ public class NavigationController<S extends View> implements ApplicationListener
 	private int height;
 
 	@Nullable private Transition ongoingTransition = null;
-	private S currentScreen;
+	@NotNull private S currentScreen;
 	@Nullable private S previousScreen = null;
 
 	public NavigationController(@NotNull S rootScreen, int width, int height) {
@@ -49,7 +49,7 @@ public class NavigationController<S extends View> implements ApplicationListener
 		initBuffers();
 	}
 
-	public void pushScreen(@NotNull S screen, Transition transition) {
+	public void pushScreen(@NotNull S screen, @Nullable Transition transition) {
 		this.transitionQueue.add(new Pair<>(screen, transition));
 		//this.deque.add(screen);
 	}
@@ -108,7 +108,6 @@ public class NavigationController<S extends View> implements ApplicationListener
 				} else {
 					this.ongoingTransition.reset();
 				}
-
 
 				// On a une transition, donc on render encore
 				this.render(delta);
