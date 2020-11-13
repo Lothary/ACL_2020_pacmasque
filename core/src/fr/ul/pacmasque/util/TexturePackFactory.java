@@ -8,18 +8,38 @@
 
 package fr.ul.pacmasque.util;
 
-public class TexturePackFactory {
-	private final TexturePack basePack;
-	private final TexturePack secondPack;
-	private static final TexturePackFactory instance = new TexturePackFactory();
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-	private TexturePackFactory(){
-		basePack = new TexturePack("basePack");
-		secondPack = new TexturePack("secondPack");
+import java.util.HashMap;
+import java.util.Map;
+
+public class TexturePackFactory {
+
+	public static final String DEFAULT_PATH = "packs";
+
+	/**
+	 * Instance partagée
+	 */
+	@Nullable private static TexturePackFactory instance = null;
+
+	@NotNull public static TexturePackFactory getInstance() {
+		if (instance == null) {
+			instance = new TexturePackFactory(DEFAULT_PATH);
+		}
+
+		return instance;
 	}
 
-	public static TexturePackFactory getInstance(){
-		return instance;
+	private final String path;
+
+	@NotNull private final Map<String, TexturePack> cache;
+
+	private TexturePackFactory(String path) {
+		this.path = path;
+		this.cache = new HashMap<>();
 	}
 
 	/**
@@ -28,16 +48,23 @@ public class TexturePackFactory {
 	 * Si le packName n'existe pas, on retourne le
 	 * TexturePack de base.
 	 */
-	public TexturePack getTexturePack(String packName){
-		TexturePack texturePack;
-		switch (packName){
-			case "secondPack":
-				texturePack = this.secondPack;
-				break;
-			default:
-				texturePack = this.basePack;
-				break;
+	@Nullable public TexturePack getTexturePack(String packName) {
+
+		if (this.cache.containsKey(packName)) {
+			// Cached pack
+			return this.cache.get(packName);
 		}
+
+		FileHandle handle = Gdx.files.internal(this.path + "/" + packName);
+
+		// Est ce que la cible existe ?
+		if (!handle.exists()) {
+			return null;
+		}
+
+		TexturePack texturePack = new TexturePack(packName);
+		this.cache.put(packName, texturePack);
+
 		return texturePack;
 	}
 
