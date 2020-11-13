@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/ACL_2020_pacmasque.iml" filepath="$PROJECT_DIR$/.idea/ACL_2020_pacmasque.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ACL_2020_pacmasque.iml" filepath="$PROJECT_DIR$/.idea/modules/ACL_2020_pacmasque.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/ACL_2020_pacmasque.core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/ACL_2020_pacmasque.core.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/ACL_2020_pacmasque.core.main.iml" filepath="$PROJECT_DIR$/.idea/modules/core/ACL_2020_pacmasque.core.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/ACL_2020_pacmasque.core.test.iml" filepath="$PROJECT_DIR$/.idea/modules/core/ACL_2020_pacmasque.core.test.iml" />

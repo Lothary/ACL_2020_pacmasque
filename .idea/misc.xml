@@ -3,12 +3,6 @@
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/../.." />
   </component>
-  <component name="JavaScriptSettings">
-    <option name="languageLevel" value="ES6" />
-  </component>
-  <component name="LibGDXSkins">
-    <file url="file://$PROJECT_DIR$/core/assets/skin/craftacular/craftacular-ui.json" />
-  </component>
   <component name="LibGDXSkins">
     <file url="file://$PROJECT_DIR$/core/assets/skin/craftacular/craftacular-ui.json" />
   </component>

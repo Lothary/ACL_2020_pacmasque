@@ -9,3 +9,6 @@
 # Editor-based HTTP Client requests
 /httpRequests/
 
+/libraries
+/uiDesigner.xml
+/jsonSchemas.xml
