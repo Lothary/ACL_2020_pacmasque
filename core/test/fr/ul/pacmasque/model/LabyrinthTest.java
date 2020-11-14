@@ -15,8 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class LabyrinthTest extends PacmasqueTest {
 
@@ -39,6 +38,42 @@ class LabyrinthTest extends PacmasqueTest {
 		int y = random.nextInt(this.height);
 
 		this.labyrinth.setMur(x, y);
+	}
+
+	@Test
+	void setMurRemoveMur() {
+		int x = random.nextInt(this.width);
+		int y = random.nextInt(this.height);
+
+		assertTrue(this.labyrinth.getWalls().isEmpty());
+
+		this.labyrinth.setMur(x, y);
+		assertFalse(this.labyrinth.getWalls().isEmpty());
+
+		this.labyrinth.setMur(x, y);
+		assertTrue(this.labyrinth.getWalls().isEmpty());
+	}
+
+	@Test
+	void setMurTwiceAndRemoveMur() {
+		int x = random.nextInt(this.width);
+		int y = random.nextInt(this.height);
+
+		assertTrue(this.labyrinth.getWalls().isEmpty());
+
+		this.labyrinth.setMur(x, y);
+		assertFalse(this.labyrinth.getWalls().isEmpty());
+
+		int dx = random.nextInt(this.width);
+		int dy = random.nextInt(this.height);
+
+		this.labyrinth.setMur(dx, dy);
+		assertFalse(this.labyrinth.getWalls().isEmpty());
+
+
+		this.labyrinth.setMur(x, y);
+		assertFalse(this.labyrinth.getWalls().isEmpty());
+		assertEquals(this.labyrinth.getWalls().size(), 1);
 	}
 
 	@Test
