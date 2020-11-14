@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class MainMenuView extends MenuView {
 
-	private MenuView newWorldMenu;
+	private final MenuView newWorldMenu;
 
 	/**
 	 * Crée une vue de taille donnée
