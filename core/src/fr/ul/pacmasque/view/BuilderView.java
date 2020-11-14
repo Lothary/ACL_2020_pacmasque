@@ -41,6 +41,17 @@ public class BuilderView extends GameView {
 	}
 
 	@Override
+	public void update(float delta) {
+		// TODO: Drag de la vue avec le pointeur
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		System.out.println("ScreenX: " + screenX + ", screenY: " + screenY + ", pointer: " + pointer);
+		return false;
+	}
+
+	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		Vector2 screenCoordinates = new Vector2(screenX, screenY);
 		Vector2 worldCoordinates = this.getViewport().unproject(screenCoordinates);
