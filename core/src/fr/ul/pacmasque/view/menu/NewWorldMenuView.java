@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import fr.ul.pacmasque.model.Labyrinth;
 import fr.ul.pacmasque.model.World;
+import fr.ul.pacmasque.view.BuilderView;
 import fr.ul.pacmasque.view.GameView;
 import fr.ul.pacmasque.view.View;
 import fr.ul.pacmasque.view.hierarchy.NavigationController;
@@ -83,7 +84,20 @@ public class NewWorldMenuView extends MenuView {
 		table.add(sizeGroup).width(400).fillX();
 		table.row();
 
-		// Bakc button
+		// Creative mode checkbox
+		CheckBox checkBox = new CheckBox("Creative mode: OFF", skin);
+		checkBox.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				checkBox.getText();
+				checkBox.setText("Creative mode: " + (checkBox.isChecked() ? "ON" : "OFF"));
+			}
+		});
+
+		table.add(checkBox).colspan(2).fillX();
+		table.row();
+
+		// Back button
 		TextButton backButton = new TextButton("Back", skin);
 		backButton.addListener(new ClickListener() {
 			@Override
@@ -103,9 +117,15 @@ public class NewWorldMenuView extends MenuView {
 			public void clicked(InputEvent event, float x, float y) {
 				NavigationController<View> navigationController = getNavigationController();
 				if (navigationController != null) {
-					Labyrinth labyrinth = new Labyrinth(16,16);
-					World world = new World(labyrinth);
-					GameView gameView = new GameView(world);
+					GameView gameView;
+					if (checkBox.isChecked()) {
+						gameView = new BuilderView(16, 16);
+					} else {
+						Labyrinth labyrinth = new Labyrinth(16,16);
+						World world = new World(labyrinth);
+						gameView = new GameView(world);
+					}
+
 					navigationController.pushScreen(gameView, null);
 				}
 			}
