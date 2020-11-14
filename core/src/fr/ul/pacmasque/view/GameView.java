@@ -123,7 +123,9 @@ public class GameView extends View implements InputProcessor {
 
 	@Override
 	public void update(float delta) {
-
+		Vector2 playerPosition = this.getWorld().getPlayer().getPosition();
+		this.getCamera().position.set(playerPosition, 0);
+		this.getCamera().update();
 	}
 
 	@Override
