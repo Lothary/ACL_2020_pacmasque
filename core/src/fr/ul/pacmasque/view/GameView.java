@@ -23,6 +23,10 @@ import fr.ul.pacmasque.model.World;
  */
 public class GameView extends View implements InputProcessor {
 
+	private static final float MAX_ZOOM = .25f;
+	private static final float MIM_ZOOM = 3f;
+	private static final float ZOOM_FACTOR = 100f;
+
 	public World getWorld() {
 		return world;
 	}
@@ -96,7 +100,19 @@ public class GameView extends View implements InputProcessor {
 	public boolean scrolled(int amount) {
 		Camera camera = getCamera();
 		if (camera instanceof OrthographicCamera) {
-			((OrthographicCamera) camera).zoom += amount / 100f;
+			OrthographicCamera orthographicCamera = (OrthographicCamera) camera;
+
+			orthographicCamera.zoom += amount / ZOOM_FACTOR;
+
+			if (orthographicCamera.zoom < MAX_ZOOM) {
+				orthographicCamera.zoom = MAX_ZOOM;
+			}
+
+			if (orthographicCamera.zoom > MIM_ZOOM) {
+				orthographicCamera.zoom = MIM_ZOOM;
+			}
+
+			System.out.println(orthographicCamera.zoom);
 			camera.update();
 			getBatch().setProjectionMatrix(camera.combined);
 		}
