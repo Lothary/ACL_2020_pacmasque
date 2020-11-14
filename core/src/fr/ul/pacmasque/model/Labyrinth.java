@@ -38,7 +38,7 @@ public class Labyrinth implements Drawable {
 		this.positionsMurs = new ArrayList<>();
 
 		try {
-			this.texture = TexturePackFactory.getInstance().getTexturePack("basePack").get("stone");
+			this.texture = TexturePackFactory.getInstance().getTexturePack("basepack").get("stone");
 		} catch (TextureException e) {
 			e.printStackTrace();
 		}

@@ -22,7 +22,7 @@ public class BasicMonster implements Monster {
 		this.position = new Vector2(x,y);
 
 		try {
-			this.texture = TexturePackFactory.getInstance().getTexturePack("secondPack").get("monster");
+			this.texture = TexturePackFactory.getInstance().getTexturePack("secondpack").get("monster");
 		} catch (TextureException e) {
 			e.printStackTrace();
 		}

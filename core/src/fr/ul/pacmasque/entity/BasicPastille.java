@@ -22,7 +22,7 @@ public class BasicPastille  implements Pastille {
 		this.position = new Vector2(x,y);
 
 		try {
-			this.texture = TexturePackFactory.getInstance().getTexturePack("basePack").get("pastille");
+			this.texture = TexturePackFactory.getInstance().getTexturePack("basepack").get("pastille");
 		} catch (TextureException e) {
 			e.printStackTrace();
 		}

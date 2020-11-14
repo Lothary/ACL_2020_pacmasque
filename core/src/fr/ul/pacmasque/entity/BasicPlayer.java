@@ -38,7 +38,7 @@ public class BasicPlayer implements Player{
 		movesList = new ArrayList<>();
 
 		try {
-			this.texture = TexturePackFactory.getInstance().getTexturePack("basePack").get("pacman");
+			this.texture = TexturePackFactory.getInstance().getTexturePack("basepack").get("pacman");
 		} catch (TextureException e) {
 			e.printStackTrace();
 		}
