@@ -1,48 +1,45 @@
 /*
  * GameView.java
- * ACL-2020-pacmasque
+ * ACL_2020_pacmasque
  *
- * Created by ValerieMarissens on 13/10/2020.
- * Copyright © 2020 ValerieMarissens. All rights reserved.
+ * Created by ugocottin on 15/11/2020.
+ * Copyright © 2020 ugocottin. All rights reserved.
  */
 
-package fr.ul.pacmasque.view;
+package fr.ul.pacmasque.view.game;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.ul.pacmasque.model.World;
+import fr.ul.pacmasque.view.hierarchy.PortedView;
+import org.jetbrains.annotations.NotNull;
 
-/**
- * Vue de jeu, affichant un monde
- */
-public class GameView extends View implements InputProcessor {
+public class GameView extends PortedView {
 
 	private static final float MAX_ZOOM = .25f;
 	private static final float MIM_ZOOM = 3f;
 	private static final float ZOOM_FACTOR = 100f;
 
-	public World getWorld() {
-		return world;
-	}
-
 	/**
 	 * le monde de la vue
 	 */
-	private final World world;
+	@NotNull private final World world;
 
 	/**
 	 * Crée une nouvelle vue pour un monde donné
 	 * @param world un monde
 	 */
-	public GameView(World world) {
-		super(world.getWidth(),world.getHeight(), null, null);
+	public GameView(@NotNull World world) {
+		super(world.getWidth(),world.getHeight(), null);
 		this.world = world;
+	}
+
+	public @NotNull World getWorld() {
+		return this.world;
 	}
 
 	@Override
@@ -62,41 +59,6 @@ public class GameView extends View implements InputProcessor {
 	}
 
 	@Override
-	public boolean shouldCenterCameraOnResize() {
-		return false;
-	}
-
-	@Override
-	public boolean keyUp(int keycode) {
-		return false;
-	}
-
-	@Override
-	public boolean keyTyped(char character) {
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		return false;
-	}
-
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		return false;
-	}
-
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		return false;
-	}
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		return false;
-	}
-
-	@Override
 	public boolean scrolled(int amount) {
 		Camera camera = getCamera();
 		if (camera instanceof OrthographicCamera) {
@@ -112,7 +74,6 @@ public class GameView extends View implements InputProcessor {
 				orthographicCamera.zoom = MIM_ZOOM;
 			}
 
-			System.out.println(orthographicCamera.zoom);
 			camera.update();
 			getBatch().setProjectionMatrix(camera.combined);
 		}
@@ -120,6 +81,18 @@ public class GameView extends View implements InputProcessor {
 		return true;
 	}
 
+	@Override
+	public boolean shouldCenterCameraOnResize() {
+		return false;
+	}
+
+	@Override
+	public void create() {
+		super.create();
+		Vector2 playerPosition = this.getWorld().getPlayer().getPosition();
+		this.getCamera().position.set(playerPosition, 0);
+		this.getCamera().update();
+	}
 
 	@Override
 	public void update(float delta) {
