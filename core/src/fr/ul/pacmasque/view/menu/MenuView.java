@@ -51,6 +51,11 @@ public abstract class MenuView extends View {
 	public abstract void build(Stage stage, boolean debug);
 
 	@Override
+	public boolean shouldCenterCameraOnResize() {
+		return true;
+	}
+
+	@Override
 	public void show() {
 		super.show();
 
@@ -74,5 +79,11 @@ public abstract class MenuView extends View {
 	public void render(float delta) {
 		super.render(delta);
 		this.stage.draw();
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		this.stage.dispose();
 	}
 }

@@ -169,4 +169,12 @@
 			}
 		}
 	}
+	com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
+		default: {
+			font: font,
+			checked: cell
+			up: button,
+			over: button-hover
+		}
+	}
 }

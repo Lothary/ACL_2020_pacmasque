@@ -11,9 +11,10 @@ package fr.ul.pacmasque.view;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.ul.pacmasque.model.World;
 
@@ -56,7 +57,10 @@ public class GameView extends View implements InputProcessor {
 		return true;
 	}
 
-
+	@Override
+	public boolean shouldCenterCameraOnResize() {
+		return false;
+	}
 
 	@Override
 	public boolean keyUp(int keycode) {

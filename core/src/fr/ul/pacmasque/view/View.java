@@ -17,7 +17,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.ul.pacmasque.view.hierarchy.NavigationController;
 import org.jetbrains.annotations.NotNull;
@@ -70,7 +70,7 @@ public abstract class View extends ScreenAdapter implements InputProcessor {
 		camera.setToOrtho(false, viewportWidth, viewportHeight);
 		this.camera = camera;
 
-		this.viewport = new FitViewport(viewportWidth, viewportHeight, this.camera);
+		this.viewport = new ExtendViewport(viewportWidth, viewportHeight, this.camera);
 
 		if (clearColor != null) {
 			this.clearColor = clearColor;
@@ -125,7 +125,8 @@ public abstract class View extends ScreenAdapter implements InputProcessor {
 
 	@Override
 	public void resize(int width, int height) {
-		this.viewport.update(width, height, false);
+		this.viewport.update(width, height, this.shouldCenterCameraOnResize());
+		this.batch.setProjectionMatrix(this.camera.combined);
 	}
 
 	@Override
@@ -150,6 +151,11 @@ public abstract class View extends ScreenAdapter implements InputProcessor {
 	 * @param delta un delta
 	 */
 	public abstract void update(float delta);
+
+	/**
+	 * @return si la caméra doit être centrée lors d'un redimensionnement
+	 */
+	public abstract boolean shouldCenterCameraOnResize();
 
 	/**
 	 * Indique si la vue dispose d'un input processor

@@ -38,6 +38,11 @@ public class SplashView extends View {
 	}
 
 	@Override
+	public boolean shouldCenterCameraOnResize() {
+		return true;
+	}
+
+	@Override
 	public void update(float delta) {
 		this.stage.act(delta);
 	}
@@ -51,7 +56,6 @@ public class SplashView extends View {
 		batch.begin();
 		batch.draw(this.texture, 0, 0);
 		batch.end();
-		//this.stage.draw();
 	}
 
 	@Override
