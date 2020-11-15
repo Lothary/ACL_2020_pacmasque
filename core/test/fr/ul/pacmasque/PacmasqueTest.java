@@ -17,8 +17,9 @@ import static org.mockito.Mockito.mock;
 public class PacmasqueTest {
 
 	static {
-		new HeadlessApplication(new Pacmasque());
 		Gdx.gl = mock(GL20.class);
+		Gdx.gl20 = mock(GL20.class);
+		new HeadlessApplication(new Pacmasque(Pacmasque.Environment.HEADLESS_TEST));
 	}
 
 }

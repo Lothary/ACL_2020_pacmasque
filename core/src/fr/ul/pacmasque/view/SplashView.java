@@ -10,10 +10,9 @@ package fr.ul.pacmasque.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import fr.ul.pacmasque.Pacmasque;
+import com.badlogic.gdx.utils.Align;
 import fr.ul.pacmasque.view.hierarchy.StageView;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,8 +33,8 @@ public class SplashView extends StageView {
 		splashTexture = new Texture(Gdx.files.internal("splashLogo.png"));
 		Image splashImage = new Image(splashTexture);
 
-		splashImage.setPosition((Pacmasque.V_WIDTH - splashTexture.getWidth()) / 2f,
-				(Pacmasque.V_HEIGHT - splashTexture.getHeight()) / 2f);
+		splashImage.setAlign(Align.center);
+		splashImage.setFillParent(true);
 
 		stage.addActor(splashImage);
 	}

@@ -14,8 +14,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import fr.ul.pacmasque.Pacmasque;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import static org.mockito.Mockito.mock;
 
 public abstract class PortedView extends BatchView {
 
@@ -30,7 +33,7 @@ public abstract class PortedView extends BatchView {
 	@NotNull private final Viewport viewport;
 
 	public PortedView(float viewportWidth, float viewportHeight, @Nullable Color backgroundColor) {
-		super(viewportWidth, viewportHeight, backgroundColor, new SpriteBatch());
+		super(viewportWidth, viewportHeight, backgroundColor, Pacmasque.ENVIRONMENT == Pacmasque.Environment.HEADLESS_TEST ? mock(SpriteBatch.class) : new SpriteBatch());
 
 		OrthographicCamera camera = new OrthographicCamera();
 		camera.setToOrtho(false, viewportWidth, viewportHeight);

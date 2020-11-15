@@ -13,7 +13,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import fr.ul.pacmasque.view.control.navigation.NavigationController;
-import fr.ul.pacmasque.view.control.navigation.NavigationViewController;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,7 +20,7 @@ public abstract class View extends Responder implements Screen {
 
 	@NotNull public static final Color DEFAULT_BACKGROUND_COLOR = Color.BLACK;
 
-	@NotNull public static final NavigationController<View> navigationController = new NavigationViewController(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+	@Nullable public NavigationController<View> navigationController;
 
 	private float width;
 	private float height;
@@ -37,7 +36,7 @@ public abstract class View extends Responder implements Screen {
 	private boolean paused;
 
 	@NotNull
-	public Color backgroundColor;
+	private final Color backgroundColor;
 
 	public View(float width, float height, @Nullable Color backgroundColor) {
 		this.width = width;
@@ -82,11 +81,16 @@ public abstract class View extends Responder implements Screen {
 	public abstract void update(float delta);
 
 	public void present(@NotNull View view) {
-		View.navigationController.present(view);
+		if (this.navigationController != null) {
+			view.navigationController = this.navigationController;
+			this.navigationController.present(view);
+		}
 	}
 
 	public void dismiss() {
-		View.navigationController.dismiss();
+		if (this.navigationController != null) {
+			this.navigationController.dismiss();
+		}
 	}
 
 	// Screen
