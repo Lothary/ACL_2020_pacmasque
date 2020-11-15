@@ -20,13 +20,11 @@ public class CollisionManager {
 	}
 
 	public boolean isCollision(Entity entity){
-
 		if(world.getPlayer().getPosition().x + 0.5f >= entity.getPosition().x && world.getPlayer().getPosition().x + 0.5f <= entity.getPosition().x + 1.0f){
 			if(world.getPlayer().getPosition().y + 0.5f >= entity.getPosition().y && world.getPlayer().getPosition().y + 0.5f <= entity.getPosition().y + 1.0f){
 				return true;
 			}
 		}
-
 		return false;
 	}
 
