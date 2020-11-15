@@ -84,6 +84,9 @@ public class BasicPlayer implements Player{
 		return this.position;
 	}
 
+	public void setPositionX(float pos){ this.position.x = pos; }
+	public void setPositionY(float pos){ this.position.y = pos; }
+
 	//Ajoute le mouvement dir, x fois
 	public void addMouvement(int dir, int x){
 		for(int i = 1 ; i <= x ; i++)

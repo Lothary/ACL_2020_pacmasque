@@ -126,6 +126,8 @@ public class GameView extends View implements InputProcessor {
 		Vector2 playerPosition = this.getWorld().getPlayer().getPosition();
 		this.getCamera().position.set(playerPosition, 0);
 		this.getCamera().update();
+
+		this.world.updateCollision();
 	}
 
 	@Override
@@ -138,5 +140,6 @@ public class GameView extends View implements InputProcessor {
 		batch.begin();
 		this.world.draw(batch, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
 		batch.end();
+
 	}
 }

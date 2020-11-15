@@ -20,6 +20,9 @@ public interface Player extends Entity {
 	void setNextPositionX(float x);
 	void setNextPositionY(float y);
 
+	void setPositionX(float x);
+	void setPositionY(float y);
+
 	void addMouvement(int direction, int number);
 
 

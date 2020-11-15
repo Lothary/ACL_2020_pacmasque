@@ -25,16 +25,22 @@ public class World implements Drawable {
 	}
 
 	private final Labyrinth labyrinth;
+	private CollisionManager collisionManager;
 
 	private final Player player;
 	private final List<Entity> entities;
 
 	public World(Labyrinth labyrinth) {
 		this.labyrinth = labyrinth;
-		this.player = new BasicPlayer(2, 2);
+		this.collisionManager = new CollisionManager(this);
 
+		this.player = new BasicPlayer(2, 2);
 		this.entities = new ArrayList<>();
-		this.entities.add(this.player);
+
+	}
+
+	public void addMonster(Monster monster){
+		entities.add(monster);
 	}
 
 	public int getWidth() {
@@ -45,8 +51,24 @@ public class World implements Drawable {
 		return this.labyrinth.getHeight();
 	}
 
+	public CollisionManager getCollisionManager(){return this.collisionManager; }
+
 	public Player getPlayer() {
 		return player;
+	}
+
+
+	public void updateCollision(){
+		boolean collision = false;
+
+		for(Entity e : this.entities){
+			collision = this.collisionManager.isCollision(e);
+			if(collision){
+				// System.out.println("collision");
+				// Ici mettre le résultat de la collision entre le player et l'entité
+				// Mort si monstre, Points si pastille ?
+			}
+		}
 	}
 
 	public void movePlayer(int direction) {
@@ -85,6 +107,9 @@ public class World implements Drawable {
 					break;
 			}
 		}
+
+
+
 
 
 	@Override
