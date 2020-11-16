@@ -10,6 +10,7 @@ package fr.ul.pacmasque.model;
 
 
 import com.badlogic.gdx.math.Vector2;
+import fr.ul.pacmasque.PacmasqueTest;
 import fr.ul.pacmasque.entity.BasicMonster;
 import fr.ul.pacmasque.entity.Entity;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +20,7 @@ import static com.badlogic.gdx.math.MathUtils.random;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class CollisionManagerTest {
+public class CollisionManagerTest extends PacmasqueTest {
 
 	private World world;
 	private int width;
