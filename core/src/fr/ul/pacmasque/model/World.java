@@ -12,6 +12,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import fr.ul.pacmasque.Drawable;
+import fr.ul.pacmasque.algorithm.AlgorithmRandom;
 import fr.ul.pacmasque.entity.*;
 import fr.ul.pacmasque.entity.BasicPlayer;
 
@@ -29,6 +30,7 @@ public class World implements Drawable {
 
 	private final Player player;
 	private final List<Entity> entities;
+	private final List<Monster> monsters;
 
 	public World(Labyrinth labyrinth) {
 		this.labyrinth = labyrinth;
@@ -36,10 +38,16 @@ public class World implements Drawable {
 
 		this.player = new BasicPlayer(2, 2);
 		this.entities = new ArrayList<>();
+		this.monsters = new ArrayList<>();
+
+		BasicMonster m1 = new BasicMonster(3,3);
+		m1.setAlgorithm(new AlgorithmRandom(this, m1));
+		this.addMonster(m1);
 
 	}
 
 	public void addMonster(Monster monster){
+		monsters.add(monster);
 		entities.add(monster);
 	}
 
@@ -110,6 +118,11 @@ public class World implements Drawable {
 
 
 
+	public void moveMonsters(){
+		for(Monster m : this.monsters){
+			m.getAlgorithm().tick();
+		}
+	}
 
 
 	@Override

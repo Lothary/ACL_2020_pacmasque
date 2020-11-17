@@ -127,6 +127,7 @@ public class GameView extends View implements InputProcessor {
 		this.getCamera().position.set(playerPosition, 0);
 		this.getCamera().update();
 
+		this.world.moveMonsters();
 		this.world.updateCollision();
 	}
 

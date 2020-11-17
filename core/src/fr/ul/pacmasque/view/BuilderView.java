@@ -43,6 +43,7 @@ public class BuilderView extends GameView {
 	@Override
 	public void update(float delta) {
 		// TODO: Drag de la vue avec le pointeur
+		this.getWorld().moveMonsters();
 		this.getWorld().updateCollision();
 	}
 

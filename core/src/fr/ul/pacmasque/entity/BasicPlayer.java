@@ -27,14 +27,12 @@ public class BasicPlayer implements Player{
 	private final Vector2 nextPosition;
 	private Texture texture;
 
-	private boolean moving;
 	private final List<Integer> movesList;
 
 	public BasicPlayer(int x, int y){
 		this.lifePoints = 3;
 		this.position = new Vector2(x,y);
 		this.nextPosition = new Vector2(x,y);
-		moving = false;
 		movesList = new ArrayList<>();
 
 		try {
