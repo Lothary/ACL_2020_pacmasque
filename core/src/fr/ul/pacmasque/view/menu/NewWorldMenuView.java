@@ -8,14 +8,21 @@
 
 package fr.ul.pacmasque.view.menu;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import fr.ul.pacmasque.exception.LabyrinthLoaderException;
 import fr.ul.pacmasque.model.Labyrinth;
 import fr.ul.pacmasque.model.World;
+import fr.ul.pacmasque.util.LabyrinthBuilder;
+import fr.ul.pacmasque.util.LabyrinthLoader;
+import fr.ul.pacmasque.util.encoder.Decoder;
+import fr.ul.pacmasque.util.encoder.LabyrinthDecoder;
 import fr.ul.pacmasque.view.game.BuilderView;
 import fr.ul.pacmasque.view.game.GameView;
 import fr.ul.pacmasque.view.hierarchy.StageView;
@@ -112,10 +119,24 @@ public class NewWorldMenuView extends StageView {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				GameView gameView;
+				Labyrinth labyrinth = null;
 				if (checkBox.isChecked()) {
 					gameView = new BuilderView(16, 16);
 				} else {
-					Labyrinth labyrinth = new Labyrinth(16,16);
+					FileHandle fileHandle = Gdx.files.internal("labys.txt");
+					if (fileHandle.exists()) {
+						LabyrinthLoader loader = LabyrinthLoader.shared();
+						try {
+							labyrinth = loader.loadFile("labys.txt");
+						} catch (LabyrinthLoaderException ignored) {
+
+						}
+					}
+
+					if (labyrinth == null) {
+						labyrinth = new Labyrinth(16,16);
+					}
+
 					World world = new World(labyrinth);
 					gameView = new GameView(world);
 				}
