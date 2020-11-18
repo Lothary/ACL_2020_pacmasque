@@ -26,8 +26,8 @@ class WorldTest extends PacmasqueTest {
 
 	@BeforeEach
 	void setUp() {
-		this.width = random.nextInt(100);
-		this.height = random.nextInt(100);
+		this.width = random.nextInt(100) + 3;
+		this.height = random.nextInt(100) + 3;
 
 		Labyrinth labyrinth = new Labyrinth(width, height);
 		this.world = new World(labyrinth);
