@@ -22,6 +22,6 @@ public interface LabyrinthGenerator {
 	 * @param height hauteur du labyrinthe
 	 * @return un labyrinthe
 	 */
-	Labyrinth generate(int width, int height);
+	Labyrinth generate(int width, int height) throws LabyrinthGeneratorException;
 
 }
