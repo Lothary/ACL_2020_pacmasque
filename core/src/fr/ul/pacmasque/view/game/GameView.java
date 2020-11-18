@@ -90,15 +90,19 @@ public class GameView extends PortedView {
 	public void create() {
 		super.create();
 		Vector2 playerPosition = this.getWorld().getPlayer().getPosition();
-		this.getCamera().position.set(playerPosition, 0);
-		this.getCamera().update();
+		Camera camera = this.getCamera();
+		camera.position.set(playerPosition, 0);
+		camera.update();
+		getBatch().setProjectionMatrix(camera.combined);
 	}
 
 	@Override
 	public void update(float delta) {
 		Vector2 playerPosition = this.getWorld().getPlayer().getPosition();
-		this.getCamera().position.set(playerPosition, 0);
-		this.getCamera().update();
+		Camera camera = this.getCamera();
+		camera.position.set(playerPosition, 0);
+		camera.update();
+		getBatch().setProjectionMatrix(camera.combined);
 
 		this.world.moveMonsters();
 		this.world.updateCollision();
