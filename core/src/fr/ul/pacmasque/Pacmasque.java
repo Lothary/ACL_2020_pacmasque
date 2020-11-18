@@ -33,7 +33,7 @@ public class Pacmasque extends Game {
 	public Pacmasque() {
 		this(Environment.PRODUCTION);
 	}
-	public Pacmasque(Environment environment) {
+	public Pacmasque(@NotNull Environment environment) {
 		Pacmasque.ENVIRONMENT = environment;
 		this.navigationViewController = new NavigationViewController(V_WIDTH, V_HEIGHT);
 	}
