@@ -12,8 +12,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import fr.ul.pacmasque.Drawable;
+import fr.ul.pacmasque.exception.LabyrinthConstructorException;
 import fr.ul.pacmasque.exception.TextureException;
 import fr.ul.pacmasque.util.TexturePackFactory;
+import org.jetbrains.annotations.Range;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +34,22 @@ public class Labyrinth implements Drawable {
 	private final List<Vector2> positionsMurs;
 	private Texture texture;
 
-	public Labyrinth(int width, int height) {
+	/**
+	 * Crée un labyrinthe vide de dimensions données
+	 * @param width la largeur du labyrinthe
+	 * @param height la hauteur du labyrinthe
+	 * @apiNote la taille du labyrinthe ne peut être inférieure à 3x3
+	 */
+	public Labyrinth(
+			@Range(from = 3, to = Integer.MAX_VALUE) int width,
+			@Range(from = 3, to = Integer.MAX_VALUE) int height) {
+
+
+		//noinspection ConstantConditions
+		if (width < 3 || height < 3) {
+			throw new IllegalArgumentException("Width and height should be more or equal than 3");
+		}
+
 		this.width = width;
 		this.height = height;
 		this.positionsMurs = new ArrayList<>();
@@ -94,7 +111,7 @@ public class Labyrinth implements Drawable {
 	 * @return si `x` et `y` sont dans le labyrinthe
 	 */
 	private boolean inRange(int x, int y) {
-		return x <= this.getWidth() && y <= this.getHeight() && x >= 0 && y >= 0;
+		return x < this.getWidth() && y < this.getHeight() && x >= 0 && y >= 0;
 
 	}
 

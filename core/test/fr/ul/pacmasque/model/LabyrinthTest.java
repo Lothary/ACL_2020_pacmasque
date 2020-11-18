@@ -27,9 +27,24 @@ class LabyrinthTest extends PacmasqueTest {
 
 	@BeforeEach
 	void setUp() {
-		this.width = random.nextInt(100);
-		this.height = random.nextInt(100);
+		this.width = random.nextInt(100) + 3;
+		this.height = random.nextInt(100) + 3;
 		this.labyrinth = new Labyrinth(width, height);
+	}
+
+	@Test
+	void setUpNegativeDimentions() {
+		assertThrows(IllegalArgumentException.class, () -> new Labyrinth(-1, -2));
+	}
+
+	@Test
+	void setUpTooSmallDimentions() {
+		assertThrows(IllegalArgumentException.class, () -> new Labyrinth(1, 2));
+	}
+
+	@Test
+	void setBigDimentions() {
+		new Labyrinth(1000, 20000);
 	}
 
 	@Test
@@ -88,8 +103,10 @@ class LabyrinthTest extends PacmasqueTest {
 
 	@Test
 	void getWidthNull() {
-		this.labyrinth = new Labyrinth(0, 5);
-		assertEquals(0, this.labyrinth.getWidth());
+		assertThrows(IllegalArgumentException.class, () -> {
+			this.labyrinth = new Labyrinth(0, 5);
+			assertEquals(0, this.labyrinth.getWidth());
+		});
 	}
 
 	@Test
@@ -99,8 +116,10 @@ class LabyrinthTest extends PacmasqueTest {
 
 	@Test
 	void getHeightNull() {
-		this.labyrinth = new Labyrinth(5, 0);
-		assertEquals(0, this.labyrinth.getHeight());
+		assertThrows(IllegalArgumentException.class, () -> {
+			this.labyrinth = new Labyrinth(5, 0);
+			assertEquals(0, this.labyrinth.getHeight());
+		});
 	}
 
 	@Test
