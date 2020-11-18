@@ -15,15 +15,14 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import fr.ul.pacmasque.view.View;
-import fr.ul.pacmasque.view.hierarchy.NavigationController;
+import fr.ul.pacmasque.view.hierarchy.StageView;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class MainMenuView extends MenuView {
+public class MainMenuView extends StageView {
 
-	private final MenuView newWorldMenu;
+	private final StageView newWorldMenu;
 
 	/**
 	 * Crée une vue de taille donnée
@@ -31,10 +30,10 @@ public class MainMenuView extends MenuView {
 	 * @param viewportWidth  la largeur du viewport
 	 * @param viewportHeight la hauteur du viewport
 	 */
-	public MainMenuView(float viewportWidth, float viewportHeight, @NotNull Skin skin, @Nullable Color clearColor, @Nullable NavigationController<View> navigationController) {
-		super(viewportWidth, viewportHeight, skin, clearColor, navigationController);
+	public MainMenuView(float viewportWidth, float viewportHeight, @Nullable Color clearColor, @NotNull Skin skin) {
+		super(viewportWidth, viewportHeight, clearColor, skin);
 
-		this.newWorldMenu = new NewWorldMenuView(viewportWidth, viewportHeight, skin, clearColor, navigationController);
+		this.newWorldMenu = new NewWorldMenuView(viewportWidth, viewportHeight, clearColor, skin);
 	}
 
 	@Override
@@ -62,10 +61,7 @@ public class MainMenuView extends MenuView {
 		newWorldButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				NavigationController<View> navigationController = getNavigationController();
-				if (navigationController != null) {
-					navigationController.pushScreen(newWorldMenu, null);
-				}
+				present(newWorldMenu);
 			}
 		});
 
@@ -81,7 +77,7 @@ public class MainMenuView extends MenuView {
 		exitButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Gdx.app.exit();
+				dismiss();
 			}
 		});
 

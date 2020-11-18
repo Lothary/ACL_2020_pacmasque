@@ -10,57 +10,40 @@ package fr.ul.pacmasque.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import fr.ul.pacmasque.Pacmasque;
+import com.badlogic.gdx.utils.Align;
+import fr.ul.pacmasque.view.hierarchy.StageView;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Écran de chargement du jeu
  */
-public class SplashView extends View {
+public class SplashView extends StageView {
 
-	private final Stage stage;
-	private final Texture texture;
+	@Nullable  private Texture splashTexture;
 
 	public SplashView(float viewPortWidth, float viewPortHeight) {
 		super(viewPortWidth, viewPortHeight, null, null);
-
-		this.stage = new Stage(this.getViewport());
-
-		texture = new Texture(Gdx.files.internal("splashLogo.png"));
-		Image splashImage = new Image(texture);
-		//texture.dispose();
-		splashImage.setPosition((Pacmasque.V_WIDTH - texture.getWidth()) / 2f,
-				(Pacmasque.V_HEIGHT - texture.getHeight()) / 2f);
-
-		this.stage.addActor(splashImage);
+		this.splashTexture = null;
 	}
 
 	@Override
-	public boolean shouldCenterCameraOnResize() {
-		return true;
-	}
+	public void build(Stage stage, boolean debug) {
+		splashTexture = new Texture(Gdx.files.internal("splashLogo.png"));
+		Image splashImage = new Image(splashTexture);
 
-	@Override
-	public void update(float delta) {
-		this.stage.act(delta);
-	}
+		splashImage.setAlign(Align.center);
+		splashImage.setFillParent(true);
 
-	@Override
-	public void render(float delta) {
-		super.render(delta);
-
-		Batch batch = this.getBatch();
-
-		batch.begin();
-		batch.draw(this.texture, 0, 0);
-		batch.end();
+		stage.addActor(splashImage);
 	}
 
 	@Override
 	public void dispose() {
 		super.dispose();
-		this.texture.dispose();
+		if (this.splashTexture != null) {
+			this.splashTexture.dispose();
+		}
 	}
 }

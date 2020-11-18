@@ -6,27 +6,46 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import fr.ul.pacmasque.view.SplashView;
-import fr.ul.pacmasque.view.View;
-import fr.ul.pacmasque.view.hierarchy.NavigationController;
+import fr.ul.pacmasque.view.control.navigation.NavigationController;
+import fr.ul.pacmasque.view.control.navigation.NavigationViewController;
+import fr.ul.pacmasque.view.hierarchy.StageView;
+import fr.ul.pacmasque.view.hierarchy.View;
 import fr.ul.pacmasque.view.menu.MainMenuView;
-import fr.ul.pacmasque.view.menu.MenuView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class Pacmasque extends Game {
 
+	public enum Environment {
+		PRODUCTION,
+		DEVELOPMENT,
+		HEADLESS_TEST
+	}
+
+	public static final boolean DEBUG = false;
+	@NotNull public static Environment ENVIRONMENT;
+
 	public static final int V_WIDTH = 1080;
 	public static final int V_HEIGHT = 720;
 
-	@Nullable private NavigationController<View> navigationController = null;
+	@NotNull private final NavigationController<View> navigationViewController;
+
+	public Pacmasque() {
+		this(Environment.PRODUCTION);
+	}
+	public Pacmasque(Environment environment) {
+		Pacmasque.ENVIRONMENT = environment;
+		this.navigationViewController = new NavigationViewController(V_WIDTH, V_HEIGHT);
+	}
 
 	@Override
 	public void create() {
 		Gdx.graphics.setContinuousRendering(true);
 
-		// Set up of the spash view
-		@NotNull View splashView = new SplashView(V_WIDTH, V_HEIGHT);
-		this.navigationController = new NavigationController<>(splashView, V_WIDTH, V_HEIGHT);
+		// Set up of the splash view
+		@NotNull StageView splashView = new SplashView(V_WIDTH, V_HEIGHT);
+		splashView.navigationController = this.navigationViewController;
+		this.navigationViewController.present(splashView);
 
 		// Retrieve the default skin
 		@Nullable FileHandle skinFileHandle = Gdx.files.internal("skin/craftacular/craftacular-ui.json");
@@ -34,46 +53,27 @@ public class Pacmasque extends Game {
 		Skin skin = new Skin(skinFileHandle);
 
 		// Set up main menu view
-		@NotNull MenuView mainMenu = new MainMenuView(V_WIDTH, V_HEIGHT, skin, Color.valueOf("#111111"), this.navigationController);
+		@NotNull StageView mainMenu = new MainMenuView(V_WIDTH, V_HEIGHT, Color.valueOf("#111111"), skin);
+		mainMenu.navigationController = this.navigationViewController;
 
 		// Push the menu view on the view stack
-		this.navigationController.pushScreen(mainMenu, null);
+		this.navigationViewController.present(mainMenu);
+	}
 
-		/*
-		Labyrinth labyrinth = null;
-		BuilderView builderView = null;
-
-		FileHandle fileHandle = Gdx.files.external("export.json");
-		if (fileHandle.exists() && !fileHandle.isDirectory()) {
-			byte[] content = fileHandle.readBytes();
-
-			Decoder<Labyrinth> decoder = new LabyrinthDecoder();
-			try {
-				labyrinth = decoder.decode(content);
-			} catch (DecoderException e) {
-				System.err.println(e.getMessage());
-			}
-		}
-
-		if (labyrinth == null) {
-			builderView = new BuilderView(25, 25);
-		} else {
-			builderView = new BuilderView(labyrinth);
-		}
-
-		//Transition transition = new BlendingTransition(new SpriteBatch(), 10);
-		//this.navigationController.pushScreen(builderView, null);*/
+	@Override
+	public void resize(int width, int height) {
+		this.navigationViewController.resize(width, height);
 	}
 
 	@Override
 	public void render() {
-		assert this.navigationController != null;
-		this.navigationController.render();
+		if (Pacmasque.ENVIRONMENT != Environment.HEADLESS_TEST) {
+			this.navigationViewController.render(Gdx.graphics.getDeltaTime());
+		}
 	}
 
 	@Override
 	public void dispose() {
-		assert this.navigationController != null;
-		this.navigationController.dispose();
+		this.navigationViewController.dispose();
 	}
 }

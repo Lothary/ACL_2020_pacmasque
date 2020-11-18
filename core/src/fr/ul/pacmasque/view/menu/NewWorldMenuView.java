@@ -16,17 +16,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import fr.ul.pacmasque.model.Labyrinth;
 import fr.ul.pacmasque.model.World;
-import fr.ul.pacmasque.view.BuilderView;
-import fr.ul.pacmasque.view.GameView;
-import fr.ul.pacmasque.view.View;
-import fr.ul.pacmasque.view.hierarchy.NavigationController;
+import fr.ul.pacmasque.view.game.BuilderView;
+import fr.ul.pacmasque.view.game.GameView;
+import fr.ul.pacmasque.view.hierarchy.StageView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class NewWorldMenuView extends MenuView {
+public class NewWorldMenuView extends StageView {
 
-	public NewWorldMenuView(float viewportWidth, float viewportHeight, @NotNull Skin skin, @Nullable Color clearColor, @Nullable NavigationController<View> navigationController) {
-		super(viewportWidth, viewportHeight, skin, clearColor, navigationController);
+	public NewWorldMenuView(float viewportWidth, float viewportHeight, @Nullable Color clearColor, @NotNull Skin skin) {
+		super(viewportWidth, viewportHeight, clearColor, skin);
 	}
 
 	@Override
@@ -102,10 +101,7 @@ public class NewWorldMenuView extends MenuView {
 		backButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				NavigationController<View> navigationController = getNavigationController();
-				if (navigationController != null) {
-					navigationController.popScreen();
-				}
+				dismiss();
 			}
 		});
 
@@ -115,19 +111,16 @@ public class NewWorldMenuView extends MenuView {
 		createButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				NavigationController<View> navigationController = getNavigationController();
-				if (navigationController != null) {
-					GameView gameView;
-					if (checkBox.isChecked()) {
-						gameView = new BuilderView(16, 16);
-					} else {
-						Labyrinth labyrinth = new Labyrinth(16,16);
-						World world = new World(labyrinth);
-						gameView = new GameView(world);
-					}
-
-					navigationController.pushScreen(gameView, null);
+				GameView gameView;
+				if (checkBox.isChecked()) {
+					gameView = new BuilderView(16, 16);
+				} else {
+					Labyrinth labyrinth = new Labyrinth(16,16);
+					World world = new World(labyrinth);
+					gameView = new GameView(world);
 				}
+
+				present(gameView);
 			}
 		});
 
