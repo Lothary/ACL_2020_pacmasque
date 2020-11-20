@@ -1,0 +1,178 @@
+@startuml
+package libgdx {
+    interface InputProcessor {
+        + boolean keyUp(int keycode)
+        + boolean keyDown(int keycode)
+        + boolean keyTyped(char character)
+        + boolean touchDown(int screenX, int screenY, int pointer, int button)
+    }
+
+    interface Screen {
+        + void hide()
+        + void resume()
+        + void pause()
+        + void render(float delta)
+        + void resize(int width, int height)
+        + void show()
+        + void dispose()
+    }
+
+    package utils {
+        interface Disposable {
+            + void dispose()
+        }
+    }
+}
+
+package pacmasque {
+    package model {
+        class World {}
+    }
+
+    package views {
+        package hierarchy {
+            package transition {
+                abstract class BatchTransition extends TimedTransition {
+                    - Batch batch
+                    + BatchTransition(Batch batch, float duration)
+                }
+
+                class BlendingTransition extends BatchTransition {
+                    + BlendingTransition(Batch batch, float duration)
+                }
+
+                abstract class TimedTransition extends Transition {
+                    - float duration
+                    - float elapsedTime
+                    + TimedTransition(float duration)
+                    + float progress()
+                }
+
+                abstract class Transition implements Disposable {
+                    - boolean initialized
+                    + void reset()
+                    + {abstract} void render(float delta, TextureRegion lastScreen, TextureRegion currScreen, float progress)
+                    + {abstract} void resize(int width, int height)
+                    + {abstract} boolean isDone()
+                }
+            }
+
+            abstract BatchView extends View implements Disposable {
+                - Batch batch
+                + BatchView(float width, float height, Color backgroundColor, Batch batch)
+            }
+
+            class EmptyView extends View {
+                + EmptyView(float width, float height, Color backgroundColor)
+            }
+
+            abstract PortedView extends BatchView {
+                - Camera camera
+                - Viewport viewport
+                + PortedView(float viewportWidth, float viewportHeight, Color backgroundColor)
+                + {abstract} boolean shouldCenterCameraOnResize()
+            }
+
+            abstract Responder implements InputProcessor {
+                - boolean _isFirstResponder
+                + void becomeFirstResponder()
+                + void resignFirstResponder()
+                - boolean dispatchEvent(Function<Responder, Boolean> callback)
+            }
+
+            abstract StageView extends PortedView {
+                - Stage stage
+                - Skin skin
+                + StageView(float viewportWidth, float viewportHeight, Color backgroundColor, Skin skin)
+                + {abstract} void build(Stage stage, boolean debug)
+            }
+
+            abstract View extends Responder implements Screen {
+                + View(float width, float height, Color backgroundColor)
+                + {abstract} void update(float delta)
+            }
+
+            View --"1" NavigationController
+        }
+
+        package control {
+            package controller {
+                class ViewController extends Responder {
+                    + ViewController(View view)
+                    + void viewDidLoad()
+                    + void viewWillAppear()
+                    + void viewDidAppear()
+                    + void viewWillDisappear()
+                    + void viewDidDisappear()
+                }
+            }
+
+            package navigation {
+                interface NavigationController extends Disposable {
+                    void present(S view)
+                    void dismiss()
+                    void render(float delta)
+                    void resize(int width, int height)
+                }
+
+                class NavigationViewController implements NavigationController {
+                    - Queue<View> presentingQueue
+                    - Queue<ViewController> dismissingQueue
+                    - Stack<ViewController> viewStack
+                    + NavigationViewController(float width, float height)
+                }
+            }
+        }
+
+        package game {
+            class BuilderView extends GameView {
+                - boolean ctrlDown
+                + BuilderView(int width, int height)
+                + BuilderView(Labyrinth labyrinth)
+                + boolean touchDown(int screenX, int screenY, int pointer, int button)
+            }
+
+            class GameView extends PortedView {
+                + GameView(World world)
+                + boolean keyDown(int keycode)
+                + boolean scrolled(int amount)
+                + boolean shouldCenterCameraOnResize()
+                + void create()
+                + void update(float delta)
+                + void render(float delta)
+            }
+
+            GameView --"1" World
+        }
+
+        package menu {
+            class MainMenuView extends StageView {
+                + MainMenuView(float viewportWidth, float viewportHeight, Color clearColor, Skin skin)
+                - Table getMenuTable(boolean debug, Skin skin)
+            }
+
+            class NewWorldMenuView extends StageView {
+                + NewWorldMenuView(float viewportWidth, float viewportHeight, Color clearColor, Skin skin)
+            }
+        }
+
+        MainMenuView --"1" StageView : newWorldMenu
+
+        package sprite {
+            class Sprite implements Drawable {
+                - List<TextureRegion> frames
+                + Sprite(TextureRegion textureRegion, int numberOfFrames, float cycleTime)
+            }
+        }
+
+        class SplashView extends StageView {
+            - Stage stage
+            - Texture texture
+            + SplashView(float viewPortWidth, float viewPortHeight)
+        }
+    }
+
+    PacMasque --"1" World
+    PacMasque --"1" NavigationController
+}
+@enduml

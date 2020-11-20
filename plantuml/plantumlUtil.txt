@@ -1,0 +1,105 @@
+@startuml
+package java {
+	package lang {
+		class Exception { }
+
+		interface Comparable {}
+	}
+}
+
+package pacmasque {
+    package util {
+        package encoder {
+            interface Codable{}
+
+            interface Decoder<T> extends Codable{
+                T decode(byte[] decodable) throws DecoderException
+            }
+
+            class DecoderException extends Exception{
+                + DecoderException(String message)
+            }
+
+            interface Encoder<T> extends Codable{
+                byte[] encode(T encodable)
+            }
+
+            class LabyrinthDecoder implements Decoder {
+                + Labyrinth decode(byte[] decodable)
+            }
+
+            class LabyrinthEncoder implements Encoder {
+                + byte[] encode(Labyrinth labyrinth)
+            }
+        }
+
+        package generator {
+            class Edge implements Comparable {
+                enum Direction
+                - int x
+                - int y
+                - Direction direction
+                + Edge(int x, int y, Direction direction)
+                + int compareTo(Edge o)
+            }
+
+            class KruskalGenerator implements LabyrinthGenerator {
+                - int seed
+                + KruskalGenerator(int seed)
+            }
+
+            interface LabyrinthGenerator {
+                Labyrinth generate(int width, int height) throws LabyrinthGeneratorException
+            }
+
+            class LabyrinthGeneratorException extends Exception {
+                - LabyrinthGenerator generator
+                LabyrinthGeneratorException(LabyrinthGenerator generator, int width, int height, String message)
+            }
+
+            class Tree implements Comparable {
+                - Tree root
+                + Tree()
+            }
+        }
+
+        interface LabyrinthBuilder {
+            Labyrinth build(String content) throws PacmasqueException
+        }
+
+        class LabyrinthConstructor implements LabyrinthBuilder {
+            - Map<Integer, String> labyrinths
+
+            + LabyrinthConstructor()
+        }
+
+        class LabyrinthLoader {
+            - {static} LabyrinthLoader _shared
+            + {static} LabyrinthLoader shared()
+            - String metaTag
+            - String delimiterIn
+            - String delimiterOut
+            - String lineSeparator
+            - String fieldSeparator
+
+            + LabyrinthLoader(String metaTag, String delimiterIn, String delimiterOut, String lineSeparator, String fieldSeparator)
+
+            - String inputDelimiter()
+            - String outputDelimiter()
+            + Labyrinth loadFile(String path) throws LabyrinthLoaderException
+        }
+
+        class TexturePack {
+             - Map<String, String> resources
+             + TexturePack(FileHandle handle)
+             + Texture get(String name)
+        }
+
+        class TexturePackFactory <<(S,#FF7700)>> {
+            + TexturePack getTexturePack(String name)
+        }
+
+        TexturePackFactory --"*" TexturePack
+    }
+}
+	@enduml
