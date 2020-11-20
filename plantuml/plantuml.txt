@@ -42,19 +42,32 @@ package pacmasque {
     package algorithm {
 
         abstract class Algorithm {
-            + Algorithm(World world, Monster monster)
+            + Algorithm(AlgorithmManager manager, Entity entity)
             + {abstract} tick()
         }
 
         class AlgorithmRandom extends Algorithm {
-            + AlgorithmRandom(World world, Monster monster)
+            + AlgorithmRandom(AlgorithmManager manager, Entity entity)
+        }
+
+        class AlgorithmAStar extends Algorithm{
+            + AlgorithmAStar(AlgorithmManager manager, Entity entity)
+        }
+
+        class AlgorithmDijkstra extends Algorithm{
+            + AlgorithmDijkstra(AlgorithmManager manager, Entity entity)
         }
     }
 
     package entity {
 
+        class Ghost implements Monster {
+            - Algorithm algorithm
+            + Ghost(int x, int y)
+            - void updateMovement()
+        }
+
         class BasicMonster implements Monster {
-			- Vector2 position
 			- Algorithm algorithm
 			+ BasicMonster(int x, int y)
 			- void updateMovement()
@@ -89,7 +102,11 @@ package pacmasque {
 			boolean isMoving();
 		}
 
-		interface Pastille extends Entity {}
+		interface Pastille extends Entity {
+		    boolean isTaken
+		    void setTaken(boolean isTaken)
+		    boolean getTaken()
+		}
 
 		interface Player extends Entity {
 			 float getPositionX()
@@ -122,7 +139,6 @@ package pacmasque {
 	}
 
 	package model {
-
 	    class CollisionManager {
 	        + CollisionManager(World world)
 	        + boolean isCollision(Entity entity)
@@ -142,6 +158,7 @@ package pacmasque {
 		}
 
 		Labyrinth -left-> Drawable
+		Labyrinth --"*" Case
 
         class World {
  			+ World(Labyrinth labyrinth)
@@ -156,8 +173,20 @@ package pacmasque {
 		World -left-> Drawable
 		World -up-"*" Entity
         World -left-"1" Player
-        World --"1" Labyrinth
+        World -up-"1" Labyrinth
         World --"1" CollisionManager
+
+	    class AlgorithmManager{
+	        + AlgorithmManager(World world)
+	    }
+
+	    interface Case() {}
+
+	    class TrapCase() extends Case {}
+
+	    class TeleportationCase() extends Case {}
+
+	    class TreasureCase() extends Case {}
 	}
 }
 @enduml
