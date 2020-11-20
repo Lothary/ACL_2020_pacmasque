@@ -18,5 +18,5 @@ public abstract class Algorithm {
 
 	public Algorithm(World world, Monster monster){}
 
-	public void tick(){}
+	public abstract void tick();
 }
