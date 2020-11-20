@@ -1,0 +1,163 @@
+@startuml
+
+package libgdx {
+    interface ApplicationListener {
+        # Screen screen
+
+        + void create()
+        + void resize(int width, int height)
+        + void render()
+        + void pause()
+        + void resume()
+        + void dispose()
+    }
+
+    abstract class Game {
+            + void create()
+            + void dispose()
+    }
+
+    Game .up.|> ApplicationListener
+}
+
+package java {
+	package lang {
+		class Exception { }
+	}
+}
+
+package pacmasque {
+	interface Drawable {
+		void draw(Batch batch, float x, float y, float width, float height)
+	}
+
+	class PacMasque extends Game {
+		+ {static} int V_WIDTH
+		+ {static} int V_HEIGHT
+		- NavigationController navigationViewController
+        + Pacmasque()
+        + Pacmasque(Environment environment)
+    }
+
+    package algorithm {
+
+        abstract class Algorithm {
+            + Algorithm(World world, Monster monster)
+            + {abstract} tick()
+        }
+
+        class AlgorithmRandom extends Algorithm {
+            + AlgorithmRandom(World world, Monster monster)
+        }
+    }
+
+    package entity {
+
+        class BasicMonster implements Monster {
+			- Vector2 position
+			- Algorithm algorithm
+			+ BasicMonster(int x, int y)
+			- void updateMovement()
+        }
+
+        class BasicPastille implements Pastille {
+            - Vector2 position
+            + BasicPastille(int x, int y)
+        }
+
+        class BasicPlayer implements Player {
+            - Vector2 position
+            - int lifePoints
+            + BasicPlayer(int x, int y)
+			- void updateMovement()
+        }
+
+		interface Entity {
+			Vector2 getPosition()
+		}
+
+		Entity -right-> Drawable
+
+		interface Monster extends Entity {
+			void setAlgorithm(Algorithm algorithm)
+			Algorithm getAlgorithm()
+			float getNextPositionX()
+			float getNextPositionY()
+			void setPositionX(float x)
+			void setPositionY(float y)
+			void addMouvement(int direction, int number)
+			boolean isMoving();
+		}
+
+		interface Pastille extends Entity {}
+
+		interface Player extends Entity {
+			 float getPositionX()
+			 float getPositionY()
+			 void setPositionX(float x)
+			 void setPositionY(float y)
+             void addMouvement(int direction, int number)
+		}
+
+	}
+
+	package exception {
+
+		class LabyrinthConstructorException extends PacmasqueException {
+        	+ LabyrinthConstructorException(String message)
+        }
+
+		class LabyrinthLoaderException extends PacmasqueException {
+        	+ LabyrinthLoaderException(String message)
+        }
+
+        class TextureException extends PacmasqueException {
+            + TextureException(String message)
+        }
+
+        abstract class PacmasqueException extends Exception {
+        	+ PacmasqueException(String message)
+        }
+
+	}
+
+	package model {
+
+	    class CollisionManager {
+	        + CollisionManager(World world)
+	        + boolean isCollision(Entity entity)
+	    }
+
+		class Labyrinth {
+			- int width
+			- int height
+			- List<Vector2> positionsMurs
+		 	+ Labyrinth(int width, int height)
+
+		 	+ void setMur(int x, int y)
+		 	+ int getWidth()
+		 	+ int getHeight()
+		 	+ boolean isWall(Vector2 vec)
+		 	- boolean inRange(int x, int y)
+		}
+
+		Labyrinth -left-> Drawable
+
+        class World {
+ 			+ World(Labyrinth labyrinth)
+ 			+ void addMonster(Monster monster)
+ 			+ int getWidth()
+ 			+ int getHeight()
+ 			+ void movePlayer(int direction)
+ 			+ void moveMonsters()
+ 			+ void updateCollision()
+		}
+
+		World -left-> Drawable
+		World -up-"*" Entity
+        World -left-"1" Player
+        World --"1" Labyrinth
+        World --"1" CollisionManager
+	}
+}
+@enduml
