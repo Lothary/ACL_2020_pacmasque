@@ -1,3 +1,0 @@
-# Rétrospective 
-
-## Sprint2
