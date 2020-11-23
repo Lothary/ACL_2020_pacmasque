@@ -9,4 +9,7 @@
 package fr.ul.pacmasque.entity;
 
 public interface Pastille extends Entity {
+
+    boolean isVisible();
+    void setVisible(boolean visible);
 }

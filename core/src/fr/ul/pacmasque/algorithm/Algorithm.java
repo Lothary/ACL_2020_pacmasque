@@ -13,10 +13,8 @@ import fr.ul.pacmasque.model.World;
 
 public abstract class Algorithm {
 
-	private World world;
-	private Monster monster;
 
-	public Algorithm(World world, Monster monster){}
+	public Algorithm(){}
 
 	public abstract void tick();
 }

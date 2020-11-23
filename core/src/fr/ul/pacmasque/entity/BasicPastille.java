@@ -17,6 +17,7 @@ import fr.ul.pacmasque.util.TexturePackFactory;
 public class BasicPastille  implements Pastille {
 	private final Vector2 position;
 	private Texture texture;
+	private boolean visible;
 
 	public BasicPastille(int x, int y){
 		this.position = new Vector2(x,y);
@@ -26,6 +27,7 @@ public class BasicPastille  implements Pastille {
 		} catch (TextureException e) {
 			e.printStackTrace();
 		}
+		visible = true;
 	}
 
 	public Vector2 getPosition() {
@@ -36,4 +38,9 @@ public class BasicPastille  implements Pastille {
 	public void draw(Batch batch, float x, float y, float width, float height) {
 		batch.draw(texture,this.position.x,this.position.y,0.5f,0.5f);
 	}
+
+	@Override
+	public boolean isVisible() { return this.visible; }
+	@Override
+	public void setVisible(boolean visible){this.visible = visible;}
 }

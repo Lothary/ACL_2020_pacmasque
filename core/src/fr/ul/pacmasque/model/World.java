@@ -29,7 +29,7 @@ public class World implements Drawable {
 	private CollisionManager collisionManager;
 
 	private final Player player;
-	private final List<Entity> entities;
+	private final List<Pastille> pastilles;
 	private final List<Monster> monsters;
 
 	public World(Labyrinth labyrinth) {
@@ -37,18 +37,21 @@ public class World implements Drawable {
 		this.collisionManager = new CollisionManager(this);
 
 		this.player = new BasicPlayer(2, 2);
-		this.entities = new ArrayList<>();
+		this.pastilles = new ArrayList<>();
 		this.monsters = new ArrayList<>();
 
 		BasicMonster m1 = new BasicMonster(3,3);
 		m1.setAlgorithm(new AlgorithmRandom(this, m1));
 		this.addMonster(m1);
 
+
 	}
 
 	public void addMonster(Monster monster){
 		monsters.add(monster);
-		entities.add(monster);
+	}
+	public void addPastille(Pastille pastille){
+		pastilles.add(pastille);
 	}
 
 	public int getWidth() {
@@ -69,7 +72,8 @@ public class World implements Drawable {
 	public void updateCollision(){
 		boolean collision = false;
 
-		for(Entity e : this.entities){
+		//Collision avec les monstres
+		for(Monster e : this.monsters){
 			collision = this.collisionManager.isCollision(e);
 			if(collision){
 				// System.out.println("collision");
@@ -77,6 +81,16 @@ public class World implements Drawable {
 				// Mort si monstre, Points si pastille ?
 			}
 		}
+
+		//Collision avec les pastilles
+		for(Pastille e : this.pastilles){
+			collision = this.collisionManager.isCollision(e);
+			if(collision){
+				if(e.isVisible())
+					e.setVisible(false);
+			}
+		}
+
 	}
 
 	public void movePlayer(int direction) {
@@ -130,6 +144,11 @@ public class World implements Drawable {
 		this.labyrinth.draw(batch, x, y, width, height);
 		this.player.draw(batch, x, y, width, height);
 
-		this.entities.forEach(en -> en.draw(batch, x, y, width, height));
+		this.monsters.forEach(en -> en.draw(batch, x, y, width, height));
+		for(Pastille p : this.pastilles) {
+			if(p.isVisible())
+				p.draw(batch, x, y, width, height);
+		}
+		//this.pastilles.forEach(en -> en.draw(batch, x, y, width, height));
 	}
 }

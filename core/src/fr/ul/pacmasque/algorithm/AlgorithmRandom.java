@@ -22,7 +22,7 @@ public class AlgorithmRandom extends Algorithm {
 
 
 	public AlgorithmRandom(World world, Monster monster) {
-		super(world, monster);
+
 		this.world = world;
 		this.monster = monster;
 	}

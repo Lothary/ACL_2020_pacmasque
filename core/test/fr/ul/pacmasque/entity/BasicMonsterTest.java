@@ -41,4 +41,15 @@ class BasicMonsterTest extends PacmasqueTest {
 	void getPositionNonNull() {
 		assertNotNull(this.monster.getPosition());
 	}
+
+	@Test
+	void isMoving() { assertFalse(this.monster.isMoving()); }
+
+	@Test
+	void addMouvement() {
+		this.monster.addMouvement(4,10);
+		assertTrue(this.monster.isMoving());
+	}
+
+
 }

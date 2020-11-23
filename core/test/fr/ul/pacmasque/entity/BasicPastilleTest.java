@@ -41,4 +41,13 @@ class BasicPastilleTest extends PacmasqueTest {
 	void getPositionNonNull() {
 		assertNotNull(this.pastille.getPosition());
 	}
+
+	@Test
+	void getVisible(){ assertTrue(this.pastille.isVisible());}
+
+	@Test
+	void setVisible(){
+		this.pastille.setVisible(false);
+		assertFalse(this.pastille.isVisible());
+	}
 }
