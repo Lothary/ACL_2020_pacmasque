@@ -79,6 +79,7 @@ class LabyrinthTest extends PacmasqueTest {
 		this.labyrinth.setMur(x, y);
 		assertFalse(this.labyrinth.getWalls().isEmpty());
 
+		//Problème sur les randoms
 		int dx = random.nextInt(this.width);
 		int dy = random.nextInt(this.height);
 
