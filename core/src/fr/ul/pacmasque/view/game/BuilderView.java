@@ -17,6 +17,7 @@ import fr.ul.pacmasque.model.World;
 import fr.ul.pacmasque.util.encoder.Encoder;
 import fr.ul.pacmasque.util.encoder.EncoderException;
 import fr.ul.pacmasque.util.encoder.LabyrinthEncoder;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Vue permettant la construction d'un labyrinthe
@@ -30,16 +31,16 @@ public class BuilderView extends GameView {
 	 * @param width la largeur du labyrinthe
 	 * @param height la hauteur du labyrinthe
 	 */
-	public BuilderView(int width, int height) {
-		super(new World(new Labyrinth(width, height)));
+	public BuilderView(int width, int height, @NotNull String worldName) {
+		super(new World(new Labyrinth(width, height), worldName));
 	}
 
 	/**
 	 * Crée un constructeur de labyrinthe sur un labyrinthe déjà existant
 	 * @param labyrinth un labyrinthe déjà existant
 	 */
-	public BuilderView(Labyrinth labyrinth) {
-		super(new World(labyrinth));
+	public BuilderView(Labyrinth labyrinth, @NotNull String worldName) {
+		super(new World(labyrinth, worldName));
 	}
 
 	@Override

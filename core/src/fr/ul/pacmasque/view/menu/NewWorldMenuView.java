@@ -229,10 +229,9 @@ public class NewWorldMenuView extends StageView {
 		if (creativeMode) {
 			final Labyrinth labyrinth = new Labyrinth((int) worldSize.width, (int) worldSize.height);
 			// TODO: - Utiliser le nom du world dans sa création
-			return new BuilderView(labyrinth);
+			return new BuilderView(labyrinth, worldTitle);
 		}
 
-		// TODO: - Sélectionne un algorithme de création
 		Supplier<LabyrinthGenerator> generatorFactory = this.generators.getGeneratorFactory(generatorName);
 
 		if (generatorFactory == null) {
@@ -247,7 +246,7 @@ public class NewWorldMenuView extends StageView {
 			final Labyrinth labyrinth = generator.generate(seed, (int) worldSize.width, (int) worldSize.height);
 
 			// TODO: - Utiliser le nom du world dans sa création
-			final World world = new World(labyrinth);
+			final World world = new World(labyrinth, worldTitle);
 			return new GameView(world);
 
 		} catch (LabyrinthGeneratorException e) {

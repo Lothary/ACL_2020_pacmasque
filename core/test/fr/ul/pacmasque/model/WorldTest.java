@@ -30,7 +30,7 @@ class WorldTest extends PacmasqueTest {
 		this.height = random.nextInt(100) + 3;
 
 		Labyrinth labyrinth = new Labyrinth(width, height);
-		this.world = new World(labyrinth);
+		this.world = new World(labyrinth, "test");
 	}
 
 	@Test

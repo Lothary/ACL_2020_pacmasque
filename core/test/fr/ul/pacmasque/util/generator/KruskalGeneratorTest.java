@@ -14,10 +14,10 @@ class KruskalGeneratorTest {
 
 	@Test
 	void generateTest() {
-		LabyrinthGenerator generator = new KruskalGenerator(3);
+		LabyrinthGenerator generator = new KruskalGenerator();
 
 		try {
-			generator.generate(3, 3);
+			generator.generate(3, 3, 3);
 		} catch (LabyrinthGeneratorException e) {
 			e.printStackTrace();
 		}

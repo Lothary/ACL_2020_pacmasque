@@ -31,6 +31,11 @@ public class World implements Drawable {
 	@NotNull private final Labyrinth labyrinth;
 
 	/**
+	 * Le nom du monde
+	 */
+	@NotNull private final String worldName;
+
+	/**
 	 * Gestionnaire des collisions
 	 */
 	@NotNull private final CollisionManager collisionManager;
@@ -54,7 +59,7 @@ public class World implements Drawable {
 	 * Crée un monde
 	 * @param labyrinth le labyrinthe du monde
 	 */
-	public World(@NotNull Labyrinth labyrinth) {
+	public World(@NotNull Labyrinth labyrinth, @NotNull String worldName) {
 		this.labyrinth = labyrinth;
 		this.collisionManager = new CollisionManager(this);
 
@@ -63,6 +68,8 @@ public class World implements Drawable {
 
 		this.pastilles = new ArrayList<>();
 		this.monsters = new ArrayList<>();
+
+		this.worldName = worldName;
 
 		// Même remarque que précédent
 		BasicMonster dummyMonster = new BasicMonster(3,3);
@@ -75,6 +82,13 @@ public class World implements Drawable {
 	 */
 	public @NotNull Labyrinth getLabyrinth() {
 		return labyrinth;
+	}
+
+	/**
+	 * @return le nom du monde
+	 */
+	public String getWorldName() {
+		return this.worldName;
 	}
 
 	/**

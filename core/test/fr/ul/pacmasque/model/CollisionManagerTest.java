@@ -32,7 +32,7 @@ public class CollisionManagerTest extends PacmasqueTest {
 		this.height = random.nextInt(100);
 
 		Labyrinth labyrinth = new Labyrinth(width, height);
-		this.world = new World(labyrinth);
+		this.world = new World(labyrinth, "test");
 
 		m1 = new BasicMonster(4,4);
 		this.world.addMonster(m1);
