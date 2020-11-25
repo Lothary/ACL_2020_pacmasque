@@ -186,6 +186,8 @@ public class NewWorldMenuView extends StageView {
 
 				final String generatorTitle = settings.generator.trim();
 				if (generatorTitle.isEmpty()) {
+					ErrorView errorView = new ErrorView(1080, 720, skin, "Un generateur doit etre selectionne");
+					present(errorView);
 					// TODO: Afficher un message d'erreur
 					return;
 				}

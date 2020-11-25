@@ -9,10 +9,12 @@
 package fr.ul.pacmasque.view.hierarchy;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
 import fr.ul.pacmasque.Pacmasque;
+import fr.ul.pacmasque.util.TexturePack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,6 +30,8 @@ public abstract class BatchView extends View implements Disposable {
 	 */
 	@NotNull private final Batch batch;
 
+	private final Texture texture = TexturePack.getFallbackTexture(this.getBackgroundColor());
+
 	/**
 	 * Crée une vue munie d'un batch
 	 * @param width sa largeur
@@ -39,6 +43,7 @@ public abstract class BatchView extends View implements Disposable {
 		super(width, height, backgroundColor);
 
 		this.batch = Pacmasque.ENVIRONMENT == Pacmasque.Environment.HEADLESS_TEST ? mock(SpriteBatch.class) : new SpriteBatch();
+		this.batch.enableBlending();
 	}
 
 	/**
@@ -46,6 +51,16 @@ public abstract class BatchView extends View implements Disposable {
 	 */
 	public @NotNull Batch getBatch() {
 		return this.batch;
+	}
+
+	@Override
+	public void render(float delta) {
+		super.render(delta);
+
+		Batch batch = this.getBatch();
+		batch.begin();
+		batch.draw(texture, 0, 0, this.getWidth(), this.getHeight());
+		batch.end();
 	}
 
 	@Override
