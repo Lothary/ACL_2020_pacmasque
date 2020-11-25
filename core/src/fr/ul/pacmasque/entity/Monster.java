@@ -12,6 +12,9 @@ import fr.ul.pacmasque.algorithm.Algorithm;
 
 public interface Monster extends Entity{
 
+	/**
+	 * @implNote considérer la factorisation de l'algorithme à l'entité, afin d'en faire profiter d'hypothétiques autres entités
+	 */
 	Algorithm getAlgorithm();
 
 	void setAlgorithm(Algorithm algorithm);
