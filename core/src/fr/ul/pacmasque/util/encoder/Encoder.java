@@ -8,7 +8,19 @@
 
 package fr.ul.pacmasque.util.encoder;
 
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * Toute classe capable de d'encoder un objet en bytes
+ * @param <T> un type encodé par le l'encoder
+ */
 public interface Encoder<T> extends Codable {
 
-	byte[] encode(T encodable);
+	/**
+	 * Encode un objet en bytes
+	 * @param encodable un objet encodé par l'encoder
+	 * @return l'objet, encodé
+	 * @throws si une erreur s'est produite lors de l'encodage de l'objet
+	 */
+	byte[] encode(@NotNull T encodable) throws EncoderException;
 }

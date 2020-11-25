@@ -9,14 +9,18 @@
 package fr.ul.pacmasque.util.encoder;
 
 import fr.ul.pacmasque.model.Labyrinth;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Décodeur d'un labyrinthe au format JSON
+ */
 public class LabyrinthDecoder implements Decoder<Labyrinth> {
 
 	@Override
-	public Labyrinth decode(byte[] decodable) throws DecoderException {
+	public @NotNull Labyrinth decode(byte[] decodable) throws DecoderException {
 		String content = new String(decodable, STANDARD_CHARSET);
 
 		try {
@@ -39,7 +43,7 @@ public class LabyrinthDecoder implements Decoder<Labyrinth> {
 			return labyrinth;
 
 		} catch (JSONException e) {
-			throw new DecoderException(e.getMessage());
+			throw new DecoderException(decodable, -1, e.getMessage());
 		}
 	}
 }

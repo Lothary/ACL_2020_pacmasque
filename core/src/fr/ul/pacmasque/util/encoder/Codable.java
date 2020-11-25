@@ -8,10 +8,16 @@
 
 package fr.ul.pacmasque.util.encoder;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Interface générique, implémentée par les classes capable de d'encodage et / ou de décodage.
+ * Instaure un charset partagé dans l'application
+ */
 public interface Codable {
 
-	public static Charset STANDARD_CHARSET = StandardCharsets.UTF_8;
+	@NotNull Charset STANDARD_CHARSET = StandardCharsets.UTF_8;
 }

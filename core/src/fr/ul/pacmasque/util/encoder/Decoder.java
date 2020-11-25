@@ -8,7 +8,19 @@
 
 package fr.ul.pacmasque.util.encoder;
 
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * Toute classe capable de décoder un objet à partir de bytes
+ * @param <T> un type décodé par le décoder
+ */
 public interface Decoder<T> extends Codable {
 
-	T decode(byte[] decodable) throws DecoderException;
+	/**
+	 * Décode un objet depuis une collection de bytes
+	 * @param decodable un objet décodable sous forme de bytes
+	 * @return l'objet, décodé
+	 * @throws DecoderException si une erreur survient lors du décodage
+	 */
+	@NotNull T decode(byte[] decodable) throws DecoderException;
 }

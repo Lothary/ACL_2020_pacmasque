@@ -8,9 +8,13 @@
 
 package fr.ul.pacmasque.util.encoder;
 
+import java.util.Arrays;
+
 public class DecoderException extends Exception {
 
-	public DecoderException(String message) {
-		super("Une erreur est survenue lors du décodage: " + message);
+	public DecoderException(byte[] context, int errorIndex, String message) {
+		super("Une erreur est survenue lors du décodage: " + message + "\n"
+		+ "ErrorIndex: " + errorIndex + ",\n"
+		+ "Context: " + Arrays.toString(context));
 	}
 }

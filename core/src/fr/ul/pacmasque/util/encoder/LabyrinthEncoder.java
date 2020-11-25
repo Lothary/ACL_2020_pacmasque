@@ -10,13 +10,17 @@ package fr.ul.pacmasque.util.encoder;
 
 import com.badlogic.gdx.math.Vector2;
 import fr.ul.pacmasque.model.Labyrinth;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/**
+ * Encodeur d'un labyrinthe au format JSON
+ */
 public class LabyrinthEncoder implements Encoder<Labyrinth> {
 
 	@Override
-	public byte[] encode(Labyrinth labyrinth) {
+	public byte[] encode(@NotNull Labyrinth labyrinth) {
 
 		JSONObject rootObject = new JSONObject();
 
