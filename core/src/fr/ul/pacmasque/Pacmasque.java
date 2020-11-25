@@ -14,25 +14,65 @@ import fr.ul.pacmasque.view.menu.MainMenuView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Classe principale du jeu, en charge de lancer le jeu
+ */
 public class Pacmasque extends Game {
 
+	/**
+	 * Environnement dans lequel l'application se trouve.
+	 * Son comportement peut varier en fonction de celui-ci.
+	 * Par défaut, en production.
+	 */
 	public enum Environment {
+		/**
+		 * Coportement "normal" en production
+		 */
 		PRODUCTION,
+
+		/**
+		 * Comportement normal, accompagné d'outils de débogage comme des logs ou de l'affichage supplémentaire
+		 */
 		DEBUG,
+
+		/**
+		 * Environnement de test, aucun rendu ne sera effectué dans les vues.
+		 * La méthode View::render est désactivée dans cette environnement.
+		 */
 		HEADLESS_TEST
 	}
 
+	/**
+	 * Environnement dans lequel évolue l'application
+	 */
 	@NotNull public static Environment ENVIRONMENT = Environment.PRODUCTION;
 
+	/**
+	 * Largeur de la fenêtre de base
+	 */
 	public static final int V_WIDTH = 1080;
+
+	/**
+	 * Hauteur de la fenêtre de base
+	 */
 	public static final int V_HEIGHT = 720;
 
+	/**
+	 * Contrôleur de navigation de l'application
+	 */
 	@NotNull private final NavigationController<View> navigationViewController;
 
+	/**
+	 * Crée une instance de jeu dans l'environnement par défaut
+	 */
 	public Pacmasque() {
 		this(null);
 	}
 
+	/**
+	 * Crée une instance du jeu dans un environnement donné
+	 * @param environment l'environnement de l'application
+	 */
 	public Pacmasque(@Nullable Environment environment) {
 
 		if (environment != null) {
@@ -40,6 +80,7 @@ public class Pacmasque extends Game {
 		}
 		this.navigationViewController = new NavigationViewController(V_WIDTH, V_HEIGHT);
 	}
+
 
 	@Override
 	public void create() {
