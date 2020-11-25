@@ -16,13 +16,31 @@ import fr.ul.pacmasque.view.control.navigation.NavigationController;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Classe de base d'une vue, permettant la réponse au évènement,
+ * la gestion de son cycle de vie (via le viewcontroller).
+ * Définie par sa taille et, optionnellement, une couleur de fond
+ */
 public abstract class View extends Responder implements Screen {
 
+	/**
+	 * Couleur de fond par défaut
+	 */
 	@NotNull public static final Color DEFAULT_BACKGROUND_COLOR = Color.BLACK;
 
+	/**
+	 * Contrôle de navigation, permettant l'ajout et la suppression de vue dans la fenêtre
+	 */
 	@Nullable public NavigationController<View> navigationController;
 
+	/**
+	 * Une largeur
+	 */
 	private float width;
+
+	/**
+	 * Une hauteur
+	 */
 	private float height;
 
 	/**
@@ -35,9 +53,18 @@ public abstract class View extends Responder implements Screen {
 	 */
 	private boolean paused;
 
+	/**
+	 * Couleur de fond de la vue
+	 */
 	@NotNull
 	private final Color backgroundColor;
 
+	/**
+	 * Crée une vue
+	 * @param width sa largeur
+	 * @param height sa hauteur
+	 * @param backgroundColor sa couleur de fond, noir par défaut
+	 */
 	public View(float width, float height, @Nullable Color backgroundColor) {
 		this.width = width;
 		this.height = height;
@@ -53,22 +80,38 @@ public abstract class View extends Responder implements Screen {
 
 	}
 
+	/**
+	 * @return largeur de la vue
+	 */
 	public float getWidth() {
 		return this.width;
 	}
 
+	/**
+	 * @return hauteur de la vue
+	 */
 	public float getHeight() {
 		return this.height;
 	}
 
+	/**
+	 * @return si la vue est chargée
+	 */
 	public boolean isLoaded() {
 		return this.loaded;
 	}
 
+	/**
+	 * @return sa couleur de fond
+	 */
 	public @NotNull Color getBackgroundColor() {
 		return this.backgroundColor;
 	}
 
+	/**
+	 * Crée la vue. Appelé une seule fois lors de son apparition
+	 * @apiNote doit être implémentée. Les instruction de création de la vue doivent s'effectuer lors de cet appel
+	 */
 	public void create() {
 		this.loaded = true;
 	}
@@ -80,6 +123,10 @@ public abstract class View extends Responder implements Screen {
 	 */
 	public abstract void update(float delta);
 
+	/**
+	 * Présente une vue par dessus les autres, si un contrôleur de vue est définit
+	 * @param view une vue à afficher
+	 */
 	public void present(@NotNull View view) {
 		if (this.navigationController != null) {
 			view.navigationController = this.navigationController;
@@ -87,6 +134,9 @@ public abstract class View extends Responder implements Screen {
 		}
 	}
 
+	/**
+	 * Retire la vue de la pile d'affichage
+	 */
 	public void dismiss() {
 		if (this.navigationController != null) {
 			this.navigationController.dismiss();
