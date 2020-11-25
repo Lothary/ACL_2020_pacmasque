@@ -13,6 +13,12 @@ import org.jetbrains.annotations.Nullable;
 
 public class EmptyView extends View {
 
+	/**
+	 * Crée une vue vide
+	 * @param width sa largeur
+	 * @param height sa hauteur
+	 * @param backgroundColor sa couleur de fond
+	 */
 	public EmptyView(float width, float height, @Nullable Color backgroundColor) {
 		super(width, height, backgroundColor);
 	}
