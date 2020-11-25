@@ -20,6 +20,9 @@ import org.jetbrains.annotations.Nullable;
 
 import static org.mockito.Mockito.mock;
 
+/**
+ * Vue disposant d'un ViewPort
+ */
 public abstract class PortedView extends BatchView {
 
 	/**
@@ -32,6 +35,12 @@ public abstract class PortedView extends BatchView {
 	 */
 	@NotNull private final Viewport viewport;
 
+	/**
+	 * Crée une vue munie d'un view port
+	 * @param viewportWidth la largeur du viewport
+	 * @param viewportHeight la hauteur du viewport
+	 * @param backgroundColor sa couleur de fond
+	 */
 	public PortedView(float viewportWidth, float viewportHeight, @Nullable Color backgroundColor) {
 		super(viewportWidth, viewportHeight, backgroundColor);
 
