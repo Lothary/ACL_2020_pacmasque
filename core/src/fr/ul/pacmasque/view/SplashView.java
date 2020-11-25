@@ -24,6 +24,7 @@ public class SplashView extends StageView {
 	@Nullable  private Texture splashTexture;
 
 	public SplashView(float viewPortWidth, float viewPortHeight) {
+		//noinspection ConstantConditions
 		super(viewPortWidth, viewPortHeight, null, null);
 		this.splashTexture = null;
 	}

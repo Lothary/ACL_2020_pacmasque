@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import fr.ul.pacmasque.Drawable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class Sprite implements Drawable {
 	/**
 	 * Collection des frames
 	 */
-	private final List<TextureRegion> frames;
+	@NotNull private final List<TextureRegion> frames;
 
 	/**
 	 * Temps maximal d'affichage d'une frame
@@ -52,7 +53,7 @@ public class Sprite implements Drawable {
 	 * @param numberOfFrames nombre de frames dans la texture
 	 * @param cycleTime temps pendant laquelle une frame doit être affichée
 	 */
-	public Sprite(Texture texture ,int numberOfFrames, float cycleTime) {
+	public Sprite(@NotNull Texture texture ,int numberOfFrames, float cycleTime) {
 		this(new TextureRegion(texture), numberOfFrames, cycleTime);
 	}
 
@@ -62,7 +63,7 @@ public class Sprite implements Drawable {
 	 * @param numberOfFrames nombre de frames dans la texture
 	 * @param cycleTime temps pendant laquelle une frame doit être affichée
 	 */
-	public Sprite(TextureRegion textureRegion, int numberOfFrames, float cycleTime) {
+	public Sprite(@NotNull TextureRegion textureRegion, int numberOfFrames, float cycleTime) {
 		this.numberOfFrames = numberOfFrames;
 		this.frames = new ArrayList<>(this.numberOfFrames);
 
@@ -82,7 +83,7 @@ public class Sprite implements Drawable {
 	/**
 	 * @return la frame actuellement affichée
 	 */
-	public TextureRegion getFrame() {
+	@NotNull public TextureRegion getFrame() {
 		return this.frames.get(this.currentFrame);
 	}
 
