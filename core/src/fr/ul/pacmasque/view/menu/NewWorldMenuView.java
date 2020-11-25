@@ -164,13 +164,13 @@ public class NewWorldMenuView extends StageView {
 			public void clicked(InputEvent event, float x, float y) {
 				// Une taille doit être sélectionnée
 				if (settings.size == null) {
-					// TODO: Afficher un message d'erreur
+					error("Une taille doit etre selectionne");
 					return;
 				}
 
 				final String worldtitle = settings.title.trim();
 				if (worldtitle.isEmpty()) {
-					// TODO: Afficher un message d'erreur
+					error("Un nom de monde doit etre selectionne");
 					return;
 				}
 
@@ -180,15 +180,13 @@ public class NewWorldMenuView extends StageView {
 				try {
 					seed = Long.parseLong(settings.seed);
 				} catch (NumberFormatException e) {
-					// TODO: Afficher un message d'erreur
+					error("Le seed n'est pas valide");
 					return;
 				}
 
 				final String generatorTitle = settings.generator.trim();
 				if (generatorTitle.isEmpty()) {
-					ErrorView errorView = new ErrorView(1080, 720, skin, "Un generateur doit etre selectionne");
-					present(errorView);
-					// TODO: Afficher un message d'erreur
+					error("Un generateur doit etre selectionne");
 					return;
 				}
 
@@ -238,7 +236,7 @@ public class NewWorldMenuView extends StageView {
 		Supplier<LabyrinthGenerator> generatorFactory = this.generators.getGeneratorFactory(generatorName);
 
 		if (generatorFactory == null) {
-			// TODO: Afficher un message d'erreur
+			error("Le generateur selectionne n est pas valide");
 			return null;
 		}
 
@@ -253,10 +251,14 @@ public class NewWorldMenuView extends StageView {
 			return new GameView(world);
 
 		} catch (LabyrinthGeneratorException e) {
-			// TODO: Afficher un message d'erreur
-			e.printStackTrace();
+			error("Une erreur est survenue lors de la generation du labyrinthe");
 		}
 
 		return null;
+	}
+
+	private void error(String message) {
+		ErrorView errorView = new ErrorView(1080, 720, getSkin(), message);
+		present(errorView);
 	}
 }
