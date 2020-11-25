@@ -9,12 +9,12 @@
 package fr.ul.pacmasque.util.generator;
 
 import fr.ul.pacmasque.model.Labyrinth;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Générateur de labyrinthe
  */
 public interface LabyrinthGenerator {
-
 
 	/**
 	 * Génère un labyrinthe de taille donnée
@@ -22,6 +22,6 @@ public interface LabyrinthGenerator {
 	 * @param height hauteur du labyrinthe
 	 * @return un labyrinthe
 	 */
-	Labyrinth generate(int width, int height) throws LabyrinthGeneratorException;
+	@NotNull Labyrinth generate(int width, int height) throws LabyrinthGeneratorException;
 
 }

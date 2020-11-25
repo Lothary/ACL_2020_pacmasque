@@ -9,18 +9,22 @@
 package fr.ul.pacmasque.util.generator;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class Tree implements Comparable<Tree> {
 
-	@Nullable private Tree root;
+	@NotNull private Tree root;
 
 	public Tree() {
-		this.root = null;
+		this.root = this;
 	}
 
-	public @Nullable Tree getRoot() {
-		return root;
+	public @NotNull Tree getRoot() {
+
+		if (this == this.root) {
+			return this;
+		}
+
+		return root.getRoot();
 	}
 
 	public void setRoot(@NotNull Tree root) {
@@ -28,19 +32,22 @@ public class Tree implements Comparable<Tree> {
 	}
 
 	public boolean isConnected(@NotNull Tree tree) {
-		Tree root = this.getRoot();
-
-		if (root == null) {
-			return false;
+		if (this.compareTo(tree) > 0) {
+			return true;
 		}
 
-		return this.getRoot().compareTo(tree) > 0;
+		if (this.getRoot() == this && tree.getRoot() == tree) {
+			return this.compareTo(tree) > 0;
+		}
+
+		Tree thisRoot = this.getRoot();
+		Tree thatRoot = tree.getRoot();
+
+		return thisRoot.isConnected(thatRoot);
 	}
 
 	public void connect(@NotNull Tree tree) {
-		if (this.getRoot() != null) {
-			this.getRoot().setRoot(tree);
-		}
+		this.getRoot().setRoot(tree.getRoot());
 	}
 
 	@Override

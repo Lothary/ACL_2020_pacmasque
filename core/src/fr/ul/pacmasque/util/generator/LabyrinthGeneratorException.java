@@ -15,7 +15,7 @@ public class LabyrinthGeneratorException extends Exception {
 	private int height;
 
 	public LabyrinthGeneratorException(LabyrinthGenerator generator, int width, int height, String message) {
-		super("Une erreur est survenue lors de la génération du labyrinthe: " + message);
+		super("Une erreur est survenue lors de la génération du labyrinthe de taille " + width + "x" + height + ": " + message);
 	}
 
 	public LabyrinthGenerator getGenerator() {

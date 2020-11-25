@@ -10,33 +10,63 @@ package fr.ul.pacmasque.util.generator;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Une arête entre deux points, représentée par une origine et une direction
+ */
 public class Edge implements Comparable<Edge> {
 
+	/**
+	 * Direction de l'arête
+	 */
 	enum Direction {
 		up,
-		down,
-		left,
 		right
 	}
 
-	private int x;
-	private int y;
-	@NotNull private Direction direction;
+	/**
+	 * Origine x de l'arête
+	 */
+	private final int x;
 
+	/**
+	 * Origine y de l'arête
+	 */
+	private final int y;
+
+	/**
+	 * Direction de l'arête
+	 */
+	@NotNull private final Direction direction;
+
+	/**
+	 * Crée une arête
+	 * @param x une coordonnée x
+	 * @param y une coordonnée y
+	 * @param direction une direction
+	 */
 	public Edge(int x, int y, @NotNull Direction direction) {
 		this.x = x;
 		this.y = y;
 		this.direction = direction;
 	}
 
+	/**
+	 * @return la coordonnée x de l'arête
+	 */
 	public int getX() {
 		return x;
 	}
 
+	/**
+	 * @return la coordonnée y de l'arête
+	 */
 	public int getY() {
 		return y;
 	}
 
+	/**
+	 * @return la direction de l'arête
+	 */
 	public @NotNull Direction getDirection() {
 		return direction;
 	}
