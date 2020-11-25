@@ -9,9 +9,11 @@
 package fr.ul.pacmasque.view.menu;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import fr.ul.common.graphics.CGSize;
@@ -28,9 +30,20 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Supplier;
+
 public class NewWorldMenuView extends StageView {
 
+	private static class _NewWorldSettings {
+		boolean creativeMode = false;
+		CGSize size = new CGSize(7,7);
+		String title = "New World";
+		String seed = "" + System.currentTimeMillis();
+	}
+
 	public static CGSize[] SIZES = new CGSize[]{new CGSize(7, 7), new CGSize(15, 15), new CGSize(31, 31), new CGSize(63, 63)};
+
+	private final _NewWorldSettings settings = new _NewWorldSettings();
 
 	public NewWorldMenuView(float viewportWidth, float viewportHeight, @Nullable Color clearColor, @NotNull Skin skin) {
 		super(viewportWidth, viewportHeight, clearColor, skin);
@@ -48,60 +61,64 @@ public class NewWorldMenuView extends StageView {
 		table.setDebug(debug);
 		table.center();
 
-		// Title label
-		Label titleLabel = new Label("World name", skin);
-		titleLabel.setDebug(debug);
-		titleLabel.setAlignment(Align.left);
+		Actor titleGroup = this.withTitle("World title", skin, () -> {
+			TextArea titleTextArea = new TextArea(settings.title, skin);
+			titleTextArea.setDebug(debug);
+			titleTextArea.setAlignment(Align.left);
 
-		// Title text area
-		TextArea titleTextArea = new TextArea("New World", skin);
-		titleTextArea.setDebug(debug);
-		titleTextArea.setAlignment(Align.left);
+			titleTextArea.setTextFieldListener((textField, c) -> settings.title = textField.getText());
 
-		// Title group
-		VerticalGroup titleGroup = new VerticalGroup();
-		titleGroup.setDebug(debug);
-		titleGroup.space(16f);
-		titleGroup.align(Align.left);
-		titleGroup.addActor(titleLabel);
-		titleGroup.addActor(titleTextArea);
-		titleGroup.expand().fill();
+			return titleTextArea;
+		});
 
-		// Size label
-		Label sizeLabel = new Label("World size", skin);
-		sizeLabel.setDebug(debug);
-		sizeLabel.setAlignment(Align.left);
+		Actor sizeGroup = this.withTitle("World size", skin, () -> {
+			SelectBox<CGSize> sizeSelectBox = new SelectBox<>(skin);
+			sizeSelectBox.setDebug(debug);
+			sizeSelectBox.setAlignment(Align.left);
+			sizeSelectBox.setItems(SIZES);
 
-		// Size check box
-		SelectBox<CGSize> sizeSelectBox = new SelectBox<>(skin);
-		sizeSelectBox.setDebug(debug);
-		sizeSelectBox.setAlignment(Align.left);
-		sizeSelectBox.setItems(SIZES);
+			sizeSelectBox.addCaptureListener(new ChangeListener() {
+				@Override
+				public void changed(ChangeEvent event, Actor actor) {
+					settings.size = sizeSelectBox.getSelected();
+				}
+			});
 
-		// Size group
-		VerticalGroup sizeGroup = new VerticalGroup();
-		sizeGroup.setDebug(debug);
-		sizeGroup.space(16f);
-		sizeGroup.align(Align.left);
-		sizeGroup.addActor(sizeLabel);
-		sizeGroup.addActor(sizeSelectBox);
-		sizeGroup.expand().fill();
+			return sizeSelectBox;
+		});
 
 		table.add(titleGroup).width(400).fillX();
 		table.add(sizeGroup).width(400).fillX();
 		table.row();
 
 		// Creative mode checkbox
-		CheckBox checkBox = new CheckBox("Creative mode: OFF", skin);
-		checkBox.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				checkBox.getText();
-				checkBox.setText("Creative mode: " + (checkBox.isChecked() ? "ON" : "OFF"));
-			}
+		Actor creativeModeGroup = this.withTitle("Creative mode", skin, () -> {
+			CheckBox checkBox = new CheckBox(settings.creativeMode ? "ON" : "OFF", skin);
+			checkBox.addListener(new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					checkBox.getText();
+					settings.creativeMode = checkBox.isChecked();
+					checkBox.setText((settings.creativeMode ? "ON" : "OFF"));
+				}
+			});
+
+			return checkBox;
 		});
 
-		table.add(checkBox).colspan(2).fillX();
+		// Seed text area
+		Actor seedGroup = this.withTitle("Seed", skin, () -> {
+			TextArea seedTextArea = new TextArea(settings.seed, skin);
+			seedTextArea.setDebug(debug);
+			seedTextArea.setAlignment(Align.bottomLeft);
+
+			seedTextArea.setTextFieldListener((textField, c) -> settings.seed = textField.getText());
+
+			return seedTextArea;
+		});
+
+		table.add(creativeModeGroup).width(400).fillX();
+		table.add(seedGroup).width(400).fillX();
 		table.row();
 
 		// Back button
@@ -120,22 +137,28 @@ public class NewWorldMenuView extends StageView {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				// Une taille doit être sélectionnée
-				final CGSize selectedSize = sizeSelectBox.getSelected();
-
-				if (selectedSize == null) {
+				if (settings.size == null) {
 					// TODO: Afficher un message d'erreur
 					return;
 				}
 
-				final String worldtitle = titleTextArea.getText().trim();
+				final String worldtitle = settings.title.trim();
 				if (worldtitle.isEmpty()) {
 					// TODO: Afficher un message d'erreur
 					return;
 				}
 
-				final boolean creativeModeEnabled = checkBox.isChecked();
+				final boolean creativeModeEnabled = settings.creativeMode;
 
-				View view = getNextView(creativeModeEnabled, worldtitle, selectedSize);
+				long seed;
+				try {
+					seed = Long.parseLong(settings.seed);
+				} catch (NumberFormatException e) {
+					// TODO: Afficher un message d'erreur
+					return;
+				}
+
+				View view = getNextView(creativeModeEnabled, worldtitle, settings.size, seed);
 				if (view != null) {
 					present(view);
 				}
@@ -148,7 +171,28 @@ public class NewWorldMenuView extends StageView {
 	}
 
 	@ApiStatus.Experimental
-	@Nullable private View getNextView(boolean creativeMode, @NotNull String worldTitle, @NotNull CGSize worldSize) {
+	private Actor withTitle(String title, Skin skin, Supplier<Actor> callback) {
+
+		// Label
+		Label label = new Label(title, skin);
+		label.setAlignment(Align.left);
+
+		// Widget
+		Actor widget = callback.get();
+
+		// Group
+		VerticalGroup group = new VerticalGroup();
+		group.space(16f);
+		group.align(Align.left);
+		group.addActor(label);
+		group.addActor(widget);
+		group.expand().fill();
+
+		return group;
+	}
+
+	@ApiStatus.Experimental
+	@Nullable private View getNextView(boolean creativeMode, @NotNull String worldTitle, @NotNull CGSize worldSize, long seed) {
 
 		if (creativeMode) {
 			final Labyrinth labyrinth = new Labyrinth((int) worldSize.width, (int) worldSize.height);
@@ -157,8 +201,7 @@ public class NewWorldMenuView extends StageView {
 		}
 
 		// TODO: - Sélectionne un algorithme de création
-		// TODO: - Choisir un seed
-		LabyrinthGenerator generator = new KruskalGenerator(0);
+		LabyrinthGenerator generator = new KruskalGenerator((int) seed);
 
 		try {
 			// TODO: - Déléguer l'appel de l'algorithme dans une nouvelle vue, permettant l'affichage de la progression de celui-ci. Pour une grande taille, il peut bloquer le thread graphique
