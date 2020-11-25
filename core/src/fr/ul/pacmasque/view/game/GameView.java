@@ -8,14 +8,19 @@
 
 package fr.ul.pacmasque.view.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import fr.ul.pacmasque.model.World;
 import fr.ul.pacmasque.view.hierarchy.PortedView;
+import fr.ul.pacmasque.view.menu.PauseMenuView;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Vue de jeu
@@ -70,6 +75,15 @@ public class GameView extends PortedView {
 		else if(keycode == Input.Keys.DOWN)
 			this.world.movePlayer(Input.Keys.DOWN);
 
+		if (keycode == Input.Keys.ESCAPE) {
+
+			// FIXME!! pas une bonne pratique!
+			@Nullable FileHandle skinFileHandle = Gdx.files.internal("skin/craftacular/craftacular-ui.json");
+			assert skinFileHandle != null;
+			Skin skin = new Skin(skinFileHandle);
+			PauseMenuView pauseMenuView = new PauseMenuView(getWidth(), getHeight(), skin, this.getWorld());
+			present(pauseMenuView);
+		}
 
 		return true;
 	}
