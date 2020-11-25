@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class BatchTransition extends TimedTransition {
 
-	private Batch batch;
+	private final Batch batch;
 	private int width;
 	private int height;
 

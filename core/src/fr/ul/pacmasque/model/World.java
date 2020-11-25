@@ -14,7 +14,6 @@ import com.badlogic.gdx.math.Vector2;
 import fr.ul.pacmasque.Drawable;
 import fr.ul.pacmasque.algorithm.AlgorithmRandom;
 import fr.ul.pacmasque.entity.*;
-import fr.ul.pacmasque.entity.BasicPlayer;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 

@@ -20,7 +20,7 @@ public interface Encoder<T> extends Codable {
 	 * Encode un objet en bytes
 	 * @param encodable un objet encodé par l'encoder
 	 * @return l'objet, encodé
-	 * @throws si une erreur s'est produite lors de l'encodage de l'objet
+	 * @throws EncoderException si une erreur s'est produite lors de l'encodage de l'objet
 	 */
 	byte[] encode(@NotNull T encodable) throws EncoderException;
 }

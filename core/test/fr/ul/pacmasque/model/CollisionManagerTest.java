@@ -9,10 +9,8 @@
 package fr.ul.pacmasque.model;
 
 
-import com.badlogic.gdx.math.Vector2;
 import fr.ul.pacmasque.PacmasqueTest;
 import fr.ul.pacmasque.entity.BasicMonster;
-import fr.ul.pacmasque.entity.Entity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -43,7 +43,7 @@ public class NewWorldMenuView extends StageView {
 		String generator = "";
 	}
 
-	public static CGSize[] SIZES = new CGSize[]{new CGSize(7, 7), new CGSize(15, 15), new CGSize(31, 31), new CGSize(63, 63)};
+	public static final CGSize[] SIZES = new CGSize[]{new CGSize(7, 7), new CGSize(15, 15), new CGSize(31, 31), new CGSize(63, 63)};
 
 	private final _NewWorldSettings settings = new _NewWorldSettings();
 

@@ -9,12 +9,10 @@
 package fr.ul.pacmasque.view.hierarchy;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
 import fr.ul.pacmasque.Pacmasque;
-import fr.ul.pacmasque.util.TexturePack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

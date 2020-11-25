@@ -11,14 +11,10 @@ package fr.ul.pacmasque.view.hierarchy;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import fr.ul.pacmasque.Pacmasque;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import static org.mockito.Mockito.mock;
 
 /**
  * Vue disposant d'un ViewPort
