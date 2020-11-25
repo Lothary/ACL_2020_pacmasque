@@ -9,8 +9,10 @@
 package fr.ul.pacmasque.model;
 
 import fr.ul.pacmasque.entity.Entity;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
+@ApiStatus.Experimental
 public class CollisionManager {
 
 	@NotNull private final World world;
