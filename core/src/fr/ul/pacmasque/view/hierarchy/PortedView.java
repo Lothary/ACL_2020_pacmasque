@@ -33,7 +33,7 @@ public abstract class PortedView extends BatchView {
 	@NotNull private final Viewport viewport;
 
 	public PortedView(float viewportWidth, float viewportHeight, @Nullable Color backgroundColor) {
-		super(viewportWidth, viewportHeight, backgroundColor, Pacmasque.ENVIRONMENT == Pacmasque.Environment.HEADLESS_TEST ? mock(SpriteBatch.class) : new SpriteBatch());
+		super(viewportWidth, viewportHeight, backgroundColor);
 
 		OrthographicCamera camera = new OrthographicCamera();
 		camera.setToOrtho(false, viewportWidth, viewportHeight);

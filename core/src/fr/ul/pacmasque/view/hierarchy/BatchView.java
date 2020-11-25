@@ -10,21 +10,41 @@ package fr.ul.pacmasque.view.hierarchy;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
+import fr.ul.pacmasque.Pacmasque;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import static org.mockito.Mockito.mock;
+
+/**
+ * Vue contenant un batch. Elle gère elle-même le cycle de vue du batch
+ */
 public abstract class BatchView extends View implements Disposable {
 
+	/**
+	 * Le batch de la vue
+	 */
 	@NotNull private final Batch batch;
 
-	public BatchView(float width, float height, @Nullable Color backgroundColor, @NotNull Batch batch) {
+	/**
+	 * Crée une vue munie d'un batch
+	 * @param width sa largeur
+	 * @param height sa hauteur
+	 * @param backgroundColor sa couleur de fond
+	 * @implNote en cas d'environnement de tests headless, le batch sera remplacé par un mock
+	 */
+	public BatchView(float width, float height, @Nullable Color backgroundColor) {
 		super(width, height, backgroundColor);
 
-		this.batch = batch;
+		this.batch = Pacmasque.ENVIRONMENT == Pacmasque.Environment.HEADLESS_TEST ? mock(SpriteBatch.class) : new SpriteBatch();
 	}
 
-	public Batch getBatch() {
+	/**
+	 * @return le batch de la vue
+	 */
+	public @NotNull Batch getBatch() {
 		return this.batch;
 	}
 
