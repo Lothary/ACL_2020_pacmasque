@@ -132,15 +132,6 @@ public class GameView extends PortedView {
 		Viewport viewport = this.getViewport();
 
 		batch.begin();
-		Pixmap pixmap = new Pixmap(world.getWidth(), world.getHeight(), Pixmap.Format.RGBA8888);
-		pixmap.setColor(Color.BLACK);
-		pixmap.fillRectangle(0,0, world.getWidth(), world.getHeight());
-		Texture text = new Texture(pixmap);
-		pixmap.dispose();
-
-		batch.draw(text, 0, 0, world.getWidth(), world.getHeight());
-		text.dispose();
-
 		this.world.draw(batch, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
 		batch.end();
 

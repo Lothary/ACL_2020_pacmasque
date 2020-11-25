@@ -9,9 +9,12 @@
 package fr.ul.pacmasque.util;
 
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import fr.ul.pacmasque.exception.TextureException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,5 +58,21 @@ public class TexturePack {
 		}
 
 		return new Texture(textureHandle);
+	}
+
+	/**
+	 * Crée une texture basique d'une couleur, en cas d'erreur de chargement de la texture de base
+	 * @param color couleur de la texture
+	 * @return un carré de couleur
+	 */
+	@NotNull public static Texture getFallbackTexture(@Nullable Color color) {
+		Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+		pixmap.setColor(color == null ? Color.PINK : color);
+		pixmap.fillRectangle(0, 0, 1, 1);
+
+		Texture texture = new Texture(pixmap);
+		pixmap.dispose();
+
+		return texture;
 	}
 }

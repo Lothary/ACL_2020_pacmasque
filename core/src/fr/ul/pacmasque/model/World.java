@@ -26,10 +26,6 @@ import java.util.List;
  */
 public class World implements Drawable {
 
-	public @NotNull Labyrinth getLabyrinth() {
-		return labyrinth;
-	}
-
 	/**
 	 * Labyrinthe du monde
 	 */
@@ -76,21 +72,10 @@ public class World implements Drawable {
 	}
 
 	/**
-	 * Ajoute un monstre au monde
-	 * @param monster un nouveau monstre
+	 * @return le labyrinthe du monde
 	 */
-	public void addMonster(Monster monster) {
-		if (!this.monsters.contains(monster))
-			this.monsters.add(monster);
-	}
-
-	/**
-	 * Ajoute une pastille au monde
-	 * @param pastille une nouveau pastille
-	 */
-	public void addPastille(Pastille pastille) {
-		if (!this.pastilles.contains(pastille))
-			this.pastilles.add(pastille);
+	public @NotNull Labyrinth getLabyrinth() {
+		return labyrinth;
 	}
 
 	/**
@@ -119,6 +104,24 @@ public class World implements Drawable {
 	 */
 	@NotNull public Player getPlayer() {
 		return this.player;
+	}
+
+	/**
+	 * Ajoute un monstre au monde
+	 * @param monster un nouveau monstre
+	 */
+	public void addMonster(Monster monster) {
+		if (!this.monsters.contains(monster))
+			this.monsters.add(monster);
+	}
+
+	/**
+	 * Ajoute une pastille au monde
+	 * @param pastille une nouveau pastille
+	 */
+	public void addPastille(Pastille pastille) {
+		if (!this.pastilles.contains(pastille))
+			this.pastilles.add(pastille);
 	}
 
 	@ApiStatus.Experimental
