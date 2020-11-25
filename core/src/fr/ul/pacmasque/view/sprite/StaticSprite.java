@@ -11,9 +11,16 @@ package fr.ul.pacmasque.view.sprite;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+/**
+ * Sprite statique
+ */
 public class StaticSprite extends Sprite {
 
-	public StaticSprite(Texture texture, int numberOfFrames, float cycleTime) {
+	/**
+	 * Crée une Sprite statique
+	 * @param texture une texture contenant une unique frame
+	 */
+	public StaticSprite(Texture texture) {
 		super(new TextureRegion(texture), 1, Float.MAX_VALUE);
 	}
 }
