@@ -10,5 +10,8 @@ package fr.ul.pacmasque.algorithm;
 
 public abstract class Algorithm {
 
+	/**
+	 * Signal the algorithm to compute the next step, and move the associated entity by one unit
+	 */
 	public abstract void tick();
 }

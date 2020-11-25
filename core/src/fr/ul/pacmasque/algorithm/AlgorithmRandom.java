@@ -18,14 +18,30 @@ import java.util.Random;
 
 public class AlgorithmRandom extends Algorithm {
 
+	/**
+	 * The world on which the algorithm will be based
+	 */
 	@NotNull private final World world;
+
+	/**
+	 * The monster driven by the algorithm
+	 * @implNote factoriser l'algorithme à l'entité
+	 */
 	@NotNull private final Monster monster;
 
+	/**
+	 * Create an algorithm for a monster, moved in a world
+	 * @param world the world containing the entity
+	 * @param monster the entity moved by the algorithm
+	 */
 	public AlgorithmRandom(@NotNull World world, @NotNull Monster monster) {
 		this.world = world;
 		this.monster = monster;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void tick() {
 
 		if(!this.monster.isMoving()) {
