@@ -17,12 +17,11 @@ import java.util.Random;
 
 public class AlgorithmRandom extends Algorithm {
 
-	private World world;
-	private Monster monster;
+	private final World world;
+	private final Monster monster;
 
 
 	public AlgorithmRandom(World world, Monster monster) {
-
 		this.world = world;
 		this.monster = monster;
 	}
