@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
 import fr.ul.pacmasque.view.hierarchy.StageView;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -30,7 +31,7 @@ public class SplashView extends StageView {
 	}
 
 	@Override
-	public void build(Stage stage, boolean debug) {
+	public void build(@NotNull Stage stage, boolean debug) {
 		splashTexture = new Texture(Gdx.files.internal("splashLogo.png"));
 		Image splashImage = new Image(splashTexture);
 

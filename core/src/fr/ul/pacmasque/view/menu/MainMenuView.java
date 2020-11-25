@@ -8,7 +8,6 @@
 
 package fr.ul.pacmasque.view.menu;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -20,9 +19,15 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Vue principale du menu du jeu, permettant de sélectionner l'action à réaliser
+ */
 public class MainMenuView extends StageView {
 
-	private final StageView newWorldMenu;
+	/**
+	 * Stage de la vue de création d'un nouveau monde
+	 */
+	@Nullable private StageView newWorldMenu;
 
 	/**
 	 * Crée une vue de taille donnée
@@ -33,11 +38,11 @@ public class MainMenuView extends StageView {
 	public MainMenuView(float viewportWidth, float viewportHeight, @Nullable Color clearColor, @NotNull Skin skin) {
 		super(viewportWidth, viewportHeight, clearColor, skin);
 
-		this.newWorldMenu = new NewWorldMenuView(viewportWidth, viewportHeight, clearColor, skin);
+		this.newWorldMenu = null;
 	}
 
 	@Override
-	public void build(Stage stage, boolean debug) {
+	public void build(@NotNull Stage stage, boolean debug) {
 		Skin skin = this.getSkin();
 		Table table = this.getMenuTable(debug, skin);
 		stage.addActor(table);
@@ -61,6 +66,11 @@ public class MainMenuView extends StageView {
 		newWorldButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				// Initialise au besoin
+				if (newWorldMenu == null) {
+					newWorldMenu = new NewWorldMenuView(getWidth(), getHeight(), getBackgroundColor(), skin);
+				}
+
 				present(newWorldMenu);
 			}
 		});
