@@ -33,6 +33,7 @@ public class BasicMonster implements Monster {
 		movesList = new ArrayList<>();
 
 		try {
+			// TODO: ajouter une "texture" de fallback en cas de problème de chargement de la texture choisie
 			this.texture = TexturePackFactory.getInstance().getTexturePack("secondpack").get("monster");
 		} catch (TextureException e) {
 			e.printStackTrace();
@@ -40,7 +41,8 @@ public class BasicMonster implements Monster {
 	}
 
 
-	private void updateMovement(){
+	private void updateMovement() {
+		// TODO: factoriser! duplication de code
 		//Si la liste des mouvements n'est pas vide, ajoute ce mouvement à la position du monstre
 		if(!this.movesList.isEmpty()){
 
