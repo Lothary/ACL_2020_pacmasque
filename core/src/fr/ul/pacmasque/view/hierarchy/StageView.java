@@ -8,7 +8,6 @@
 
 package fr.ul.pacmasque.view.hierarchy;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -16,6 +15,9 @@ import fr.ul.pacmasque.Pacmasque;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Vue disposant d'une scène `stage`
+ */
 public abstract class StageView extends PortedView {
 
 	/**
@@ -28,6 +30,13 @@ public abstract class StageView extends PortedView {
 	 */
 	@NotNull private final Skin skin;
 
+	/**
+	 * Crée une vue munie d'une scène
+	 * @param viewportWidth la largeur du viewport
+	 * @param viewportHeight la hauteur du viewport
+	 * @param backgroundColor sa couleur de fond
+	 * @param skin le skin utilisé par la scène
+	 */
 	public StageView(float viewportWidth, float viewportHeight, @Nullable Color backgroundColor, @NotNull Skin skin) {
 		super(viewportWidth, viewportHeight, backgroundColor);
 
@@ -35,10 +44,16 @@ public abstract class StageView extends PortedView {
 		this.stage = new Stage(this.getViewport(), this.getBatch());
 	}
 
+	/**
+	 * @return la scène de la vue
+	 */
 	@NotNull public Stage getStage() {
 		return this.stage;
 	}
 
+	/**
+	 * @return le skin de la vue
+	 */
 	@NotNull public Skin getSkin() {
 		return this.skin;
 	}
@@ -47,7 +62,7 @@ public abstract class StageView extends PortedView {
 	 * Construit la scène
 	 * @param stage la scène sur laquelle les éléments vont être placés
 	 */
-	public abstract void build(Stage stage, boolean debug);
+	public abstract void build(@NotNull Stage stage, boolean debug);
 
 	// Disposable
 	@Override
