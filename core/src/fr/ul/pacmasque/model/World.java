@@ -15,61 +15,114 @@ import fr.ul.pacmasque.Drawable;
 import fr.ul.pacmasque.algorithm.AlgorithmRandom;
 import fr.ul.pacmasque.entity.*;
 import fr.ul.pacmasque.entity.BasicPlayer;
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Monde dans lequel les entités vont évoluer
+ */
 public class World implements Drawable {
 
-	public Labyrinth getLabyrinth() {
+	public @NotNull Labyrinth getLabyrinth() {
 		return labyrinth;
 	}
 
-	private final Labyrinth labyrinth;
-	private CollisionManager collisionManager;
+	/**
+	 * Labyrinthe du monde
+	 */
+	@NotNull private final Labyrinth labyrinth;
 
-	private final Player player;
-	private final List<Pastille> pastilles;
-	private final List<Monster> monsters;
+	/**
+	 * Gestionnaire des collisions
+	 */
+	@NotNull private final CollisionManager collisionManager;
 
-	public World(Labyrinth labyrinth) {
+	/**
+	 * Joueur
+	 */
+	@NotNull private final Player player;
+
+	/**
+	 * Liste des pastilles présentes dans le monde
+	 */
+	@NotNull private final List<Pastille> pastilles;
+
+	/**
+	 * Liste des monstres présents dans le monde
+	 */
+	@NotNull private final List<Monster> monsters;
+
+	/**
+	 * Crée un monde
+	 * @param labyrinth le labyrinthe du monde
+	 */
+	public World(@NotNull Labyrinth labyrinth) {
 		this.labyrinth = labyrinth;
 		this.collisionManager = new CollisionManager(this);
 
+		// TODO: - Définir, autrement, la position de départ du joueur...
 		this.player = new BasicPlayer(2, 2);
+
 		this.pastilles = new ArrayList<>();
 		this.monsters = new ArrayList<>();
 
-		BasicMonster m1 = new BasicMonster(3,3);
-		m1.setAlgorithm(new AlgorithmRandom(this, m1));
-		this.addMonster(m1);
-
-
+		// Même remarque que précédent
+		BasicMonster dummyMonster = new BasicMonster(3,3);
+		dummyMonster.setAlgorithm(new AlgorithmRandom(this, dummyMonster));
+		this.addMonster(dummyMonster);
 	}
 
-	public void addMonster(Monster monster){
-		monsters.add(monster);
-	}
-	public void addPastille(Pastille pastille){
-		pastilles.add(pastille);
+	/**
+	 * Ajoute un monstre au monde
+	 * @param monster un nouveau monstre
+	 */
+	public void addMonster(Monster monster) {
+		if (!this.monsters.contains(monster))
+			this.monsters.add(monster);
 	}
 
+	/**
+	 * Ajoute une pastille au monde
+	 * @param pastille une nouveau pastille
+	 */
+	public void addPastille(Pastille pastille) {
+		if (!this.pastilles.contains(pastille))
+			this.pastilles.add(pastille);
+	}
+
+	/**
+	 * @return largeur du monde
+	 */
 	public int getWidth() {
 		return this.labyrinth.getWidth();
 	}
 
+	/**
+	 * @return hauteur du monde
+	 */
 	public int getHeight() {
 		return this.labyrinth.getHeight();
 	}
 
-	public CollisionManager getCollisionManager(){return this.collisionManager; }
-
-	public Player getPlayer() {
-		return player;
+	/**
+	 * @return gestionnaire de collisions du monde
+	 */
+	@NotNull public CollisionManager getCollisionManager() {
+		return this.collisionManager;
 	}
 
+	/**
+	 * @return le joueur
+	 */
+	@NotNull public Player getPlayer() {
+		return this.player;
+	}
 
-	public void updateCollision(){
+	@ApiStatus.Experimental
+	public void updateCollision() {
 		boolean collision = false;
 
 		//Collision avec les monstres
@@ -95,49 +148,50 @@ public class World implements Drawable {
 
 	public void movePlayer(int direction) {
 
-			float moveAmount = 1.0f;
-			Vector2 finalCase = new Vector2(this.player.getNextPositionX(), this.player.getNextPositionY());
+		float moveAmount = 1.0f;
+		Vector2 finalCase = new Vector2(this.player.getNextPositionX(), this.player.getNextPositionY());
 
-			switch (direction) {
-				case Input.Keys.LEFT:
-					finalCase.x = this.player.getNextPositionX() - moveAmount;
-					if (!this.labyrinth.isWall(finalCase) && finalCase.x >= 0.0) {
-						this.player.setNextPositionX(this.player.getNextPositionX() - moveAmount);
-						this.player.addMouvement(Input.Keys.LEFT, 10);
-					}
-					break;
-				case Input.Keys.RIGHT:
-					finalCase.x = this.player.getNextPositionX() + moveAmount;
-					if (!this.labyrinth.isWall(finalCase) && finalCase.x < this.labyrinth.getWidth()) {
-						this.player.setNextPositionX(this.player.getNextPositionX() + moveAmount);
-						this.player.addMouvement(Input.Keys.RIGHT, 10);
-					}
-					break;
-				case Input.Keys.UP:
-					finalCase.y = this.player.getNextPositionY() + moveAmount;
-					if (!this.labyrinth.isWall(finalCase) && finalCase.y < this.labyrinth.getHeight()) {
-						this.player.setNextPositionY(this.player.getNextPositionY() + moveAmount);
-						this.player.addMouvement(Input.Keys.UP, 10);
-					}
-					break;
-				case Input.Keys.DOWN:
-					finalCase.y = this.player.getNextPositionY() - moveAmount;
-					if (!this.labyrinth.isWall(finalCase) && finalCase.y >= 0.0) {
-						this.player.setNextPositionY(this.player.getNextPositionY() - moveAmount);
-						this.player.addMouvement(Input.Keys.DOWN, 10);
-					}
-					break;
-			}
+		switch (direction) {
+			case Input.Keys.LEFT:
+				finalCase.x = this.player.getNextPositionX() - moveAmount;
+				if (!this.labyrinth.isWall(finalCase) && finalCase.x >= 0.0) {
+					this.player.setNextPositionX(this.player.getNextPositionX() - moveAmount);
+					this.player.addMouvement(Input.Keys.LEFT, 10);
+				}
+				break;
+			case Input.Keys.RIGHT:
+				finalCase.x = this.player.getNextPositionX() + moveAmount;
+				if (!this.labyrinth.isWall(finalCase) && finalCase.x < this.labyrinth.getWidth()) {
+					this.player.setNextPositionX(this.player.getNextPositionX() + moveAmount);
+					this.player.addMouvement(Input.Keys.RIGHT, 10);
+				}
+				break;
+			case Input.Keys.UP:
+				finalCase.y = this.player.getNextPositionY() + moveAmount;
+				if (!this.labyrinth.isWall(finalCase) && finalCase.y < this.labyrinth.getHeight()) {
+					this.player.setNextPositionY(this.player.getNextPositionY() + moveAmount);
+					this.player.addMouvement(Input.Keys.UP, 10);
+				}
+				break;
+			case Input.Keys.DOWN:
+				finalCase.y = this.player.getNextPositionY() - moveAmount;
+				if (!this.labyrinth.isWall(finalCase) && finalCase.y >= 0.0) {
+					this.player.setNextPositionY(this.player.getNextPositionY() - moveAmount);
+					this.player.addMouvement(Input.Keys.DOWN, 10);
+				}
+				break;
 		}
+	}
 
-
-
+	/**
+	 * Indique aux algorithmes de se mettre à jour
+	 */
+	// TODO: - Centraliser la mise à jour du monde
 	public void moveMonsters(){
 		for(Monster m : this.monsters){
 			m.getAlgorithm().tick();
 		}
 	}
-
 
 	@Override
 	public void draw(Batch batch, float x, float y, float width, float height) {
