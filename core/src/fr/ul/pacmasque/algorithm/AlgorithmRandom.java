@@ -12,23 +12,23 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import fr.ul.pacmasque.entity.Monster;
 import fr.ul.pacmasque.model.World;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
 public class AlgorithmRandom extends Algorithm {
 
-	private final World world;
-	private final Monster monster;
+	@NotNull private final World world;
+	@NotNull private final Monster monster;
 
-
-	public AlgorithmRandom(World world, Monster monster) {
+	public AlgorithmRandom(@NotNull World world, @NotNull Monster monster) {
 		this.world = world;
 		this.monster = monster;
 	}
 
-	public void tick(){
+	public void tick() {
 
-		if(!this.monster.isMoving()){
+		if(!this.monster.isMoving()) {
 
 			Random r = new Random();
 			//0 : LEFT, 1 : RIGHT, 2 : UP, 3 : DOWN
@@ -68,12 +68,5 @@ public class AlgorithmRandom extends Algorithm {
 					break;
 			}
 		}
-
-
-
-
 	}
-
-
-
 }
