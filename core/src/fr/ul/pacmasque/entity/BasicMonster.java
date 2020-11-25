@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BasicMonster implements Monster {
+
 	private final Vector2 position;
 	private Texture texture;
 	private Algorithm algorithm;
