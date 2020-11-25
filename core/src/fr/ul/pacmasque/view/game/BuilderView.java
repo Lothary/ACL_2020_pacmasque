@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import fr.ul.pacmasque.model.Labyrinth;
 import fr.ul.pacmasque.model.World;
 import fr.ul.pacmasque.util.encoder.Encoder;
+import fr.ul.pacmasque.util.encoder.EncoderException;
 import fr.ul.pacmasque.util.encoder.LabyrinthEncoder;
 
 /**
@@ -69,12 +70,20 @@ public class BuilderView extends GameView {
 		if (keycode == Input.Keys.S && this.ctrlDown) {
 			// TODO: - Changer d'encoder ?
 			Encoder<Labyrinth> labyrinthEncoder = new LabyrinthEncoder();
-			byte[] encodedLabyrinth = labyrinthEncoder.encode(this.getWorld().getLabyrinth());
 
-			// TODO: - Changer le répertoire de sauvegarde
-			// TODO: - Utiliser le nom du world comme nom de fichier
-			FileHandle fileHandle = Gdx.files.external("export.json");
-			fileHandle.writeBytes(encodedLabyrinth, false);
+			try {
+				byte[] encodedLabyrinth = labyrinthEncoder.encode(this.getWorld().getLabyrinth());
+
+				// TODO: - Changer le répertoire de sauvegarde
+				// TODO: - Utiliser le nom du world comme nom de fichier
+				FileHandle fileHandle = Gdx.files.external("export.json");
+				fileHandle.writeBytes(encodedLabyrinth, false);
+			} catch (EncoderException e) {
+				e.printStackTrace();
+				// TODO: Afficher une erreur
+			}
+
+
 			return true;
 		}
 
