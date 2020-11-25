@@ -66,7 +66,7 @@ public abstract class StageView extends PortedView {
 	@Override
 	public void create() {
 		super.create();
-		this.build(this.getStage(), Pacmasque.DEBUG);
+		this.build(this.getStage(), Pacmasque.ENVIRONMENT == Pacmasque.Environment.DEBUG);
 	}
 
 	@Override
