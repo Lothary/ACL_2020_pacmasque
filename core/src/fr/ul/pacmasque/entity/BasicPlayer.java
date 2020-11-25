@@ -8,8 +8,6 @@
 
 package fr.ul.pacmasque.entity;
 
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -23,6 +21,11 @@ import java.util.List;
 public class BasicPlayer implements Player{
 
 	private final Vector2 position;
+
+	/**
+	 * Future feature, to be implemented!
+	 * @apiNote unused
+	 */
 	private int lifePoints;
 	private final Vector2 nextPosition;
 	private Texture texture;
