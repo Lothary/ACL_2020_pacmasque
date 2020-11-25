@@ -9,9 +9,12 @@
 package fr.ul.pacmasque.view.hierarchy;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import fr.ul.pacmasque.Pacmasque;
+import fr.ul.pacmasque.util.TexturePack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,6 +33,8 @@ public abstract class StageView extends PortedView {
 	 */
 	@NotNull private final Skin skin;
 
+	@NotNull private final Texture texture;
+
 	/**
 	 * Crée une vue munie d'une scène
 	 * @param viewportWidth la largeur du viewport
@@ -42,6 +47,7 @@ public abstract class StageView extends PortedView {
 
 		this.skin = skin;
 		this.stage = new Stage(this.getViewport(), this.getBatch());
+		this.texture = TexturePack.getFallbackTexture(this.getBackgroundColor());
 	}
 
 	/**
@@ -79,6 +85,11 @@ public abstract class StageView extends PortedView {
 
 	// View
 	@Override
+	public boolean shouldClearScreen() {
+		return false;
+	}
+
+	@Override
 	public void create() {
 		super.create();
 		this.build(this.getStage(), Pacmasque.ENVIRONMENT == Pacmasque.Environment.DEBUG);
@@ -92,6 +103,12 @@ public abstract class StageView extends PortedView {
 	// Screen
 	@Override
 	public void render(float delta) {
+
+		Batch batch = this.getBatch();
+		batch.begin();
+		batch.draw(texture, 0, 0, this.getWidth(), this.getHeight());
+		batch.end();
+
 		super.render(delta);
 		this.stage.draw();
 	}

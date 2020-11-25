@@ -30,8 +30,6 @@ public abstract class BatchView extends View implements Disposable {
 	 */
 	@NotNull private final Batch batch;
 
-	private final Texture texture = TexturePack.getFallbackTexture(this.getBackgroundColor());
-
 	/**
 	 * Crée une vue munie d'un batch
 	 * @param width sa largeur
@@ -56,11 +54,6 @@ public abstract class BatchView extends View implements Disposable {
 	@Override
 	public void render(float delta) {
 		super.render(delta);
-
-		Batch batch = this.getBatch();
-		batch.begin();
-		batch.draw(texture, 0, 0, this.getWidth(), this.getHeight());
-		batch.end();
 	}
 
 	@Override

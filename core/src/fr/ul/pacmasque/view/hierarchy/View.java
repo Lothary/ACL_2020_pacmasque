@@ -145,6 +145,15 @@ public abstract class View extends Responder implements Screen {
 		}
 	}
 
+	/**
+	 * @return si la vue doit nettoyer l'écran
+	 * @apiNote si oui, alors tout l'écran sera nettoyé, si non, il est possible que des parties des vues précédentes soient visibles.
+	 * Une vue qui dessine elle-même son fond peut mettre cette valeur à false
+	 */
+	public boolean shouldClearScreen() {
+		return true;
+	}
+
 	// Screen
 	@Override
 	public void show() {
@@ -158,9 +167,11 @@ public abstract class View extends Responder implements Screen {
 			this.update(delta);
 		}
 
-		//Color color = this.getBackgroundColor();
-		//Gdx.gl.glClearColor(color.r, color.g, color.b, color.a);
-		//Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		if (shouldClearScreen()) {
+			Color color = this.getBackgroundColor();
+			Gdx.gl.glClearColor(color.r, color.g, color.b, color.a);
+			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		}
 	}
 
 	@Override
