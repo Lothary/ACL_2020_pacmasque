@@ -18,10 +18,11 @@ public interface LabyrinthGenerator {
 
 	/**
 	 * Génère un labyrinthe de taille donnée
+	 * @param seed le seed
 	 * @param width largeur du labyrinthe
 	 * @param height hauteur du labyrinthe
 	 * @return un labyrinthe
 	 */
-	@NotNull Labyrinth generate(int width, int height) throws LabyrinthGeneratorException;
+	@NotNull Labyrinth generate(long seed, int width, int height) throws LabyrinthGeneratorException;
 
 }

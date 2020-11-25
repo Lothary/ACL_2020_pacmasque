@@ -22,16 +22,10 @@ import java.util.Stack;
 public class KruskalGenerator implements LabyrinthGenerator {
 
 	/**
-	 * Seed de génération
-	 */
-	private final int seed;
-
-	/**
 	 * Instancie un générateur selon un seed
-	 * @param seed un seed
 	 */
-	public KruskalGenerator(int seed) {
-		this.seed = seed;
+	public KruskalGenerator() {
+
 	}
 
 	/**
@@ -42,7 +36,7 @@ public class KruskalGenerator implements LabyrinthGenerator {
 	 * @return un labyrinthe
 	 */
 	@Override
-	public @NotNull Labyrinth generate(@Range(from = 3, to = 99) int width, @Range(from = 3, to = 99) int height) throws LabyrinthGeneratorException {
+	public @NotNull Labyrinth generate(long seed, @Range(from = 3, to = 99) int width, @Range(from = 3, to = 99) int height) throws LabyrinthGeneratorException {
 
 		if (isSizeInvalid(width) || isSizeInvalid(height)) {
 			throw new LabyrinthGeneratorException(this, width, height, "La taille demandée est invalide");
@@ -77,7 +71,7 @@ public class KruskalGenerator implements LabyrinthGenerator {
 			}
 		}
 
-		Random random = new Random(this.seed);
+		Random random = new Random(seed);
 		Collections.shuffle(edgesStack, random);
 
 		while (!edgesStack.isEmpty()) {

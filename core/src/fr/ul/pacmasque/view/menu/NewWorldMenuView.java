@@ -16,10 +16,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import fr.ul.common.graphics.CGSize;
 import fr.ul.pacmasque.model.Labyrinth;
 import fr.ul.pacmasque.model.World;
-import fr.ul.pacmasque.util.generator.KruskalGenerator;
+import fr.ul.pacmasque.util.generator.Generators;
 import fr.ul.pacmasque.util.generator.LabyrinthGenerator;
 import fr.ul.pacmasque.util.generator.LabyrinthGeneratorException;
 import fr.ul.pacmasque.view.game.BuilderView;
@@ -39,14 +40,19 @@ public class NewWorldMenuView extends StageView {
 		CGSize size = new CGSize(7,7);
 		String title = "New World";
 		String seed = "" + System.currentTimeMillis();
+		String generator = "";
 	}
 
 	public static CGSize[] SIZES = new CGSize[]{new CGSize(7, 7), new CGSize(15, 15), new CGSize(31, 31), new CGSize(63, 63)};
 
 	private final _NewWorldSettings settings = new _NewWorldSettings();
 
+	@NotNull private final Generators generators;
+
 	public NewWorldMenuView(float viewportWidth, float viewportHeight, @Nullable Color clearColor, @NotNull Skin skin) {
 		super(viewportWidth, viewportHeight, clearColor, skin);
+
+		generators = Generators.shared();
 	}
 
 	@Override
@@ -117,8 +123,28 @@ public class NewWorldMenuView extends StageView {
 			return seedTextArea;
 		});
 
+		Actor generatorGroup = this.withTitle("Generator", skin, () -> {
+			SelectBox<String> generatorSelectBox = new SelectBox<>(skin);
+			generatorSelectBox.setAlignment(Align.left);
+			Array<String> array = new Array<>();
+			array.add("");
+			array.addAll(generators.getAvailableGenerators());
+			generatorSelectBox.setItems(array);
+
+			generatorSelectBox.addCaptureListener(new ChangeListener() {
+				@Override
+				public void changed(ChangeEvent event, Actor actor) {
+					settings.generator = generatorSelectBox.getSelected();
+				}
+			});
+
+			return generatorSelectBox;
+		});
+
 		table.add(creativeModeGroup).width(400).fillX();
 		table.add(seedGroup).width(400).fillX();
+		table.row();
+		table.add(generatorGroup).width(400).fillX();
 		table.row();
 
 		// Back button
@@ -158,7 +184,13 @@ public class NewWorldMenuView extends StageView {
 					return;
 				}
 
-				View view = getNextView(creativeModeEnabled, worldtitle, settings.size, seed);
+				final String generatorTitle = settings.generator.trim();
+				if (generatorTitle.isEmpty()) {
+					// TODO: Afficher un message d'erreur
+					return;
+				}
+
+				View view = getNextView(creativeModeEnabled, worldtitle, settings.size, seed, generatorTitle);
 				if (view != null) {
 					present(view);
 				}
@@ -192,7 +224,7 @@ public class NewWorldMenuView extends StageView {
 	}
 
 	@ApiStatus.Experimental
-	@Nullable private View getNextView(boolean creativeMode, @NotNull String worldTitle, @NotNull CGSize worldSize, long seed) {
+	@Nullable private View getNextView(boolean creativeMode, @NotNull String worldTitle, @NotNull CGSize worldSize, long seed, String generatorName) {
 
 		if (creativeMode) {
 			final Labyrinth labyrinth = new Labyrinth((int) worldSize.width, (int) worldSize.height);
@@ -201,11 +233,18 @@ public class NewWorldMenuView extends StageView {
 		}
 
 		// TODO: - Sélectionne un algorithme de création
-		LabyrinthGenerator generator = new KruskalGenerator((int) seed);
+		Supplier<LabyrinthGenerator> generatorFactory = this.generators.getGeneratorFactory(generatorName);
+
+		if (generatorFactory == null) {
+			// TODO: Afficher un message d'erreur
+			return null;
+		}
+
+		LabyrinthGenerator generator = generatorFactory.get();
 
 		try {
 			// TODO: - Déléguer l'appel de l'algorithme dans une nouvelle vue, permettant l'affichage de la progression de celui-ci. Pour une grande taille, il peut bloquer le thread graphique
-			final Labyrinth labyrinth = generator.generate((int) worldSize.width, (int) worldSize.height);
+			final Labyrinth labyrinth = generator.generate(seed, (int) worldSize.width, (int) worldSize.height);
 
 			// TODO: - Utiliser le nom du world dans sa création
 			final World world = new World(labyrinth);
