@@ -228,7 +228,6 @@ public class NewWorldMenuView extends StageView {
 
 		if (creativeMode) {
 			final Labyrinth labyrinth = new Labyrinth((int) worldSize.width, (int) worldSize.height);
-			// TODO: - Utiliser le nom du world dans sa création
 			return new BuilderView(labyrinth, worldTitle);
 		}
 
@@ -245,7 +244,6 @@ public class NewWorldMenuView extends StageView {
 			// TODO: - Déléguer l'appel de l'algorithme dans une nouvelle vue, permettant l'affichage de la progression de celui-ci. Pour une grande taille, il peut bloquer le thread graphique
 			final Labyrinth labyrinth = generator.generate(seed, (int) worldSize.width, (int) worldSize.height);
 
-			// TODO: - Utiliser le nom du world dans sa création
 			final World world = new World(labyrinth, worldTitle);
 			return new GameView(world);
 
