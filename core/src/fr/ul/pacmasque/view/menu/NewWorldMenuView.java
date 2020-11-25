@@ -56,11 +56,6 @@ public class NewWorldMenuView extends StageView {
 	}
 
 	@Override
-	public boolean shouldClearScreen() {
-		return true;
-	}
-
-	@Override
 	public void build(@NotNull Stage stage, boolean debug) {
 
 		Skin skin = this.getSkin();

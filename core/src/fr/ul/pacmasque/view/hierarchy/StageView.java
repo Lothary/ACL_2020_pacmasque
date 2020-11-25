@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import fr.ul.pacmasque.Pacmasque;
 import fr.ul.pacmasque.util.TexturePack;
+import fr.ul.pacmasque.view.menu.ErrorView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -70,6 +71,15 @@ public abstract class StageView extends PortedView {
 	 */
 	public abstract void build(@NotNull Stage stage, boolean debug);
 
+	/**
+	 * Affiche une vue d'erreur avec un bouton "OK"
+	 * @param message le message de la vue
+	 */
+	protected void error(String message) {
+		ErrorView errorView = new ErrorView(1080, 720, getSkin(), message);
+		present(errorView);
+	}
+
 	// Disposable
 	@Override
 	public void dispose() {
@@ -84,11 +94,6 @@ public abstract class StageView extends PortedView {
 	}
 
 	// View
-	@Override
-	public boolean shouldClearScreen() {
-		return false;
-	}
-
 	@Override
 	public void create() {
 		super.create();
