@@ -26,7 +26,7 @@ public abstract class View extends Responder implements Screen {
 	/**
 	 * Couleur de fond par défaut
 	 */
-	@NotNull public static final Color DEFAULT_BACKGROUND_COLOR = Color.BLACK;
+	@NotNull public static final Color DEFAULT_BACKGROUND_COLOR = Color.valueOf("111111");
 
 	/**
 	 * Contrôle de navigation, permettant l'ajout et la suppression de vue dans la fenêtre
