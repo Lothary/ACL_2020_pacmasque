@@ -14,6 +14,11 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Contrôleur de vue, permettant de gérer son cycle de vie.
+ * Utilisé dans le contrôleur de navigation.
+ * Communique avec sa vue pour lui indiquer un changement de statut.
+ */
 @ApiStatus.Experimental
 public class ViewController extends Responder {
 
@@ -22,6 +27,10 @@ public class ViewController extends Responder {
 	 */
 	@NotNull private final View view;
 
+	/**
+	 * Crée un contrôleur de vue pour une vue donnée
+	 * @param view une vue
+	 */
 	public ViewController(@NotNull View view) {
 		this.view = view;
 	}
