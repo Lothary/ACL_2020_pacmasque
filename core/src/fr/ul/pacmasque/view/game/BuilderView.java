@@ -73,15 +73,16 @@ public class BuilderView extends GameView {
 			Encoder<Labyrinth> labyrinthEncoder = new LabyrinthEncoder();
 
 			try {
-				byte[] encodedLabyrinth = labyrinthEncoder.encode(this.getWorld().getLabyrinth());
+				World world = this.getWorld();
+				byte[] encodedLabyrinth = labyrinthEncoder.encode(world.getLabyrinth());
 
 				// TODO: - Changer le répertoire de sauvegarde
-				// TODO: - Utiliser le nom du world comme nom de fichier
-				FileHandle fileHandle = Gdx.files.external("export.json");
+				String worldName = world.getWorldName().replace(' ', '_');
+				FileHandle fileHandle = Gdx.files.external(worldName + ".json");
 				fileHandle.writeBytes(encodedLabyrinth, false);
 			} catch (EncoderException e) {
 				e.printStackTrace();
-				// TODO: Afficher une erreur
+
 			}
 
 
