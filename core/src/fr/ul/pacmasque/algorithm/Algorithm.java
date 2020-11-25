@@ -8,13 +8,7 @@
 
 package fr.ul.pacmasque.algorithm;
 
-import fr.ul.pacmasque.entity.Monster;
-import fr.ul.pacmasque.model.World;
-
 public abstract class Algorithm {
-
-
-	public Algorithm(){}
 
 	public abstract void tick();
 }
