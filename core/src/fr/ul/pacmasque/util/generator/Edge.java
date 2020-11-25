@@ -45,4 +45,13 @@ public class Edge implements Comparable<Edge> {
 	public int compareTo(@NotNull Edge o) {
 		return 0;
 	}
+
+	@Override
+	public String toString() {
+		return "Edge{" +
+				"x=" + x +
+				", y=" + y +
+				", direction=" + direction +
+				'}';
+	}
 }
