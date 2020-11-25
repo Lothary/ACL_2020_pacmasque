@@ -17,6 +17,9 @@ import fr.ul.pacmasque.model.World;
 import fr.ul.pacmasque.util.encoder.Encoder;
 import fr.ul.pacmasque.util.encoder.LabyrinthEncoder;
 
+/**
+ * Vue permettant la construction d'un labyrinthe
+ */
 public class BuilderView extends GameView {
 
 	private boolean ctrlDown = false;
@@ -64,9 +67,12 @@ public class BuilderView extends GameView {
 		}
 
 		if (keycode == Input.Keys.S && this.ctrlDown) {
+			// TODO: - Changer d'encoder ?
 			Encoder<Labyrinth> labyrinthEncoder = new LabyrinthEncoder();
 			byte[] encodedLabyrinth = labyrinthEncoder.encode(this.getWorld().getLabyrinth());
 
+			// TODO: - Changer le répertoire de sauvegarde
+			// TODO: - Utiliser le nom du world comme nom de fichier
 			FileHandle fileHandle = Gdx.files.external("export.json");
 			fileHandle.writeBytes(encodedLabyrinth, false);
 			return true;
@@ -75,4 +81,15 @@ public class BuilderView extends GameView {
 		return false;
 	}
 
+	@Override
+	public boolean keyUp(int keycode) {
+		super.keyUp(keycode);
+
+		if (keycode == Input.Keys.CONTROL_LEFT || keycode == Input.Keys.CONTROL_RIGHT) {
+			ctrlDown = false;
+			return true;
+		}
+
+		return false;
+	}
 }

@@ -9,8 +9,7 @@
 package fr.ul.pacmasque.view.game;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -18,10 +17,24 @@ import fr.ul.pacmasque.model.World;
 import fr.ul.pacmasque.view.hierarchy.PortedView;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Vue de jeu
+ */
 public class GameView extends PortedView {
 
+	/**
+	 * Zoom maximale de la vue
+	 */
 	private static final float MAX_ZOOM = .25f;
+
+	/**
+	 * Zoom minimal de la vue
+	 */
 	private static final float MIM_ZOOM = 3f;
+
+	/**
+	 * Facteur de vitesse auquel le zoom change
+	 */
 	private static final float ZOOM_FACTOR = 100f;
 
 	/**
@@ -34,10 +47,13 @@ public class GameView extends PortedView {
 	 * @param world un monde
 	 */
 	public GameView(@NotNull World world) {
-		super(world.getWidth(),world.getHeight(), null);
+		super(world.getWidth(),world.getHeight(), DEFAULT_BACKGROUND_COLOR);
 		this.world = world;
 	}
 
+	/**
+	 * @return le world de la vue
+	 */
 	public @NotNull World getWorld() {
 		return this.world;
 	}
@@ -116,6 +132,15 @@ public class GameView extends PortedView {
 		Viewport viewport = this.getViewport();
 
 		batch.begin();
+		Pixmap pixmap = new Pixmap(world.getWidth(), world.getHeight(), Pixmap.Format.RGBA8888);
+		pixmap.setColor(Color.BLACK);
+		pixmap.fillRectangle(0,0, world.getWidth(), world.getHeight());
+		Texture text = new Texture(pixmap);
+		pixmap.dispose();
+
+		batch.draw(text, 0, 0, world.getWidth(), world.getHeight());
+		text.dispose();
+
 		this.world.draw(batch, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
 		batch.end();
 
