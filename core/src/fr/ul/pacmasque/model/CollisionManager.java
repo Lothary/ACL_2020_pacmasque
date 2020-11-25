@@ -9,13 +9,13 @@
 package fr.ul.pacmasque.model;
 
 import fr.ul.pacmasque.entity.Entity;
-import fr.ul.pacmasque.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class CollisionManager {
 
-	private World world;
+	@NotNull private final World world;
 
-	public CollisionManager(World world){
+	public CollisionManager(@NotNull World world){
 		this.world = world;
 	}
 
