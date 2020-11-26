@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TexturePack {
+	//todo : enum aussi au lieu de strings ?
 
 	@NotNull private final Map<String, String> resources;
 	private final FileHandle handle;
@@ -29,6 +30,10 @@ public class TexturePack {
 		this.resources.put("stone", "stone.png");
 		this.resources.put("monster", "monster.png");
 		this.resources.put("pastille", "pastille.png");
+		this.resources.put("treasure", "treasure.png");
+		this.resources.put("trap", "trap.png");
+		this.resources.put("magic", "magic.png");
+		this.resources.put("teleportation", "teleportation.png");
 	}
 
 	/**

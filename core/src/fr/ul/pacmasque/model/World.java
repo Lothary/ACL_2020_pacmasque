@@ -15,22 +15,22 @@ import fr.ul.pacmasque.Drawable;
 import fr.ul.pacmasque.algorithm.AlgorithmRandom;
 import fr.ul.pacmasque.entity.*;
 import fr.ul.pacmasque.entity.BasicPlayer;
+import fr.ul.pacmasque.exception.LabyrinthException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class World implements Drawable {
-
-	public Labyrinth getLabyrinth() {
-		return labyrinth;
-	}
-
 	private final Labyrinth labyrinth;
 	private CollisionManager collisionManager;
 
 	private final Player player;
 	private final List<Pastille> pastilles;
 	private final List<Monster> monsters;
+	private final Map<Labyrinth.typeCase, List<Vector2>> caseCoordinates;
+
+	private boolean hasWin;
 
 	public World(Labyrinth labyrinth) {
 		this.labyrinth = labyrinth;
@@ -44,12 +44,15 @@ public class World implements Drawable {
 		m1.setAlgorithm(new AlgorithmRandom(this, m1));
 		this.addMonster(m1);
 
+		this.hasWin = false;
 
+		this.caseCoordinates = labyrinth.getCasesCoordinates();
 	}
 
 	public void addMonster(Monster monster){
 		monsters.add(monster);
 	}
+
 	public void addPastille(Pastille pastille){
 		pastilles.add(pastille);
 	}
@@ -68,6 +71,9 @@ public class World implements Drawable {
 		return player;
 	}
 
+	public Labyrinth getLabyrinth() {
+		return labyrinth;
+	}
 
 	public void updateCollision(){
 		boolean collision = false;
@@ -90,7 +96,32 @@ public class World implements Drawable {
 					e.setVisible(false);
 			}
 		}
+	}
 
+	public void updateCases() { // todo : améliorer cet algo car lent
+		Vector2 playerPosition = new Vector2(player.getNextPositionX(), player.getNextPositionY());
+
+		caseCoordinates.forEach(((typeCase, coordinatesList) -> {
+			if (coordinatesList.contains(playerPosition)){
+				switch (typeCase){
+					case treasure:
+						this.hasWin = true;
+						//todo : nouvelle view de gagnant?
+						break;
+					case trap:
+						//todo : diminuer la vie du player
+						break;
+					case magic:
+						//todo : augmenter la vie du player ? Ou superpower ?
+						break;
+					case teleportation:
+						// todo: search next teleportation door
+						//player.setPositionX(2);
+						//player.setPositionY(2);
+						break;
+				}
+			}
+		}));
 	}
 
 	public void movePlayer(int direction) {
@@ -129,8 +160,6 @@ public class World implements Drawable {
 					break;
 			}
 		}
-
-
 
 	public void moveMonsters(){
 		for(Monster m : this.monsters){

@@ -12,27 +12,36 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import fr.ul.pacmasque.Drawable;
-import fr.ul.pacmasque.exception.LabyrinthConstructorException;
+import fr.ul.pacmasque.exception.LabyrinthException;
 import fr.ul.pacmasque.exception.TextureException;
 import fr.ul.pacmasque.util.TexturePackFactory;
 import org.jetbrains.annotations.Range;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Un labyrinthe en deux dimensions, ayant une largeur et une hauteur
  */
 public class Labyrinth implements Drawable {
+	public enum typeCase {
+		treasure,
+		trap,
+		magic,
+		teleportation
+	}
 	private final int width;
 	private final int height;
 
-	public List<Vector2> getWalls() {
-		return positionsMurs;
-	}
-
 	private final List<Vector2> positionsMurs;
-	private Texture texture;
+	/**
+	 * Utilisée notamment par le draw.
+	 */
+	private final Map<typeCase, List<Case>> cases;
+	/**
+	 * Utilisée par le monde pour vérifier si le player est dans une des cases spéciales.
+	 */
+	private final Map<typeCase, List<Vector2>> casesCoordinates;
+	private Texture textureWall;
 
 	/**
 	 * Crée un labyrinthe vide de dimensions données
@@ -53,9 +62,11 @@ public class Labyrinth implements Drawable {
 		this.width = width;
 		this.height = height;
 		this.positionsMurs = new ArrayList<>();
+		this.cases = new HashMap<>();
+		this.casesCoordinates = new HashMap<>();
 
 		try {
-			this.texture = TexturePackFactory.getInstance().getTexturePack("basepack").get("stone");
+			this.textureWall = TexturePackFactory.getInstance().getTexturePack("basepack").get("stone");
 		} catch (TextureException e) {
 			e.printStackTrace();
 		}
@@ -77,6 +88,43 @@ public class Labyrinth implements Drawable {
 		}
 	}
 
+	public void createCase(typeCase type, int x, int y){ //todo : initialize cases in generator ?
+		if (this.inRange(x, y)){
+			Case newCase;
+			switch (type){
+				case treasure:
+					newCase = new TreasureCase(x, y);
+					break;
+				case magic:
+					newCase = new MagicCase(x, y);
+					break;
+				case teleportation:
+					newCase = new TeleportationCase(x, y);
+					break;
+				default:
+					newCase = new TrapCase(x, y);
+					break;
+			}
+			List<Case> casesList = cases.get(type);
+			List<Vector2> coordsList = casesCoordinates.get(type);
+			if ((casesList == null) || (coordsList == null)) {
+				casesList = Collections.singletonList(newCase);
+				coordsList = Collections.singletonList(new Vector2(x, y));
+			}
+			else{
+				casesList.add(newCase);
+				coordsList.add(new Vector2(x, y));
+			}
+
+			this.cases.put(type, casesList);
+			this.casesCoordinates.put(type, coordsList);
+		}
+	}
+
+	public Map<typeCase, List<Vector2>> getCasesCoordinates() {
+		return this.casesCoordinates;
+	}
+
 	/**
 	 * @return la largeur du labyrinthe
 	 */
@@ -89,6 +137,10 @@ public class Labyrinth implements Drawable {
 	 */
 	public int getHeight() {
 		return height;
+	}
+
+	public List<Vector2> getWalls() {
+		return positionsMurs;
 	}
 
 	/**
@@ -117,7 +169,19 @@ public class Labyrinth implements Drawable {
 
 	@Override
 	public void draw(Batch batch, float x, float y, float width, float height) {
-		this.positionsMurs.forEach(pos -> batch.draw(texture, pos.x, pos.y, 1,1));
+		// Dessin des murs
+		this.positionsMurs.forEach(pos -> batch.draw(textureWall, pos.x, pos.y, 1,1));
+
+		// Dessin des autres cases
+		this.cases.forEach((type, listeCases) -> {
+			try {
+				for (Case c : listeCases) {
+					batch.draw(c.getTexture(), c.getPosition().x, c.getPosition().y, 1, 1);
+				}
+			} catch (TextureException e) {
+				e.printStackTrace();
+			}
+		});
 	}
 
 }
