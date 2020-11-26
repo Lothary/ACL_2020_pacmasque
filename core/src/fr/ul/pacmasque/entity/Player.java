@@ -25,5 +25,7 @@ public interface Player extends Entity {
 
 	void addMouvement(int direction, int number);
 
+	void deleteMouvements();
+
 
 }

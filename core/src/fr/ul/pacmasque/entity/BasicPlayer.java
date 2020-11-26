@@ -45,7 +45,13 @@ public class BasicPlayer implements Player{
 		}
 	}
 
+	/**
+	 * @return la position virtuelle en X du Player
+	 */
 	public float getNextPositionX(){return this.nextPosition.x;}
+	/**
+	 * @return la position virtuelle en Y du Player
+	 */
 	public float getNextPositionY(){return this.nextPosition.y;}
 
 	public void setNextPositionX(float pos){ this.nextPosition.x = pos; }
@@ -57,6 +63,9 @@ public class BasicPlayer implements Player{
 		updateMovement();
 	}
 
+	/**
+	 * Applique un micro-mouvement à la position réelle du personnage
+	 */
 	private void updateMovement(){
 		//Si la liste des mouvements n'est pas vide, ajoute ce mouvement à la position du personnage
 		if(!this.movesList.isEmpty()){
@@ -80,6 +89,9 @@ public class BasicPlayer implements Player{
 		}
 	}
 
+	/**
+	 * @return la position réelle du Player
+	 */
 	@Override
 	public Vector2 getPosition() {
 		return this.position;
@@ -88,10 +100,21 @@ public class BasicPlayer implements Player{
 	public void setPositionX(float pos){ this.position.x = pos; }
 	public void setPositionY(float pos){ this.position.y = pos; }
 
-	//Ajoute le mouvement dir, x fois
+	/**
+	 * Ajoute des micro-mouvement à la liste des prochains mouvements du Player
+	 * @param dir la direction du mouvement
+	 * @param x le nombre de micro-mouvement ajouté
+	 */
 	public void addMouvement(int dir, int x){
 		for(int i = 1 ; i <= x ; i++)
 			this.movesList.add(dir);
+	}
+
+	/**
+	 * Supprime tous les micro-mouvements que devait effectuer le Player
+	 */
+	public void deleteMouvements(){
+		this.movesList.clear();
 	}
 
 }

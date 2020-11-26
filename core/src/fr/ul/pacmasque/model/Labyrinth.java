@@ -48,6 +48,11 @@ public class Labyrinth implements Drawable {
 	 */
 	private Texture wallTexture;
 
+	/**
+	 * Position de départ du joueur
+	 */
+	private final Vector2 positionDepart;
+
 	private Texture backgroundTexture;
 	/**
 	 * Crée un labyrinthe vide de dimensions données
@@ -65,14 +70,20 @@ public class Labyrinth implements Drawable {
 			throw new IllegalArgumentException("Width and height should be more or equal than 3");
 		}
 
+		this.positionDepart = new Vector2(0,0);
 		this.width = width;
 		this.height = height;
 		this.positionsMurs = new ArrayList<>();
+
 
 		// TODO: - Sélectionner un autre texturepack
 		TexturePack texturePack = TexturePackFactory.getInstance().getTexturePack("basepack");
 		this.loadTextures(texturePack);
 	}
+
+
+	public Vector2 getPositionDepart(){ return this.positionDepart; }
+
 
 	/**
 	 * Charge les textures utilisée par le labyrinthe

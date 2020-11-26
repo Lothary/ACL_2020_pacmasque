@@ -64,7 +64,7 @@ public class World implements Drawable {
 		this.collisionManager = new CollisionManager(this);
 
 		// TODO: - Définir, autrement, la position de départ du joueur...
-		this.player = new BasicPlayer(2, 2);
+		this.player = new BasicPlayer((int)labyrinth.getPositionDepart().x, (int)labyrinth.getPositionDepart().y);
 
 		this.pastilles = new ArrayList<>();
 		this.monsters = new ArrayList<>();
@@ -145,9 +145,11 @@ public class World implements Drawable {
 		for(Monster e : this.monsters){
 			collision = this.collisionManager.isCollision(e);
 			if(collision){
-				// System.out.println("collision");
-				// Ici mettre le résultat de la collision entre le player et l'entité
-				// Mort si monstre, Points si pastille ?
+				this.player.setPositionX(this.labyrinth.getPositionDepart().x);
+				this.player.setPositionY(this.labyrinth.getPositionDepart().y);
+				this.player.setNextPositionX(this.labyrinth.getPositionDepart().x);
+				this.player.setNextPositionY(this.labyrinth.getPositionDepart().y);
+				this.player.deleteMouvements();
 			}
 		}
 

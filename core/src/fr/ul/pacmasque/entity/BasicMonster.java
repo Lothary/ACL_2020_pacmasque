@@ -41,7 +41,9 @@ public class BasicMonster implements Monster {
 		}
 	}
 
-
+	/**
+	 * Applique un micro-mouvement à la position réelle du monstre
+	 */
 	private void updateMovement() {
 		// TODO: factoriser! duplication de code
 		//Si la liste des mouvements n'est pas vide, ajoute ce mouvement à la position du monstre
@@ -92,13 +94,20 @@ public class BasicMonster implements Monster {
 	public void setNextPositionX(float pos){ this.nextPosition.x = pos; }
 	public void setNextPositionY(float pos){ this.nextPosition.y = pos; }
 
+	/**
+	 * Ajoute des micro-mouvement à la liste des prochains mouvements du Monstre
+	 * @param dir la direction du mouvement
+	 * @param x le nombre de micro-mouvement ajouté
+	 */
 	@Override
-	//Ajoute le mouvement dir, x fois
 	public void addMouvement(int dir, int x){
 		for(int i = 1 ; i <= x ; i++)
 			this.movesList.add(dir);
 	}
 
+	/**
+	 * @return true si le Monstre est entrain de se déplacer
+	 */
 	@Override
 	public boolean isMoving() {
 		return !this.movesList.isEmpty();
