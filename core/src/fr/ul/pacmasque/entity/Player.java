@@ -28,4 +28,5 @@ public interface Player extends Entity {
 	void deleteMouvements();
 
 
+
 }

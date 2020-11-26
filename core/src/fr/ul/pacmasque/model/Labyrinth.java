@@ -22,6 +22,7 @@ import org.jetbrains.annotations.Range;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Un labyrinthe en deux dimensions, ayant une largeur et une hauteur
@@ -53,6 +54,11 @@ public class Labyrinth implements Drawable {
 	 */
 	private final Vector2 positionDepart;
 
+	/**
+	 * Nombre de monstre présent dans le labyrinthe
+	 */
+	private int nombreMonster;
+
 	private Texture backgroundTexture;
 	/**
 	 * Crée un labyrinthe vide de dimensions données
@@ -74,6 +80,7 @@ public class Labyrinth implements Drawable {
 		this.width = width;
 		this.height = height;
 		this.positionsMurs = new ArrayList<>();
+		this.nombreMonster = 3;
 
 
 		// TODO: - Sélectionner un autre texturepack
@@ -82,6 +89,10 @@ public class Labyrinth implements Drawable {
 	}
 
 
+
+	/**
+	 * @return La position de départ du Joueur
+	 */
 	public Vector2 getPositionDepart(){ return this.positionDepart; }
 
 

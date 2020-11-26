@@ -19,4 +19,6 @@ public interface Entity extends Drawable {
 	 * @return un vecteur position
 	 */
 	Vector2 getPosition();
+
+
 }

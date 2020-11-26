@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Monde dans lequel les entités vont évoluer
@@ -71,11 +72,11 @@ public class World implements Drawable {
 
 		this.worldName = worldName;
 
-		// Même remarque que précédent
-		BasicMonster dummyMonster = new BasicMonster(3,3);
-		dummyMonster.setAlgorithm(new AlgorithmRandom(this, dummyMonster));
-		this.addMonster(dummyMonster);
+		//Créer 3 monstres à des positions aléatoires viables
+		this.createMonster(3);
+
 	}
+
 
 	/**
 	 * @return le labyrinthe du monde
@@ -126,6 +127,35 @@ public class World implements Drawable {
 	public void addMonster(Monster monster) {
 		if (!this.monsters.contains(monster))
 			this.monsters.add(monster);
+	}
+
+
+	/**
+	 * Créer un monstre puis l'ajoute au monde
+	 * @param nb nombre de monstres à créer
+	 */
+	public void createMonster(int nb) {
+
+		for(int i = 0; i < nb ; i++){
+			Random random = new Random(System.currentTimeMillis());
+
+			int x = random.nextInt(this.labyrinth.getWidth());
+			int y = random.nextInt(this.labyrinth.getHeight());
+			Vector2 finalCase = new Vector2(x, y);
+
+			while(this.labyrinth.isWall(finalCase)){
+				x = random.nextInt(this.labyrinth.getWidth());
+				y = random.nextInt(this.labyrinth.getHeight());
+				finalCase = new Vector2(x, y);
+			}
+
+			BasicMonster dummyMonster = new BasicMonster(x,y);
+			dummyMonster.setAlgorithm(new AlgorithmRandom(this, dummyMonster));
+			this.addMonster(dummyMonster);
+
+		}
+
+
 	}
 
 	/**

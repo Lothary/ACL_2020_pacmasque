@@ -18,7 +18,7 @@ import fr.ul.pacmasque.util.TexturePackFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BasicPlayer implements Player{
+public class BasicPlayer implements Player {
 
 	private final Vector2 position;
 
@@ -26,14 +26,13 @@ public class BasicPlayer implements Player{
 	 * Future feature, to be implemented!
 	 * @apiNote unused
 	 */
-	private int lifePoints;
+
 	private final Vector2 nextPosition;
 	private Texture texture;
 
 	private final List<Integer> movesList;
 
 	public BasicPlayer(int x, int y){
-		this.lifePoints = 3;
 		this.position = new Vector2(x,y);
 		this.nextPosition = new Vector2(x,y);
 		movesList = new ArrayList<>();
