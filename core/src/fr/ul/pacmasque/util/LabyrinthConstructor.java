@@ -67,6 +67,18 @@ public class LabyrinthConstructor implements LabyrinthBuilder {
 				if (labyLines[i].charAt(j) == '0'){
 					labyrinth.setMur(i, j);
 				}
+				if (labyLines[i].charAt(j) == '2'){
+					labyrinth.createCase(Labyrinth.typeCase.treasure,i, j);
+				}
+				if (labyLines[i].charAt(j) == '3'){
+					labyrinth.createCase(Labyrinth.typeCase.teleportation,i, j);
+				}
+				if (labyLines[i].charAt(j) == '4'){
+					labyrinth.createCase(Labyrinth.typeCase.trap,i, j);
+				}
+				if (labyLines[i].charAt(j) == '5'){
+					labyrinth.createCase(Labyrinth.typeCase.magic,i, j);
+				}
 			}
 		}
 

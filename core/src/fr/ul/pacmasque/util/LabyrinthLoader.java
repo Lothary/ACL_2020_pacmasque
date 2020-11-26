@@ -134,7 +134,7 @@ public class LabyrinthLoader {
 			// On essaie de construire le labyrinthe
 			return builderInstance.build(payload);
 		} catch (PacmasqueException e) {
-			throw new LabyrinthLoaderException("Impossible de créer le labyrinthe, le builder à renvoyé une erreur lors de sa construction: " + e.getLocalizedMessage());
+			throw new LabyrinthLoaderException("Impossible de créer le labyrinthe, le builder a renvoyé une erreur lors de sa construction: " + e.getLocalizedMessage());
 		}
 	}
 
