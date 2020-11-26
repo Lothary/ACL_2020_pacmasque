@@ -74,6 +74,8 @@ public class World implements Drawable {
 
 		//Créer 3 monstres à des positions aléatoires viables
 		this.createMonster(3);
+		//Créer 10 pastilles à des positions aléatoires viables
+		this.createPastille(10);
 
 	}
 
@@ -135,28 +137,53 @@ public class World implements Drawable {
 	 * @param nb nombre de monstres à créer
 	 */
 	public void createMonster(int nb) {
+		Vector2 finalCase = new Vector2();
 
 		for(int i = 0; i < nb ; i++){
-			Random random = new Random(System.currentTimeMillis());
+			finalCase = this.findFreeCase();
 
-			int x = random.nextInt(this.labyrinth.getWidth());
-			int y = random.nextInt(this.labyrinth.getHeight());
-			Vector2 finalCase = new Vector2(x, y);
-
-			while(this.labyrinth.isWall(finalCase)){
-				x = random.nextInt(this.labyrinth.getWidth());
-				y = random.nextInt(this.labyrinth.getHeight());
-				finalCase = new Vector2(x, y);
-			}
-
-			BasicMonster dummyMonster = new BasicMonster(x,y);
+			BasicMonster dummyMonster = new BasicMonster((int)finalCase.x, (int)finalCase.y);
 			dummyMonster.setAlgorithm(new AlgorithmRandom(this, dummyMonster));
 			this.addMonster(dummyMonster);
 
 		}
+	}
 
+
+	/**
+	 * @return Une case libre dans le labyrinthe
+	 */
+	private Vector2 findFreeCase(){
+		Random random = new Random(System.currentTimeMillis());
+
+		int x = random.nextInt(this.labyrinth.getWidth());
+		int y = random.nextInt(this.labyrinth.getHeight());
+		Vector2 finalCase = new Vector2(x, y);
+
+		while(this.labyrinth.isWall(finalCase)){
+			x = random.nextInt(this.labyrinth.getWidth());
+			y = random.nextInt(this.labyrinth.getHeight());
+			finalCase = new Vector2(x, y);
+		}
+		return finalCase;
+	}
+
+
+	/**
+	 * Créer une pastille puis l'ajoute au monde
+	 * @param nb nombre de pastilles à créer
+	 */
+	public void createPastille(int nb) {
+		Vector2 finalCase = new Vector2();
+
+		for(int i = 0; i < nb ; i++){
+			finalCase = this.findFreeCase();
+			BasicPastille pastille = new BasicPastille((int)finalCase.x, (int)finalCase.y);
+			this.addPastille(pastille);
+		}
 
 	}
+
 
 	/**
 	 * Ajoute une pastille au monde
