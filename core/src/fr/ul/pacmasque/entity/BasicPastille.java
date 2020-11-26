@@ -36,7 +36,7 @@ public class BasicPastille  implements Pastille {
 
 	@Override
 	public void draw(Batch batch, float x, float y, float width, float height) {
-		batch.draw(texture,this.position.x,this.position.y,0.5f,0.5f);
+		batch.draw(texture,this.position.x + 0.25f,this.position.y + 0.25f,0.4f,0.4f);
 	}
 
 	@Override
