@@ -11,7 +11,10 @@ package fr.ul.pacmasque.model;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import fr.ul.pacmasque.exception.TextureException;
+import fr.ul.pacmasque.util.TexturePack;
 import fr.ul.pacmasque.util.TexturePackFactory;
+
+import java.util.Objects;
 
 public class TeleportationCase implements Case {
     private final Vector2 position;
@@ -29,6 +32,6 @@ public class TeleportationCase implements Case {
 
     @Override
     public Texture getTexture() throws TextureException {
-        return TexturePackFactory.getInstance().getTexturePack("basepack").get("teleportation");
+        return Objects.requireNonNull(TexturePackFactory.getInstance().getTexturePack("basepack")).get(TexturePack.typeTexture.teleportation);
     }
 }

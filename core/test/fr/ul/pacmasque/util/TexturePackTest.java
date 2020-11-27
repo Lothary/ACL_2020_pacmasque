@@ -37,8 +37,8 @@ class TexturePackTest extends PacmasqueTest {
 		assertNotNull(texturePack);
 
 		assertDoesNotThrow(() -> {
-			for (String resource : resources) {
-				Texture texture = texturePack.get(resource);
+			for (TexturePack.typeTexture type : TexturePack.typeTexture.values()) {
+				Texture texture = texturePack.get(type);
 				assertNotNull(texture);
 			}
 		});
@@ -49,10 +49,11 @@ class TexturePackTest extends PacmasqueTest {
 		texturePack = instance.getTexturePack("basepack");
 		assertNotNull(texturePack);
 
-		for (String resource : resources) {
+		for (TexturePack.typeTexture type : TexturePack.typeTexture.values()) {
 			assertThrows(TextureException.class, () -> {
-				Texture texture = texturePack.get("fooandbar" + resource);
-				assertNotNull(texture);
+				//todo
+				//Texture texture = texturePack.get();
+				//assertNotNull(texture);
 			});
 		}
 	}

@@ -12,7 +12,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import fr.ul.pacmasque.exception.TextureException;
+import fr.ul.pacmasque.util.TexturePack;
 import fr.ul.pacmasque.util.TexturePackFactory;
+
+import java.util.Objects;
 
 public class BasicPastille  implements Pastille {
 	private final Vector2 position;
@@ -23,7 +26,7 @@ public class BasicPastille  implements Pastille {
 		this.position = new Vector2(x,y);
 
 		try {
-			this.texture = TexturePackFactory.getInstance().getTexturePack("basepack").get("pastille");
+			this.texture = Objects.requireNonNull(TexturePackFactory.getInstance().getTexturePack("basepack")).get(TexturePack.typeTexture.pastille);
 		} catch (TextureException e) {
 			e.printStackTrace();
 		}
