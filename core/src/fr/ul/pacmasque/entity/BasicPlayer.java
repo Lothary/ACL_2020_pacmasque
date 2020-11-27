@@ -15,10 +15,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import fr.ul.pacmasque.exception.TextureException;
+import fr.ul.pacmasque.util.TexturePack;
 import fr.ul.pacmasque.util.TexturePackFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class BasicPlayer implements Player{
 
@@ -36,7 +38,7 @@ public class BasicPlayer implements Player{
 		movesList = new ArrayList<>();
 
 		try {
-			this.texture = TexturePackFactory.getInstance().getTexturePack("basepack").get("pacman");
+			this.texture = Objects.requireNonNull(TexturePackFactory.getInstance().getTexturePack("basepack")).get(TexturePack.typeTexture.pacman);
 		} catch (TextureException e) {
 			e.printStackTrace();
 		}

@@ -14,10 +14,12 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import fr.ul.pacmasque.algorithm.Algorithm;
 import fr.ul.pacmasque.exception.TextureException;
+import fr.ul.pacmasque.util.TexturePack;
 import fr.ul.pacmasque.util.TexturePackFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class BasicMonster implements Monster {
 	private final Vector2 position;
@@ -33,7 +35,7 @@ public class BasicMonster implements Monster {
 		movesList = new ArrayList<>();
 
 		try {
-			this.texture = TexturePackFactory.getInstance().getTexturePack("secondpack").get("monster");
+			this.texture = Objects.requireNonNull(TexturePackFactory.getInstance().getTexturePack("secondpack")).get(TexturePack.typeTexture.monster);
 		} catch (TextureException e) {
 			e.printStackTrace();
 		}

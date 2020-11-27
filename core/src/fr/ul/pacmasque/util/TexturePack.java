@@ -17,27 +17,35 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TexturePack {
-	//todo : enum aussi au lieu de strings ?
-
-	@NotNull private final Map<String, String> resources;
+	public enum typeTexture{
+		pacman,
+		stone,
+		monster,
+		pastille,
+		treasure,
+		trap,
+		magic,
+		teleportation
+	}
+	@NotNull private final Map<typeTexture, String> resources;
 	private final FileHandle handle;
 
 	public TexturePack(FileHandle handle) {
 		this.resources = new HashMap<>();
 		this.handle = handle;
 
-		this.resources.put("pacman", "pacman.png");
-		this.resources.put("stone", "stone.png");
-		this.resources.put("monster", "monster.png");
-		this.resources.put("pastille", "pastille.png");
-		this.resources.put("treasure", "treasure.png");
-		this.resources.put("trap", "trap.png");
-		this.resources.put("magic", "magic.png");
-		this.resources.put("teleportation", "teleportation.png");
+		this.resources.put(typeTexture.pacman, "pacman.png");
+		this.resources.put(typeTexture.stone, "stone.png");
+		this.resources.put(typeTexture.monster, "monster.png");
+		this.resources.put(typeTexture.pastille, "pastille.png");
+		this.resources.put(typeTexture.treasure, "treasure.png");
+		this.resources.put(typeTexture.trap, "trap.png");
+		this.resources.put(typeTexture.magic, "magic.png");
+		this.resources.put(typeTexture.teleportation, "teleportation.png");
 	}
 
 	/**
-	 * @param name nom de la texture souhaitée (pacman,
+	 * @param type nom de la texture souhaitée (pacman,
 	 *             stone, monster, pastille).
 	 * @return la Texture qui correspond à l'objet dont
 	 * le nom est "name" et dont le pack est "packName".
@@ -45,18 +53,18 @@ public class TexturePack {
 	 * texture -> peut être dû à une faute dans "name"
 	 * ou la texture n'existe pas.
 	 */
-	@NotNull public Texture get(String name) throws TextureException {
+	@NotNull public Texture get(typeTexture type) throws TextureException {
 
-		if (!this.resources.containsKey(name)) {
-			throw new TextureException("La texture \"" + name + "\" n'est pas une resource disponible");
+		if (!this.resources.containsKey(type)) {
+			throw new TextureException("La texture \"" + type + "\" n'est pas une ressource disponible");
 		}
 
-		String textureName = this.resources.get(name);
+		String textureName = this.resources.get(type);
 
 		final FileHandle textureHandle = this.handle.child(textureName);
 
 		if (!textureHandle.exists()) {
-			throw new TextureException("La texture \"" + name + "\" n'a pas été trouvée dans le pack \"" + this.handle.name() + "\"");
+			throw new TextureException("La texture \"" + type + "\" n'a pas été trouvée dans le pack \"" + this.handle.name() + "\"");
 		}
 
 		return new Texture(textureHandle);

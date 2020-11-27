@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 import fr.ul.pacmasque.Drawable;
 import fr.ul.pacmasque.exception.LabyrinthException;
 import fr.ul.pacmasque.exception.TextureException;
+import fr.ul.pacmasque.util.TexturePack;
 import fr.ul.pacmasque.util.TexturePackFactory;
 import org.jetbrains.annotations.Range;
 
@@ -66,7 +67,7 @@ public class Labyrinth implements Drawable {
 		this.casesCoordinates = new HashMap<>();
 
 		try {
-			this.textureWall = TexturePackFactory.getInstance().getTexturePack("basepack").get("stone");
+			this.textureWall = Objects.requireNonNull(TexturePackFactory.getInstance().getTexturePack("basepack")).get(TexturePack.typeTexture.stone);
 		} catch (TextureException e) {
 			e.printStackTrace();
 		}
