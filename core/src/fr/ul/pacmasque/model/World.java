@@ -14,17 +14,21 @@ import com.badlogic.gdx.math.Vector2;
 import fr.ul.pacmasque.Drawable;
 import fr.ul.pacmasque.algorithm.AlgorithmRandom;
 import fr.ul.pacmasque.entity.*;
+import fr.ul.pacmasque.entity.BasicPlayer;
+import fr.ul.pacmasque.exception.TextureException;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Monde dans lequel les entités vont évoluer
  */
 public class World implements Drawable {
+
 
 	/**
 	 * Labyrinthe du monde
@@ -46,6 +50,8 @@ public class World implements Drawable {
 	 */
 	@NotNull private final Player player;
 
+	private boolean hasWin;
+
 	/**
 	 * Liste des pastilles présentes dans le monde
 	 */
@@ -55,6 +61,8 @@ public class World implements Drawable {
 	 * Liste des monstres présents dans le monde
 	 */
 	@NotNull private final List<Monster> monsters;
+
+	@NotNull private final List<Case> specialCases;
 
 	/**
 	 * Crée un monde
@@ -69,6 +77,7 @@ public class World implements Drawable {
 
 		this.pastilles = new ArrayList<>();
 		this.monsters = new ArrayList<>();
+		this.specialCases = new ArrayList<>();
 
 		this.worldName = worldName;
 
@@ -76,21 +85,17 @@ public class World implements Drawable {
 		this.createMonster(3);
 		//Créer 10 pastilles à des positions aléatoires viables
 		this.createPastille(10);
+		//Créer 10 cases spéciales dont le trésor, des cases de téléportation,
+		//des cases de magie et des pièges.
+		this.createSpecialCases();
 
-	}
-
-
-	/**
-	 * @return le labyrinthe du monde
-	 */
-	public @NotNull Labyrinth getLabyrinth() {
-		return labyrinth;
+		this.hasWin = false;
 	}
 
 	/**
 	 * @return le nom du monde
 	 */
-	public String getWorldName() {
+	public @NotNull String getWorldName() {
 		return this.worldName;
 	}
 
@@ -131,13 +136,12 @@ public class World implements Drawable {
 			this.monsters.add(monster);
 	}
 
-
 	/**
 	 * Créer un monstre puis l'ajoute au monde
 	 * @param nb nombre de monstres à créer
 	 */
-	public void createMonster(int nb) {
-		Vector2 finalCase = new Vector2();
+	private void createMonster(int nb) {
+		Vector2 finalCase;
 
 		for(int i = 0; i < nb ; i++){
 			finalCase = this.findFreeCase();
@@ -149,7 +153,6 @@ public class World implements Drawable {
 		}
 	}
 
-
 	/**
 	 * @return Une case libre dans le labyrinthe
 	 */
@@ -160,7 +163,7 @@ public class World implements Drawable {
 		int y = random.nextInt(this.labyrinth.getHeight());
 		Vector2 finalCase = new Vector2(x, y);
 
-		while(this.labyrinth.isWall(finalCase)){
+		while((this.labyrinth.isWall(finalCase)) || (this.isSpecialCase(finalCase))) {
 			x = random.nextInt(this.labyrinth.getWidth());
 			y = random.nextInt(this.labyrinth.getHeight());
 			finalCase = new Vector2(x, y);
@@ -168,22 +171,63 @@ public class World implements Drawable {
 		return finalCase;
 	}
 
+	private boolean isSpecialCase(Vector2 coordinates){
+		AtomicBoolean isTaken = new AtomicBoolean(false);
+		this.specialCases.forEach(c -> {
+			if (c.getPosition().equals(coordinates)){
+				isTaken.set(true);
+			}
+		});
+		return isTaken.get();
+	}
 
 	/**
 	 * Créer une pastille puis l'ajoute au monde
 	 * @param nb nombre de pastilles à créer
 	 */
-	public void createPastille(int nb) {
-		Vector2 finalCase = new Vector2();
+	private void createPastille(int nb) {
+		Vector2 finalCase;
 
-		for(int i = 0; i < nb ; i++){
+		for (int i = 0; i < nb; i++) {
 			finalCase = this.findFreeCase();
-			BasicPastille pastille = new BasicPastille((int)finalCase.x, (int)finalCase.y);
+			BasicPastille pastille = new BasicPastille((int) finalCase.x, (int) finalCase.y);
 			this.addPastille(pastille);
 		}
-
 	}
 
+	private void createSpecialCases(){
+		Vector2 finalCase;
+
+		for (int i = 0; i < 4; i++) {
+			finalCase = this.findFreeCase();
+			int x = (int) finalCase.x;
+			int y = (int) finalCase.y;
+
+			if (i == 0) { // un seul trésor
+				Case c = new TreasureCase(x, y);
+				specialCases.add(c);
+			}
+			if (i == 1) { // deux cases de téléportation
+				Case c = new TeleportationCase(x, y);
+				specialCases.add(c);
+			}
+			if (i == 2) { // trois pièges
+				Case c = new TrapCase(x, y);
+				specialCases.add(c);
+			}
+			if (i == 3) { // deux cases magiques
+				Case c = new MagicCase(x, y);
+				specialCases.add(c);
+			}
+		}
+	}
+
+	/**
+	 * @return le labyrinthe du monde
+	 */
+	public @NotNull Labyrinth getLabyrinth() {
+		return labyrinth;
+	}
 
 	/**
 	 * Ajoute une pastille au monde
@@ -206,7 +250,6 @@ public class World implements Drawable {
 				this.player.setPositionY(this.labyrinth.getPositionDepart().y);
 				this.player.setNextPositionX(this.labyrinth.getPositionDepart().x);
 				this.player.setNextPositionY(this.labyrinth.getPositionDepart().y);
-				this.player.deleteMouvements();
 			}
 		}
 
@@ -219,6 +262,34 @@ public class World implements Drawable {
 			}
 		}
 
+		//"Collision" avec les cases spéciales
+		for (Case c : this.specialCases) {
+			collision = this.collisionManager.isInside(c);
+			if (collision){
+				switch (c.getType()) {
+					case treasure:
+						this.hasWin = true;
+						System.out.println("YOU WIN");
+						//todo : nouvelle view de gagnant?
+						break;
+					case trap:
+						System.out.println("caíste");
+						//todo : diminuer la vie du player
+						break;
+					case magic:
+						System.out.println("magic");
+						//todo : augmenter la vie du player ? Ou superpower ?
+						break;
+					case teleportation:
+						// todo: search next teleportation door
+						this.player.setPositionX(this.labyrinth.getPositionDepart().x);
+						this.player.setPositionY(this.labyrinth.getPositionDepart().y);
+						this.player.setNextPositionX(this.labyrinth.getPositionDepart().x);
+						this.player.setNextPositionY(this.labyrinth.getPositionDepart().y);
+						break;
+				}
+			}
+		}
 	}
 
 	public void movePlayer(int direction) {
@@ -278,6 +349,9 @@ public class World implements Drawable {
 			if(p.isVisible())
 				p.draw(batch, x, y, width, height);
 		}
-		//this.pastilles.forEach(en -> en.draw(batch, x, y, width, height));
+
+		for (Case c : this.specialCases){
+			c.draw(batch, x, y, width, height);
+		}
 	}
 }
