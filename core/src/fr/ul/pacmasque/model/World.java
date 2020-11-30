@@ -62,6 +62,9 @@ public class World implements Drawable {
 	 */
 	@NotNull private final List<Monster> monsters;
 
+	/**
+	 * Liste des cases spéciales présentes dans le monde.
+	 */
 	@NotNull private final List<Case> specialCases;
 
 	/**
@@ -195,6 +198,13 @@ public class World implements Drawable {
 		}
 	}
 
+	/**
+	 * Créer les cases spéciales, 4 cases sont créées :
+	 * - 1 trésor
+	 * - 1 piège
+	 * - 1 case téléportation
+	 * - 1 case magique
+	 */
 	private void createSpecialCases(){
 		Vector2 finalCase;
 

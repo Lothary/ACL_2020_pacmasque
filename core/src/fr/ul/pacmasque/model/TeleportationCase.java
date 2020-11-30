@@ -24,7 +24,7 @@ public class TeleportationCase implements Case {
 
     public TeleportationCase(int x, int y) {
         this.position = new Vector2(x, y);
-        this.nextPosition = this.position; //todo : ver cómo inicializar esto
+        this.nextPosition = this.position; //todo : commment initialiser?
         try {
             this.texture = TexturePackFactory.getInstance().getTexturePack("basepack").get(TexturePack.typeTexture.teleportation);
         } catch (TextureException e) {

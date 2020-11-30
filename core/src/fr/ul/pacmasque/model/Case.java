@@ -11,7 +11,17 @@ package fr.ul.pacmasque.model;
 import com.badlogic.gdx.math.Vector2;
 import fr.ul.pacmasque.Drawable;
 
+/**
+ * Interface des cases spéciales :
+ * - MagicCase
+ * - TeleportationCase
+ * - TrapCase
+ * - TreasureCase
+ */
 interface Case extends Drawable {
+    /**
+     * Symbolise le type de case spéciale.
+     */
     enum typeCase {
         treasure,
         trap,
