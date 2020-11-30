@@ -101,6 +101,7 @@ public class BasicMonster implements Monster {
 	 * @param x le nombre de micro-mouvement ajouté
 	 */
 	@Override
+	//Ajoute le mouvement dir, x fois
 	public void addMouvement(int dir, int x){
 		for(int i = 1 ; i <= x ; i++)
 			this.movesList.add(dir);
