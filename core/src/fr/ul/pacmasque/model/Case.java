@@ -8,13 +8,18 @@
 
 package fr.ul.pacmasque.model;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import fr.ul.pacmasque.exception.TextureException;
+import fr.ul.pacmasque.Drawable;
 
-interface Case {
+interface Case extends Drawable {
+    enum typeCase {
+        treasure,
+        trap,
+        magic,
+        teleportation
+    }
+
     Vector2 getPosition();
 
-    // todo: chercher treasure image et la mettre dans la factory
-    Texture getTexture() throws TextureException;
+    typeCase getType();
 }

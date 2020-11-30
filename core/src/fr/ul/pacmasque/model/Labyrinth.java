@@ -8,6 +8,7 @@
 
 package fr.ul.pacmasque.model;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
@@ -16,6 +17,8 @@ import fr.ul.pacmasque.exception.LabyrinthException;
 import fr.ul.pacmasque.exception.TextureException;
 import fr.ul.pacmasque.util.TexturePack;
 import fr.ul.pacmasque.util.TexturePackFactory;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
 import java.util.*;
@@ -24,26 +27,40 @@ import java.util.*;
  * Un labyrinthe en deux dimensions, ayant une largeur et une hauteur
  */
 public class Labyrinth implements Drawable {
-	public enum typeCase {
-		treasure,
-		trap,
-		magic,
-		teleportation
-	}
+
+
+	/**
+	 * Largeur du labyrinthe
+	 */
+
 	private final int width;
+
+	/**
+	 * Hauteur du labyrinthe
+	 */
 	private final int height;
 
-	private final List<Vector2> positionsMurs;
 	/**
-	 * Utilisée notamment par le draw.
+	 * Position des murs du labyrinthe
 	 */
-	private final Map<typeCase, List<Case>> cases;
-	/**
-	 * Utilisée par le monde pour vérifier si le player est dans une des cases spéciales.
-	 */
-	private final Map<typeCase, List<Vector2>> casesCoordinates;
-	private Texture textureWall;
+	@NotNull private final List<Vector2> positionsMurs;
 
+	/**
+	 * Texture des murs du labyrinthe
+	 */
+	private Texture wallTexture;
+
+	/**
+	 * Position de départ du joueur
+	 */
+	private final Vector2 positionDepart;
+
+	/**
+	 * Nombre de monstre présent dans le labyrinthe
+	 */
+	private int nombreMonster;
+
+	private Texture backgroundTexture;
 	/**
 	 * Crée un labyrinthe vide de dimensions données
 	 * @param width la largeur du labyrinthe
@@ -60,17 +77,72 @@ public class Labyrinth implements Drawable {
 			throw new IllegalArgumentException("Width and height should be more or equal than 3");
 		}
 
+		this.positionDepart = new Vector2(0,0);
 		this.width = width;
 		this.height = height;
 		this.positionsMurs = new ArrayList<>();
-		this.cases = new HashMap<>();
-		this.casesCoordinates = new HashMap<>();
+		this.nombreMonster = 3;
 
-		try {
-			this.textureWall = Objects.requireNonNull(TexturePackFactory.getInstance().getTexturePack("basepack")).get(TexturePack.typeTexture.stone);
-		} catch (TextureException e) {
-			e.printStackTrace();
+
+		// TODO: - Sélectionner un autre texturepack
+		TexturePack texturePack = TexturePackFactory.getInstance().getTexturePack("basepack");
+		this.loadTextures(texturePack);
+	}
+
+
+
+	/**
+	 * @return La position de départ du Joueur
+	 */
+	public Vector2 getPositionDepart(){ return this.positionDepart; }
+
+
+	/**
+	 * Charge les textures utilisée par le labyrinthe
+	 */
+	private void loadTextures(@Nullable TexturePack texturePack) {
+		if (texturePack == null) {
+			loadFallbackTexture("all");
+			return;
 		}
+
+		//this.backgroundTexture = TexturePack.getFallbackTexture(Color.BLACK);
+
+		/*try {
+			this.wallTexture = texturePack.get("stone");
+		} catch (TextureException e) {
+			loadFallbackTexture("stone");
+		}*/
+	}
+
+	/**
+	 * Charge les textures de fallback en cas d'échec du chargement classique
+	 * @param textureName la texture qui n'a pas été chargé
+	 * @implNote dernier appel, ne doit pas échouer!
+	 */
+	private void loadFallbackTexture(String textureName) {
+
+		switch (textureName) {
+			case "stone":
+				//this.wallTexture = TexturePack.getFallbackTexture(null);
+				break;
+			case "background":
+				//this.backgroundTexture = TexturePack.getFallbackTexture(null);
+				break;
+			case "all":
+				loadFallbackTexture("stone");
+				loadFallbackTexture("background");
+			default:
+				break;
+		}
+	}
+
+	/**
+	 * @return les murs du labyrinthe
+	 */
+	@NotNull
+	public List<Vector2> getWalls() {
+		return positionsMurs;
 	}
 
 	/**
@@ -89,59 +161,18 @@ public class Labyrinth implements Drawable {
 		}
 	}
 
-	public void createCase(typeCase type, int x, int y){ //todo : initialize cases in generator ?
-		if (this.inRange(x, y)){
-			Case newCase;
-			switch (type){
-				case treasure:
-					newCase = new TreasureCase(x, y);
-					break;
-				case magic:
-					newCase = new MagicCase(x, y);
-					break;
-				case teleportation:
-					newCase = new TeleportationCase(x, y);
-					break;
-				default:
-					newCase = new TrapCase(x, y);
-					break;
-			}
-			List<Case> casesList = cases.get(type);
-			List<Vector2> coordsList = casesCoordinates.get(type);
-			if ((casesList == null) || (coordsList == null)) {
-				casesList = Collections.singletonList(newCase);
-				coordsList = Collections.singletonList(new Vector2(x, y));
-			}
-			else{
-				casesList.add(newCase);
-				coordsList.add(new Vector2(x, y));
-			}
-
-			this.cases.put(type, casesList);
-			this.casesCoordinates.put(type, coordsList);
-		}
-	}
-
-	public Map<typeCase, List<Vector2>> getCasesCoordinates() {
-		return this.casesCoordinates;
-	}
-
 	/**
 	 * @return la largeur du labyrinthe
 	 */
 	public int getWidth() {
-		return width;
+		return this.width;
 	}
 
 	/**
 	 * @return la hauteur du labyrinthe
 	 */
 	public int getHeight() {
-		return height;
-	}
-
-	public List<Vector2> getWalls() {
-		return positionsMurs;
+		return this.height;
 	}
 
 	/**
@@ -157,6 +188,10 @@ public class Labyrinth implements Drawable {
 		return true;
 	}
 
+	public boolean isWall(int x, int y) {
+		return isWall(new Vector2(x, y));
+	}
+
 	/**
 	 * Permet de savoir si les coordonnées sont valides pour le labyrinthe
 	 * @param x une coordonnée `x`
@@ -170,19 +205,29 @@ public class Labyrinth implements Drawable {
 
 	@Override
 	public void draw(Batch batch, float x, float y, float width, float height) {
-		// Dessin des murs
-		this.positionsMurs.forEach(pos -> batch.draw(textureWall, pos.x, pos.y, 1,1));
+		batch.draw(this.backgroundTexture, 0, 0, getWidth(), getHeight());
 
-		// Dessin des autres cases
-		this.cases.forEach((type, listeCases) -> {
-			try {
-				for (Case c : listeCases) {
-					batch.draw(c.getTexture(), c.getPosition().x, c.getPosition().y, 1, 1);
-				}
-			} catch (TextureException e) {
-				e.printStackTrace();
-			}
-		});
+		// Dessin des murs
+		this.positionsMurs.forEach(pos -> batch.draw(wallTexture, pos.x, pos.y, 1,1));
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+
+		for (int i = 0; i < width; i++) {
+			builder.append("-");
+		}
+
+		builder.append("\n");
+
+		for (int x = 0; x < width; x++) {
+			builder.append("|");
+			for (int y = 0; y < height; y++) {
+				builder.append(isWall(x, y) ? "x" : "o");
+			}
+			builder.append("|\n");
+		}
+		return builder.toString();
+	}
 }
