@@ -108,7 +108,7 @@ public class Labyrinth implements Drawable {
 		this.backgroundTexture = TexturePack.getFallbackTexture(Color.BLACK);
 
 		try {
-			this.wallTexture = texturePack.get("stone");
+			this.wallTexture = texturePack.get(TexturePack.typeTexture.stone);
 		} catch (TextureException e) {
 			loadFallbackTexture("stone");
 		}

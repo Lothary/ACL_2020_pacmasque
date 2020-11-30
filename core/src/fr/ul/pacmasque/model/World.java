@@ -207,15 +207,15 @@ public class World implements Drawable {
 				Case c = new TreasureCase(x, y);
 				specialCases.add(c);
 			}
-			if (i == 1) { // deux cases de téléportation
+			if (i == 1) { // une case de téléportation
 				Case c = new TeleportationCase(x, y);
 				specialCases.add(c);
 			}
-			if (i == 2) { // trois pièges
+			if (i == 2) { // un piège
 				Case c = new TrapCase(x, y);
 				specialCases.add(c);
 			}
-			if (i == 3) { // deux cases magiques
+			if (i == 3) { // une case magique
 				Case c = new MagicCase(x, y);
 				specialCases.add(c);
 			}

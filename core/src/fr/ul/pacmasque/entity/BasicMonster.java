@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import fr.ul.pacmasque.algorithm.Algorithm;
 import fr.ul.pacmasque.exception.TextureException;
+import fr.ul.pacmasque.util.TexturePack;
 import fr.ul.pacmasque.util.TexturePackFactory;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class BasicMonster implements Monster {
 
 		try {
 			// TODO: ajouter une "texture" de fallback en cas de problème de chargement de la texture choisie
-			this.texture = TexturePackFactory.getInstance().getTexturePack("secondpack").get("monster");
+			this.texture = TexturePackFactory.getInstance().getTexturePack("secondpack").get(TexturePack.typeTexture.monster);
 		} catch (TextureException e) {
 			e.printStackTrace();
 		}

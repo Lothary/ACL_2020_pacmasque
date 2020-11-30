@@ -136,7 +136,6 @@ public class GameView extends PortedView {
 
 		this.world.moveMonsters();
 		this.world.updateCollision();
-		this.world.updateCases();
 	}
 
 	@Override
