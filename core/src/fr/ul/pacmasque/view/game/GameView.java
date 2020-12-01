@@ -134,8 +134,8 @@ public class GameView extends PortedView {
 		camera.update();
 		getBatch().setProjectionMatrix(camera.combined);
 
-		this.world.moveMonsters();
-		this.world.updateCollision();
+		this.world.update();
+
 	}
 
 	@Override

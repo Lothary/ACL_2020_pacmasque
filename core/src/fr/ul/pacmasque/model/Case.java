@@ -19,6 +19,7 @@ import fr.ul.pacmasque.Drawable;
  * - TreasureCase
  */
 interface Case extends Drawable {
+
     /**
      * Symbolise le type de case spéciale.
      */

@@ -29,4 +29,5 @@ public interface Monster extends Entity{
 
 	boolean isMoving();
 
+	void setPlayerIsMagic(boolean b);
 }

@@ -23,20 +23,35 @@ import java.util.List;
 public class BasicMonster implements Monster {
 
 	private final Vector2 position;
-	private Texture texture;
-	private Algorithm algorithm;
 
+	/**
+	 * Texture sans que le player soit magique.
+	 */
+	private Texture normalTexture;
+
+	/**
+	 * Texture quand le player est magique.
+	 */
+	private Texture magicTexture;
+	private Algorithm algorithm;
 	private final List<Integer> movesList;
 	private final Vector2 nextPosition;
+
+	/**
+	 * Booléen qui indique si le player est magique ou pas.
+	 */
+	private boolean playerIsMagic;
 
 	public BasicMonster(int x, int y) {
 		this.position = new Vector2(x,y);
 		this.nextPosition = new Vector2(x,y);
-		movesList = new ArrayList<>();
+		this.movesList = new ArrayList<>();
 
 		try {
 			// TODO: ajouter une "texture" de fallback en cas de problème de chargement de la texture choisie
-			this.texture = TexturePackFactory.getInstance().getTexturePack("secondpack").get(TexturePack.typeTexture.monster);
+			this.normalTexture = TexturePackFactory.getInstance().getTexturePack("secondpack").get(TexturePack.typeTexture.monster);
+			this.magicTexture = TexturePackFactory.getInstance().getTexturePack("basepack").get(TexturePack.typeTexture.monster);
+			this.playerIsMagic = false;
 		} catch (TextureException e) {
 			e.printStackTrace();
 		}
@@ -68,9 +83,25 @@ public class BasicMonster implements Monster {
 			}
 		}
 	}
+
+	/**
+	 * Dessine le monstre, la texture est différente selon si le player
+	 * est sous l'effet magique ou pas.
+	 *
+	 * @param batch le batch dans lequel se dessiner
+	 * @param x la coordonnée x du dessin
+	 * @param y la coordonnée y du dessin
+	 * @param width la largeur du dessin
+	 * @param height la hauteur du dessin
+	 */
 	@Override
 	public void draw(Batch batch, float x, float y, float width, float height) {
-		batch.draw(texture,this.position.x,this.position.y,1,1);
+		if (playerIsMagic) {
+			batch.draw(magicTexture, this.position.x, this.position.y, 1, 1);
+		}
+		else{
+			batch.draw(normalTexture, this.position.x, this.position.y, 1, 1);
+		}
 		updateMovement();
 	}
 
@@ -113,5 +144,16 @@ public class BasicMonster implements Monster {
 	@Override
 	public boolean isMoving() {
 		return !this.movesList.isEmpty();
+	}
+
+	/**
+	 * Renseigne si le player est actuellement sous un effet magique,
+	 * afin de modifier la texture choisie.
+	 *
+	 * @param b vrai si le player est magique.
+	 */
+	@Override
+	public void setPlayerIsMagic(boolean b) {
+		this.playerIsMagic = b;
 	}
 }

@@ -27,6 +27,10 @@ public interface Player extends Entity {
 
 	void deleteMouvements();
 
+	boolean isMagic();
+	void setMagic(boolean magic);
 
-
+	boolean isDead();
+	void takeALife();
+	int getNumberLifes();
 }

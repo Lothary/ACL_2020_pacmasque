@@ -19,12 +19,12 @@ import java.util.Objects;
 
 public class TeleportationCase implements Case {
     private final Vector2 position;
-    private final Vector2 nextPosition;
+    private final Vector2 nextPosition; // par couples ?
     private Texture texture;
 
     public TeleportationCase(int x, int y) {
         this.position = new Vector2(x, y);
-        this.nextPosition = this.position; //todo : commment initialiser?
+        this.nextPosition = this.position;
         try {
             this.texture = TexturePackFactory.getInstance().getTexturePack("basepack").get(TexturePack.typeTexture.teleportation);
         } catch (TextureException e) {

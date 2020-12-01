@@ -12,6 +12,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Timer;
 import fr.ul.pacmasque.exception.TextureException;
 import fr.ul.pacmasque.util.TexturePack;
 import fr.ul.pacmasque.util.TexturePackFactory;
@@ -22,28 +23,63 @@ import java.util.Objects;
 
 public class BasicPlayer implements Player {
 
+	/**
+	 * Booléen qui définit si le player est sous l'effet de la
+	 * magie ou pas.
+	 */
+	private boolean isMagic;
+
+	/**
+	 * Position du player.
+	 */
 	private final Vector2 position;
+
+	/**
+	 * Timer qui définit le temps d'activation de l'effet
+	 * magique.
+	 */
+	private final Timer.Task timerMagicalEffect;
+
+	/**
+	 * Nombre de vies du player.
+	 */
+	private int numberLifes;
 
 	/**
 	 * Future feature, to be implemented!
 	 * @apiNote unused
 	 */
-
 	private final Vector2 nextPosition;
+
+	/**
+	 * Texture du player.
+	 */
 	private Texture texture;
 
+	/**
+	 * Liste des mouvements du player.
+	 */
 	private final List<Integer> movesList;
 
 	public BasicPlayer(int x, int y){
 		this.position = new Vector2(x,y);
 		this.nextPosition = new Vector2(x,y);
-		movesList = new ArrayList<>();
+		this.movesList = new ArrayList<>();
+		this.numberLifes = 3;
 
 		try {
 			this.texture = Objects.requireNonNull(TexturePackFactory.getInstance().getTexturePack("basepack")).get(TexturePack.typeTexture.pacman);
 		} catch (TextureException e) {
 			e.printStackTrace();
 		}
+
+		// Une fois que le timer est arrivé à sa fin, la magie est finie.
+		timerMagicalEffect = new Timer.Task() {
+			@Override
+			public void run() {
+				setMagic(false);
+			}
+		};
 	}
 
 	/**
@@ -117,5 +153,42 @@ public class BasicPlayer implements Player {
 	public void deleteMouvements(){
 		this.movesList.clear();
 	}
+
+	/**
+	 * Active la magie et le timer qui enlèvera cette magie au
+	 * bout de 10 secondes.
+	 *
+	 * @param magic vrai si le player est tombé sur une case magique.
+	 */
+	@Override
+	public void setMagic(boolean magic) {
+		this.isMagic = magic;
+		if (!timerMagicalEffect.isScheduled()) {
+			Timer.schedule(timerMagicalEffect, 10);
+			Timer.instance().start();
+		}
+	}
+
+	@Override
+	public void takeALife() {
+		this.numberLifes -= 1;
+	}
+
+	// TODO : afficher le nb de vies dans l'écran
+	@Override
+	public int getNumberLifes() {
+		return this.numberLifes;
+	}
+
+	@Override
+	public boolean isMagic() {
+		return this.isMagic;
+	}
+
+	@Override
+	public boolean isDead() {
+		return this.numberLifes == 0;
+	}
+
 
 }

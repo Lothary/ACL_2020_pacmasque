@@ -20,6 +20,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -50,8 +51,6 @@ public class World implements Drawable {
 	 */
 	@NotNull private final Player player;
 
-	private boolean hasWin;
-
 	/**
 	 * Liste des pastilles présentes dans le monde
 	 */
@@ -68,6 +67,11 @@ public class World implements Drawable {
 	@NotNull private final List<Case> specialCases;
 
 	/**
+	 * Nombre de monstres.
+	 */
+	private final int numberOfMonsters;
+
+	/**
 	 * Crée un monde
 	 * @param labyrinth le labyrinthe du monde
 	 */
@@ -81,18 +85,17 @@ public class World implements Drawable {
 		this.pastilles = new ArrayList<>();
 		this.monsters = new ArrayList<>();
 		this.specialCases = new ArrayList<>();
+		this.numberOfMonsters = 10;
 
 		this.worldName = worldName;
 
 		//Créer 3 monstres à des positions aléatoires viables
 		this.createMonster(3);
 		//Créer 10 pastilles à des positions aléatoires viables
-		this.createPastille(10);
-		//Créer 10 cases spéciales dont le trésor, des cases de téléportation,
+		this.createPastille(numberOfMonsters);
+		//Créer des cases spéciales dont le trésor, des cases de téléportation,
 		//des cases de magie et des pièges.
 		this.createSpecialCases();
-
-		this.hasWin = false;
 	}
 
 	/**
@@ -174,6 +177,13 @@ public class World implements Drawable {
 		return finalCase;
 	}
 
+	/**
+	 * Utilisé pour éviter que lors de la création des cases
+	 * spéciales, 2 cases de différent type soient superposées.
+	 *
+	 * @param coordinates coordonnées de la case potentiellement vide
+	 * @return vrai si la case est déjà occupée par une case spéciale.
+	 */
 	private boolean isSpecialCase(Vector2 coordinates){
 		AtomicBoolean isTaken = new AtomicBoolean(false);
 		this.specialCases.forEach(c -> {
@@ -248,27 +258,54 @@ public class World implements Drawable {
 			this.pastilles.add(pastille);
 	}
 
+	/**
+	 * Se charge de bouger les monstres, update la collision et
+	 * l'état actuel du niveau.
+	 */
+	public void update(){
+		this.moveMonsters();
+		this.updateCollision();
+		this.updateLevelState();
+	}
+
+	/**
+	 * Gère la collision du player avec :
+	 * - les montres :
+	 * 		- quand il est normal, il meurt
+	 * 		- quand il est magique, c'est le monstre qui meurt
+	 * - les pastilles : il les mange
+	 * - les cases spéciales : pour chacune il y a un effet différent
+	 */
 	@ApiStatus.Experimental
-	public void updateCollision() {
+	private void updateCollision() {
 		boolean collision = false;
 
 		//Collision avec les monstres
-		for(Monster e : this.monsters){
-			collision = this.collisionManager.isCollision(e);
+		Iterator<Monster> iterator = monsters.iterator();
+		while(iterator.hasNext()){
+			Monster monster = iterator.next();
+			collision = this.collisionManager.isCollision(monster);
 			if(collision){
-				this.player.setPositionX(this.labyrinth.getPositionDepart().x);
-				this.player.setPositionY(this.labyrinth.getPositionDepart().y);
-				this.player.setNextPositionX(this.labyrinth.getPositionDepart().x);
-				this.player.setNextPositionY(this.labyrinth.getPositionDepart().y);
+				if (!this.player.isMagic()) { // en temps normal
+					this.player.setPositionX(this.labyrinth.getPositionDepart().x);
+					this.player.setPositionY(this.labyrinth.getPositionDepart().y);
+					this.player.setNextPositionX(this.labyrinth.getPositionDepart().x);
+					this.player.setNextPositionY(this.labyrinth.getPositionDepart().y);
+
+					this.player.takeALife();
+				}
+				else { // le player est tombé sur une case magique donc il peut tuer le monstre
+					iterator.remove();
+				}
 			}
 		}
 
 		//Collision avec les pastilles
-		for(Pastille e : this.pastilles){
-			collision = this.collisionManager.isCollision(e);
+		for(Pastille pastille : this.pastilles){
+			collision = this.collisionManager.isCollision(pastille);
 			if(collision){
-				if(e.isVisible())
-					e.setVisible(false);
+				if(pastille.isVisible())
+					pastille.setVisible(false);
 			}
 		}
 
@@ -277,21 +314,26 @@ public class World implements Drawable {
 			collision = this.collisionManager.isInside(c);
 			if (collision){
 				switch (c.getType()) {
+					// Le player gagne
 					case treasure:
-						this.hasWin = true;
-						System.out.println("YOU WIN");
-						//todo : nouvelle view de gagnant?
+						// boolean hasWin ou enum state of the game ?
+						//todo : nouvelle view de gagnant? ou nouveau laby?
 						break;
+
+					// Le player perd une vie
 					case trap:
-						System.out.println("caíste");
-						//todo : diminuer la vie du player
+						this.player.takeALife();
 						break;
+
+					// Le player devient magique, ie il peut
+					// tuer les monstres en les touchant
 					case magic:
-						System.out.println("magic");
-						//todo : augmenter la vie du player ? Ou superpower ?
+						this.player.setMagic(true);
 						break;
+
+					// Le player est téléporté a une autre localisation
 					case teleportation:
-						// todo: search next teleportation door
+						// todo: implémenter comme couple<teleportation>
 						this.player.setPositionX(this.labyrinth.getPositionDepart().x);
 						this.player.setPositionY(this.labyrinth.getPositionDepart().y);
 						this.player.setNextPositionX(this.labyrinth.getPositionDepart().x);
@@ -299,6 +341,32 @@ public class World implements Drawable {
 						break;
 				}
 			}
+		}
+	}
+
+	/**
+	 * Se charge de vérifier si le player a encore des vies
+	 * ou pas. Si ce n'est pas le cas, le niveau est recommencé.
+	 */
+	private void updateLevelState(){
+		if (this.player.isDead()){ // Le player a perdu toutes ses vies : restart
+			this.restart();
+		}
+	}
+
+	/**
+	 * Réinitialise le niveau :
+	 * - toutes les pastilles réapparaîssent
+	 * - tous les monstres sont ressuscités.
+	 */
+	private void restart(){
+		for (Pastille p : this.pastilles) {
+			p.setVisible(true);
+		}
+
+		int nbMissingMonsters = this.numberOfMonsters - this.monsters.size();
+		if (nbMissingMonsters > 0) {
+			this.createMonster(nbMissingMonsters);
 		}
 	}
 
@@ -343,18 +411,33 @@ public class World implements Drawable {
 	 * Indique aux algorithmes de se mettre à jour
 	 */
 	// TODO: - Centraliser la mise à jour du monde
-	public void moveMonsters(){
+	private void moveMonsters(){
 		for(Monster m : this.monsters){
 			m.getAlgorithm().tick();
 		}
 	}
 
+	/**
+	 * Dessine les murs du labyrinthe, le player, les monstres
+	 * (que s'ils sont vivants), les pastilles et les cases
+	 * spéciales.
+	 *
+	 * @param batch le batch dans lequel se dessiner
+	 * @param x la coordonnée x du dessin
+	 * @param y la coordonnée y du dessin
+	 * @param width la largeur du dessin
+	 * @param height la hauteur du dessin
+	 */
 	@Override
 	public void draw(Batch batch, float x, float y, float width, float height) {
 		this.labyrinth.draw(batch, x, y, width, height);
 		this.player.draw(batch, x, y, width, height);
 
-		this.monsters.forEach(en -> en.draw(batch, x, y, width, height));
+		for (Monster m : this.monsters){
+			m.setPlayerIsMagic(this.player.isMagic());
+			m.draw(batch, x, y, width, height);
+		}
+
 		for(Pastille p : this.pastilles) {
 			if(p.isVisible())
 				p.draw(batch, x, y, width, height);
