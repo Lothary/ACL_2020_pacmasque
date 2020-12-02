@@ -8,6 +8,10 @@
 
 package fr.ul.pacmasque.view.menu;
 
+import com.badlogic.gdx.Audio;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -15,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import fr.ul.pacmasque.Pacmasque;
 import fr.ul.pacmasque.model.World;
 import fr.ul.pacmasque.view.hierarchy.OverlayView;
 import org.jetbrains.annotations.NotNull;
@@ -33,6 +38,19 @@ public class DeathView extends OverlayView {
 	public DeathView(float viewportWidth, float viewportHeight, @NotNull Skin skin, World world) {
 		super(viewportWidth, viewportHeight, null, skin);
 		this.world = world;
+	}
+
+	@Override
+	public void show() {
+		super.show();
+
+		if (Pacmasque.ENVIRONMENT == Pacmasque.Environment.PRODUCTION) {
+			FileHandle internal = Gdx.files.internal("sounds/lose.ogg");
+			if (internal.exists()) {
+				Sound sound = Gdx.audio.newSound(internal);
+				sound.play();
+			}
+		}
 	}
 
 	@Override

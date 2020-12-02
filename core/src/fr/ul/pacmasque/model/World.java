@@ -23,10 +23,7 @@ import fr.ul.pacmasque.util.TexturePackFactory;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -203,18 +200,7 @@ public class World implements Drawable, State<WorldState> {
 	 * @return Une case non libre dans le labyrinthe
 	 */
 	private Vector2 findWall(){
-		Random random = new Random(System.currentTimeMillis());
-
-		int x = random.nextInt(this.labyrinth.getWidth());
-		int y = random.nextInt(this.labyrinth.getHeight());
-		Vector2 finalCase = new Vector2(x, y);
-
-		while(!(this.labyrinth.isWall(finalCase)) || (this.isSpecialCase(finalCase))) {
-			x = random.nextInt(this.labyrinth.getWidth());
-			y = random.nextInt(this.labyrinth.getHeight());
-			finalCase = new Vector2(x, y);
-		}
-		return finalCase;
+		return this.labyrinth.getWalls().get(0);
 	}
 
 	/**
