@@ -346,7 +346,9 @@ public class World implements Drawable {
 		}
 
 		//"Collision" avec les cases spéciales
-		for (Case c : this.specialCases) {
+		Iterator<Case> iter = specialCases.iterator();
+		while (iter.hasNext()) {
+			Case c = iter.next();
 			collision = this.collisionManager.isInside(c);
 			if (collision){
 				switch (c.getType()) {
@@ -354,17 +356,20 @@ public class World implements Drawable {
 					case treasure:
 						// boolean hasWin ou enum state of the game ?
 						//todo : nouvelle view de gagnant? ou nouveau laby?
+						iter.remove();	//retire la case
 						break;
 
 					// Le player perd une vie
 					case trap:
 						this.player.takeALife();
+						iter.remove();	//retire la case
 						break;
 
 					// Le player devient magique, ie il peut
 					// tuer les monstres en les touchant
 					case magic:
 						this.player.setMagic(true);
+						iter.remove();	//retire la case
 						break;
 
 					// Le player est téléporté a une autre localisation
@@ -375,6 +380,7 @@ public class World implements Drawable {
 						this.player.setNextPositionX(this.labyrinth.getPositionDepart().x);
 						this.player.setNextPositionY(this.labyrinth.getPositionDepart().y);
 						this.player.deleteMouvements();
+						iter.remove();	//retire la case
 						break;
 				}
 			}
