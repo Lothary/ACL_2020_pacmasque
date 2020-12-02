@@ -181,13 +181,18 @@ public class BasicPlayer implements Player {
 	}
 
 	@Override
+	public void setNumberLifes(int numberLifes) {
+		this.numberLifes = numberLifes;
+	}
+
+	@Override
 	public boolean isMagic() {
 		return this.isMagic;
 	}
 
 	@Override
 	public boolean isDead() {
-		return this.numberLifes == 0;
+		return this.numberLifes <= 0;
 	}
 
 
