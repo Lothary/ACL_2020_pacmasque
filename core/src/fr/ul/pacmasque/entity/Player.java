@@ -33,4 +33,6 @@ public interface Player extends Entity {
 	boolean isDead();
 	void takeALife();
 	int getNumberLifes();
+
+	void setNumberLifes(int numberLifes);
 }

@@ -49,9 +49,9 @@ public class BasicMonster implements Monster {
 
 		try {
 			// TODO: ajouter une "texture" de fallback en cas de problème de chargement de la texture choisie
-			TexturePack pack = TexturePackFactory.getInstance().getTexturePack("secondpack");
+			TexturePack pack = TexturePackFactory.getInstance().getTexturePack("basepack");
 			this.normalTexture = pack.get(TexturePack.TypeTexture.monster);
-			this.magicTexture = pack.get(TexturePack.TypeTexture.monster);
+			this.magicTexture = pack.get(TexturePack.TypeTexture.magicMonster);
 			this.playerIsMagic = false;
 		} catch (TextureException e) {
 			e.printStackTrace();

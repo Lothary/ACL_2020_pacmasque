@@ -16,8 +16,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import fr.ul.pacmasque.WorldState;
 import fr.ul.pacmasque.model.World;
 import fr.ul.pacmasque.view.hierarchy.PortedView;
+import fr.ul.pacmasque.view.menu.DeathView;
 import fr.ul.pacmasque.view.menu.PauseMenuView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -133,6 +135,16 @@ public class GameView extends PortedView {
 		camera.position.set(playerPosition, 0);
 		camera.update();
 		getBatch().setProjectionMatrix(camera.combined);
+
+		WorldState state = this.world.getState();
+		if (state == WorldState.Dead) {
+			// FIXME!! pas une bonne pratique!
+			@Nullable FileHandle skinFileHandle = Gdx.files.internal("skin/craftacular/craftacular-ui.json");
+			assert skinFileHandle != null;
+			Skin skin = new Skin(skinFileHandle);
+			DeathView deathView = new DeathView(getWidth(), getHeight(), skin, getWorld());
+			present(deathView);
+		}
 
 		this.world.update();
 

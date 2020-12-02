@@ -30,6 +30,11 @@ public abstract class OverlayView extends StageView {
 	}
 
 	@Override
+	public @NotNull Color getBackgroundColor() {
+		return Color.valueOf("#111111EE");
+	}
+
+	@Override
 	public boolean shouldClearScreen() {
 		return false;
 	}

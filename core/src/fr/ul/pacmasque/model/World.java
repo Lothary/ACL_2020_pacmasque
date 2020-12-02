@@ -12,6 +12,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import fr.ul.pacmasque.Drawable;
+import fr.ul.pacmasque.State;
+import fr.ul.pacmasque.WorldState;
 import fr.ul.pacmasque.algorithm.AlgorithmRandom;
 import fr.ul.pacmasque.entity.*;
 import fr.ul.pacmasque.entity.BasicPlayer;
@@ -30,7 +32,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Monde dans lequel les entités vont évoluer
  */
-public class World implements Drawable {
+public class World implements Drawable, State<WorldState> {
 
 
 	/**
@@ -73,6 +75,8 @@ public class World implements Drawable {
 	 */
 	private final int numberOfMonsters;
 
+	@NotNull private WorldState state;
+
 	/**
 	 * Crée un monde
 	 * @param labyrinth le labyrinthe du monde
@@ -91,6 +95,8 @@ public class World implements Drawable {
 
 		this.worldName = worldName;
 
+		this.state = WorldState.Idle;
+
 		//Créer 3 monstres à des positions aléatoires viables
 		this.createMonster(numberOfMonsters);
 		//Créer 10 pastilles à des positions aléatoires viables
@@ -100,6 +106,8 @@ public class World implements Drawable {
 		this.createSpecialCases();
 
 		this.ajouterChemins(this.getWidth());
+
+		this.state = WorldState.Playing;
 	}
 
 	/**
@@ -144,6 +152,16 @@ public class World implements Drawable {
 	public void addMonster(Monster monster) {
 		if (!this.monsters.contains(monster))
 			this.monsters.add(monster);
+	}
+
+	@Override
+	public WorldState getState() {
+		return this.state;
+	}
+
+	@Override
+	public void setState(WorldState state) {
+		this.state = state;
 	}
 
 	/**
@@ -357,6 +375,7 @@ public class World implements Drawable {
 						// boolean hasWin ou enum state of the game ?
 						//todo : nouvelle view de gagnant? ou nouveau laby?
 						iter.remove();	//retire la case
+						this.setState(WorldState.Win);
 						break;
 
 					// Le player perd une vie
@@ -393,7 +412,7 @@ public class World implements Drawable {
 	 */
 	private void updateLevelState(){
 		if (this.player.isDead()){ // Le player a perdu toutes ses vies : restart
-			this.restart();
+			setState(WorldState.Dead);
 		}
 	}
 
@@ -402,7 +421,10 @@ public class World implements Drawable {
 	 * - toutes les pastilles réapparaîssent
 	 * - tous les monstres sont ressuscités.
 	 */
-	private void restart(){
+	public void restart() {
+		setState(WorldState.Playing);
+		this.player.setNumberLifes(3);
+
 		for (Pastille p : this.pastilles) {
 			p.setVisible(true);
 		}
@@ -474,12 +496,6 @@ public class World implements Drawable {
 	@Override
 	public void draw(Batch batch, float x, float y, float width, float height) {
 		this.labyrinth.draw(batch, x, y, width, height);
-		this.player.draw(batch, x, y, width, height);
-
-		for (Monster m : this.monsters){
-			m.setPlayerIsMagic(this.player.isMagic());
-			m.draw(batch, x, y, width, height);
-		}
 
 		for(Pastille p : this.pastilles) {
 			if(p.isVisible())
@@ -488,6 +504,13 @@ public class World implements Drawable {
 
 		for (Case c : this.specialCases){
 			c.draw(batch, x, y, width, height);
+		}
+
+		this.player.draw(batch, x, y, width, height);
+
+		for (Monster m : this.monsters){
+			m.setPlayerIsMagic(this.player.isMagic());
+			m.draw(batch, x, y, width, height);
 		}
 	}
 }
