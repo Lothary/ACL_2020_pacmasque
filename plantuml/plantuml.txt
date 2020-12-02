@@ -13,8 +13,8 @@ package libgdx {
     }
 
     abstract class Game {
-            + void create()
-            + void dispose()
+        + void create()
+        + void dispose()
     }
 
     Game .up.|> ApplicationListener
@@ -42,32 +42,20 @@ package pacmasque {
     package algorithm {
 
         abstract class Algorithm {
-            + Algorithm(AlgorithmManager manager, Entity entity)
+            + Algorithm(Entity entity)
             + {abstract} tick()
         }
 
         class AlgorithmRandom extends Algorithm {
-            + AlgorithmRandom(AlgorithmManager manager, Entity entity)
-        }
-
-        class AlgorithmAStar extends Algorithm{
-            + AlgorithmAStar(AlgorithmManager manager, Entity entity)
-        }
-
-        class AlgorithmDijkstra extends Algorithm{
-            + AlgorithmDijkstra(AlgorithmManager manager, Entity entity)
+            + AlgorithmRandom(World world, Entity entity)
         }
     }
 
     package entity {
 
-        class Ghost implements Monster {
-            - Algorithm algorithm
-            + Ghost(int x, int y)
-            - void updateMovement()
-        }
-
         class BasicMonster implements Monster {
+            - Texture magicTexture
+            - Texture normalTexture
 			- Algorithm algorithm
 			+ BasicMonster(int x, int y)
 			- void updateMovement()
@@ -79,6 +67,7 @@ package pacmasque {
         }
 
         class BasicPlayer implements Player {
+            - Timer.Task timerMagicalEffect
             - Vector2 position
             - int lifePoints
             + BasicPlayer(int x, int y)
@@ -99,13 +88,13 @@ package pacmasque {
 			void setPositionX(float x)
 			void setPositionY(float y)
 			void addMouvement(int direction, int number)
-			boolean isMoving();
+			boolean isMoving()
+			void setPlayerIsMagic(boolean b)
 		}
 
 		interface Pastille extends Entity {
-		    boolean isTaken
-		    void setTaken(boolean isTaken)
-		    boolean getTaken()
+		    boolean isVisible
+		    void setVisible(boolean visible)
 		}
 
 		interface Player extends Entity {
@@ -114,6 +103,12 @@ package pacmasque {
 			 void setPositionX(float x)
 			 void setPositionY(float y)
              void addMouvement(int direction, int number)
+             void deleteMouvements()
+             boolean isMagic()
+             void setMagic(boolean magic)
+             boolean isDead()
+             void takeALife()
+             int getNumberLifes()
 		}
 
 	}
@@ -122,6 +117,10 @@ package pacmasque {
 
 		class LabyrinthConstructorException extends PacmasqueException {
         	+ LabyrinthConstructorException(String message)
+        }
+
+        class LabyrinthException extends PacmasqueException {
+            + LabyrinthException(String message)
         }
 
 		class LabyrinthLoaderException extends PacmasqueException {
@@ -135,39 +134,51 @@ package pacmasque {
         abstract class PacmasqueException extends Exception {
         	+ PacmasqueException(String message)
         }
-
 	}
 
 	package model {
 	    class CollisionManager {
 	        + CollisionManager(World world)
 	        + boolean isCollision(Entity entity)
+	        + boolean isInside(Case case)
 	    }
 
 		class Labyrinth {
 			- int width
 			- int height
 			- List<Vector2> positionsMurs
+			- Texture wallTexture
+			- Texture backgroundTexture
+			- Vector2 positionDepart
 		 	+ Labyrinth(int width, int height)
 
+		 	- loadTextures(TexturePack texturePack)
+		 	- loadFallbackTextures(String textureName)
 		 	+ void setMur(int x, int y)
-		 	+ int getWidth()
-		 	+ int getHeight()
 		 	+ boolean isWall(Vector2 vec)
 		 	- boolean inRange(int x, int y)
+
 		}
 
 		Labyrinth -left-> Drawable
-		Labyrinth --"*" Case
 
         class World {
- 			+ World(Labyrinth labyrinth)
+ 			+ World(Labyrinth labyrinth, String worldName)
  			+ void addMonster(Monster monster)
+ 			- void createMonsters(int nb)
+ 			- Vector2 findFreeCase()
+ 			- boolean isSpecialCase(Vector2 coordinates)
+ 			+ void addPastille(Pastille pastille)
+ 			- void createPastille(int nb)
+ 			- void createSpecialCases()
  			+ int getWidth()
  			+ int getHeight()
  			+ void movePlayer(int direction)
- 			+ void moveMonsters()
- 			+ void updateCollision()
+ 			+ void update()
+ 			- void moveMonsters()
+ 			- void updateCollision()
+ 			- void updateLevelState()
+ 			- void restart()
 		}
 
 		World -left-> Drawable
@@ -180,13 +191,30 @@ package pacmasque {
 	        + AlgorithmManager(World world)
 	    }
 
-	    interface Case() {}
+        package cases {
 
-	    class TrapCase() extends Case {}
+            abstract class Case implements Drawable {
+                + enum TypeCase
+                + Case(int x, int y)
+                + Vector2 getPosition()
+                + TypeCase getType()
+            }
 
-	    class TeleportationCase() extends Case {}
+            class MagicCase extends TexturableCase {}
 
-	    class TreasureCase() extends Case {}
+            class TrapCase extends TexturableCase {}
+
+            class TeleportationCase extends TexturableCase {}
+
+            class TreasureCase extends TexturableCase {}
+
+            abstract class TexturableCase extends Case {
+                - Texture texture
+                + TexturableCase(int x, int y, TexturePack pack)
+            }
+	    }
+
+		World --"*" Case
 	}
 }
 @enduml

@@ -20,6 +20,10 @@ package pacmasque {
                 + DecoderException(String message)
             }
 
+            class EncoderException extends Exception{
+                + EncoderException(String message)
+            }
+
             interface Encoder<T> extends Codable{
                 byte[] encode(T encodable)
             }
@@ -34,6 +38,13 @@ package pacmasque {
         }
 
         package generator {
+            class Generators {
+                + {static} Generators shared()
+                + void register(String generatorName, Supplier<LabyrinthGenerator> factory)
+                + Supplier<LabyrinthGenerator> getGeneratorFactory(String generatorName)
+                + String[] getAvailableGenerators()
+            }
+
             class Edge implements Comparable {
                 enum Direction
                 - int x
@@ -44,8 +55,8 @@ package pacmasque {
             }
 
             class KruskalGenerator implements LabyrinthGenerator {
-                - int seed
-                + KruskalGenerator(int seed)
+                + KruskalGenerator()
+                - boolean isSizeInvalid(int size)
             }
 
             interface LabyrinthGenerator {
@@ -57,10 +68,21 @@ package pacmasque {
                 LabyrinthGeneratorException(LabyrinthGenerator generator, int width, int height, String message)
             }
 
+            class Matrix {
+                - int columns
+                - int rows
+                - List<List<T>> grid
+                + Matrix(int col, int rows, T initialValue)
+            }
+
             class Tree implements Comparable {
                 - Tree root
                 + Tree()
+                + boolean isConnected(Tree tree)
+                + void connect(Tree tree)
             }
+
+            Generators --"*" LabyrinthGenerator
         }
 
         interface LabyrinthBuilder {
@@ -90,9 +112,11 @@ package pacmasque {
         }
 
         class TexturePack {
-             - Map<String, String> resources
+             - enum TypeTexture
+             - Map<TypeTexture, String> resources
              + TexturePack(FileHandle handle)
-             + Texture get(String name)
+             + Texture get(TypeTexture type)
+             + {static} Texture getFallbackTexture(Color color)
         }
 
         class TexturePackFactory <<(S,#FF7700)>> {

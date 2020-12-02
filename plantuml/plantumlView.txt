@@ -66,6 +66,10 @@ package pacmasque {
                 + EmptyView(float width, float height, Color backgroundColor)
             }
 
+            abstract class OverlayView extends StageView {
+                + OverlayView(float viewportWidth, float viewportHeight, Color backgroundColor, Skin skin)
+            }
+
             abstract PortedView extends BatchView {
                 - Camera camera
                 - Viewport viewport
@@ -90,6 +94,8 @@ package pacmasque {
             abstract View extends Responder implements Screen {
                 + View(float width, float height, Color backgroundColor)
                 + {abstract} void update(float delta)
+                + boolean shouldClearScreen()
+                + void dismiss()
             }
 
             View --"1" NavigationController
@@ -146,9 +152,17 @@ package pacmasque {
         }
 
         package menu {
+            class ErrorView extends StageView {
+                + ErrorView(float viewportWidth, float viewportHeight, Skin skin, String message)
+            }
+
             class MainMenuView extends StageView {
                 + MainMenuView(float viewportWidth, float viewportHeight, Color clearColor, Skin skin)
                 - Table getMenuTable(boolean debug, Skin skin)
+            }
+
+            class PauseMenuView extends OverlayView {
+                PauseMenuView(float viewportWidth, float viewportHeight, Skin skin, World world)
             }
 
             class NewWorldMenuView extends StageView {

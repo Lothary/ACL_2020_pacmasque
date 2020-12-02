@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 public class TeleportationCase extends TexturableCase {
 
 	@ApiStatus.Experimental
-	private final Vector2 nextPosition; // par couples ? Oui
+	private final Vector2 nextPosition; // todo: par couples ? Oui
 
     public TeleportationCase(int x, int y, @Nullable TexturePack pack) {
     	super(x, y, pack);
