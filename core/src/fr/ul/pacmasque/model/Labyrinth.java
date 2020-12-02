@@ -82,6 +82,9 @@ public class Labyrinth implements Drawable {
 		this.nombreMonster = 3;
 
 
+
+
+
 		// TODO: - Sélectionner un autre texturepack
 		TexturePack texturePack = TexturePackFactory.getInstance().getTexturePack("basepack");
 		this.loadTextures(texturePack);
@@ -89,10 +92,19 @@ public class Labyrinth implements Drawable {
 
 
 
+
 	/**
 	 * @return La position de départ du Joueur
 	 */
 	public Vector2 getPositionDepart(){ return this.positionDepart; }
+
+
+	/**
+	 * Supprime le mur dans le labyrinthe
+	 */
+	public void deleteWall(Vector2 wall){
+		this.positionsMurs.remove(wall);
+	}
 
 
 	/**

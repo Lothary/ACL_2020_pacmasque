@@ -87,17 +87,19 @@ public class World implements Drawable {
 		this.pastilles = new ArrayList<>();
 		this.monsters = new ArrayList<>();
 		this.specialCases = new ArrayList<>();
-		this.numberOfMonsters = 10;
+		this.numberOfMonsters = 3;
 
 		this.worldName = worldName;
 
 		//Créer 3 monstres à des positions aléatoires viables
-		this.createMonster(3);
+		this.createMonster(numberOfMonsters);
 		//Créer 10 pastilles à des positions aléatoires viables
-		this.createPastille(numberOfMonsters);
+		this.createPastille(10);
 		//Créer des cases spéciales dont le trésor, des cases de téléportation,
 		//des cases de magie et des pièges.
 		this.createSpecialCases();
+
+		this.ajouterChemins(this.getWidth()/2);
 	}
 
 	/**
@@ -177,6 +179,36 @@ public class World implements Drawable {
 			finalCase = new Vector2(x, y);
 		}
 		return finalCase;
+	}
+
+	/**
+	 * @return Une case non libre dans le labyrinthe
+	 */
+	private Vector2 findWall(){
+		Random random = new Random(System.currentTimeMillis());
+
+		int x = random.nextInt(this.labyrinth.getWidth());
+		int y = random.nextInt(this.labyrinth.getHeight());
+		Vector2 finalCase = new Vector2(x, y);
+
+		while(!(this.labyrinth.isWall(finalCase)) || (this.isSpecialCase(finalCase))) {
+			x = random.nextInt(this.labyrinth.getWidth());
+			y = random.nextInt(this.labyrinth.getHeight());
+			finalCase = new Vector2(x, y);
+		}
+		return finalCase;
+	}
+
+	/**
+	 * Ajoute des chemins au labyrinthe généré
+	 */
+	private void ajouterChemins(int nb){
+		Vector2 finalCase;
+		for(int i = 0; i < nb ; i++){
+			finalCase = this.findWall();
+			this.labyrinth.deleteWall(finalCase);
+		}
+		System.out.println(nb);
 	}
 
 	/**
@@ -343,6 +375,7 @@ public class World implements Drawable {
 						this.player.setPositionY(this.labyrinth.getPositionDepart().y);
 						this.player.setNextPositionX(this.labyrinth.getPositionDepart().x);
 						this.player.setNextPositionY(this.labyrinth.getPositionDepart().y);
+						this.player.deleteMouvements();
 						break;
 				}
 			}
