@@ -208,7 +208,6 @@ public class World implements Drawable {
 			finalCase = this.findWall();
 			this.labyrinth.deleteWall(finalCase);
 		}
-		System.out.println(nb);
 	}
 
 	/**
