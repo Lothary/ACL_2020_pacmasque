@@ -68,7 +68,7 @@ public class BasicPlayer implements Player {
 		this.numberLifes = 3;
 
 		try {
-			this.texture = Objects.requireNonNull(TexturePackFactory.getInstance().getTexturePack("basepack")).get(TexturePack.typeTexture.pacman);
+			this.texture = Objects.requireNonNull(TexturePackFactory.getInstance().getTexturePack("basepack")).get(TexturePack.TypeTexture.pacman);
 		} catch (TextureException e) {
 			e.printStackTrace();
 		}

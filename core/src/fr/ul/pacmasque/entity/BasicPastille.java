@@ -26,7 +26,7 @@ public class BasicPastille  implements Pastille {
 		this.position = new Vector2(x,y);
 
 		try {
-			this.texture = Objects.requireNonNull(TexturePackFactory.getInstance().getTexturePack("basepack")).get(TexturePack.typeTexture.pastille);
+			this.texture = Objects.requireNonNull(TexturePackFactory.getInstance().getTexturePack("basepack")).get(TexturePack.TypeTexture.pastille);
 		} catch (TextureException e) {
 			e.printStackTrace();
 		}

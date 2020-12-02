@@ -22,7 +22,6 @@ import org.jetbrains.annotations.Range;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Un labyrinthe en deux dimensions, ayant une largeur et une hauteur
@@ -108,7 +107,7 @@ public class Labyrinth implements Drawable {
 		this.backgroundTexture = TexturePack.getFallbackTexture(Color.BLACK);
 
 		try {
-			this.wallTexture = texturePack.get(TexturePack.typeTexture.stone);
+			this.wallTexture = texturePack.get(TexturePack.TypeTexture.stone);
 		} catch (TextureException e) {
 			loadFallbackTexture("stone");
 		}

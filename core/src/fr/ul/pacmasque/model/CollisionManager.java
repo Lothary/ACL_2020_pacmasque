@@ -9,6 +9,7 @@
 package fr.ul.pacmasque.model;
 
 import fr.ul.pacmasque.entity.Entity;
+import fr.ul.pacmasque.model.cases.Case;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 

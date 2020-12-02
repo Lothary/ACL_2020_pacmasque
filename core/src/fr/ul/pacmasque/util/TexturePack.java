@@ -20,7 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TexturePack {
-	public enum typeTexture{
+
+	public enum TypeTexture {
 		pacman,
 		stone,
 		monster,
@@ -28,23 +29,28 @@ public class TexturePack {
 		treasure,
 		trap,
 		magic,
-		teleportation
+		teleportation,
+		/**
+		 * Tests only
+		 */
+		test_only_do_not_use,
 	}
-	@NotNull private final Map<typeTexture, String> resources;
+
+	@NotNull private final Map<TypeTexture, String> resources;
 	private final FileHandle handle;
 
 	public TexturePack(FileHandle handle) {
 		this.resources = new HashMap<>();
 		this.handle = handle;
 
-		this.resources.put(typeTexture.pacman, "pacman.png");
-		this.resources.put(typeTexture.stone, "stone.png");
-		this.resources.put(typeTexture.monster, "monster.png");
-		this.resources.put(typeTexture.pastille, "pastille.png");
-		this.resources.put(typeTexture.treasure, "treasure.png");
-		this.resources.put(typeTexture.trap, "trap.png");
-		this.resources.put(typeTexture.magic, "magic.png");
-		this.resources.put(typeTexture.teleportation, "teleportation.png");
+		this.resources.put(TypeTexture.pacman, "pacman.png");
+		this.resources.put(TypeTexture.stone, "stone.png");
+		this.resources.put(TypeTexture.monster, "monster.png");
+		this.resources.put(TypeTexture.pastille, "pastille.png");
+		this.resources.put(TypeTexture.treasure, "treasure.png");
+		this.resources.put(TypeTexture.trap, "trap.png");
+		this.resources.put(TypeTexture.magic, "magic.png");
+		this.resources.put(TypeTexture.teleportation, "teleportation.png");
 	}
 
 	/**
@@ -56,7 +62,7 @@ public class TexturePack {
 	 * texture -> peut être dû à une faute dans "name"
 	 * ou la texture n'existe pas.
 	 */
-	@NotNull public Texture get(typeTexture type) throws TextureException {
+	@NotNull public Texture get(TypeTexture type) throws TextureException {
 
 		if (!this.resources.containsKey(type)) {
 			throw new TextureException("La texture \"" + type + "\" n'est pas une ressource disponible");

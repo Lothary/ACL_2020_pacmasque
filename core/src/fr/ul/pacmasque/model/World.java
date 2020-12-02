@@ -15,7 +15,9 @@ import fr.ul.pacmasque.Drawable;
 import fr.ul.pacmasque.algorithm.AlgorithmRandom;
 import fr.ul.pacmasque.entity.*;
 import fr.ul.pacmasque.entity.BasicPlayer;
-import fr.ul.pacmasque.exception.TextureException;
+import fr.ul.pacmasque.model.cases.*;
+import fr.ul.pacmasque.util.TexturePack;
+import fr.ul.pacmasque.util.TexturePackFactory;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
@@ -215,8 +217,10 @@ public class World implements Drawable {
 	 * - 1 case téléportation
 	 * - 1 case magique
 	 */
-	private void createSpecialCases(){
+	private void createSpecialCases() {
 		Vector2 finalCase;
+
+		TexturePack pack = TexturePackFactory.getInstance().getTexturePack("basepack");
 
 		for (int i = 0; i < 4; i++) {
 			finalCase = this.findFreeCase();
@@ -224,19 +228,19 @@ public class World implements Drawable {
 			int y = (int) finalCase.y;
 
 			if (i == 0) { // un seul trésor
-				Case c = new TreasureCase(x, y);
+				Case c = new TreasureCase(x, y, pack);
 				specialCases.add(c);
 			}
 			if (i == 1) { // une case de téléportation
-				Case c = new TeleportationCase(x, y);
+				Case c = new TeleportationCase(x, y, pack);
 				specialCases.add(c);
 			}
 			if (i == 2) { // un piège
-				Case c = new TrapCase(x, y);
+				Case c = new TrapCase(x, y, pack);
 				specialCases.add(c);
 			}
 			if (i == 3) { // une case magique
-				Case c = new MagicCase(x, y);
+				Case c = new MagicCase(x, y, pack);
 				specialCases.add(c);
 			}
 		}
@@ -287,6 +291,7 @@ public class World implements Drawable {
 			collision = this.collisionManager.isCollision(monster);
 			if(collision){
 				if (!this.player.isMagic()) { // en temps normal
+					this.player.deleteMouvements();
 					this.player.setPositionX(this.labyrinth.getPositionDepart().x);
 					this.player.setPositionY(this.labyrinth.getPositionDepart().y);
 					this.player.setNextPositionX(this.labyrinth.getPositionDepart().x);
