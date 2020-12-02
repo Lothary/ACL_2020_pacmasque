@@ -91,7 +91,7 @@ public class World implements Drawable, State<WorldState> {
 		this.pastilles = new ArrayList<>();
 		this.monsters = new ArrayList<>();
 		this.specialCases = new ArrayList<>();
-		this.numberOfMonsters = 3;
+		this.numberOfMonsters = this.getWidth()/2;
 
 		this.worldName = worldName;
 
@@ -221,10 +221,12 @@ public class World implements Drawable, State<WorldState> {
 	 * Ajoute des chemins au labyrinthe généré
 	 */
 	private void ajouterChemins(int nb){
-		Vector2 finalCase;
-		for(int i = 0; i < nb ; i++){
-			finalCase = this.findWall();
-			this.labyrinth.deleteWall(finalCase);
+		if(!this.labyrinth.getWalls().isEmpty()) {
+			Vector2 finalCase;
+			for (int i = 0; i < nb; i++) {
+				finalCase = this.findWall();
+				this.labyrinth.deleteWall(finalCase);
+			}
 		}
 	}
 
@@ -317,6 +319,9 @@ public class World implements Drawable, State<WorldState> {
 	 */
 	public void update(){
 		this.moveMonsters();
+		for (Monster m : this.monsters) {
+			m.setPlayerIsMagic(this.player.isMagic());
+		}
 		this.updateCollision();
 		this.updateLevelState();
 	}
@@ -334,22 +339,21 @@ public class World implements Drawable, State<WorldState> {
 		boolean collision = false;
 
 		//Collision avec les monstres
-		Iterator<Monster> iterator = monsters.iterator();
-		while(iterator.hasNext()){
-			Monster monster = iterator.next();
+		for(Monster monster : this.monsters){
 			collision = this.collisionManager.isCollision(monster);
-			if(collision){
-				if (!this.player.isMagic()) { // en temps normal
-					this.player.deleteMouvements();
-					this.player.setPositionX(this.labyrinth.getPositionDepart().x);
-					this.player.setPositionY(this.labyrinth.getPositionDepart().y);
-					this.player.setNextPositionX(this.labyrinth.getPositionDepart().x);
-					this.player.setNextPositionY(this.labyrinth.getPositionDepart().y);
+			if(monster.isVisible()){
+				if(collision) {
+					if (!this.player.isMagic()) { // en temps normal
+						this.player.deleteMouvements();
+						this.player.setPositionX(this.labyrinth.getPositionDepart().x);
+						this.player.setPositionY(this.labyrinth.getPositionDepart().y);
+						this.player.setNextPositionX(this.labyrinth.getPositionDepart().x);
+						this.player.setNextPositionY(this.labyrinth.getPositionDepart().y);
 
-					this.player.takeALife();
-				}
-				else { // le player est tombé sur une case magique donc il peut tuer le monstre
-					iterator.remove();
+						this.player.takeALife();
+					} else { // le player est tombé sur une case magique donc il peut tuer le monstre
+						monster.setVisible(false);
+					}
 				}
 			}
 		}
@@ -429,9 +433,8 @@ public class World implements Drawable, State<WorldState> {
 			p.setVisible(true);
 		}
 
-		int nbMissingMonsters = this.numberOfMonsters - this.monsters.size();
-		if (nbMissingMonsters > 0) {
-			this.createMonster(nbMissingMonsters);
+		for (Monster m : this.monsters) {
+			m.setVisible(true);
 		}
 	}
 
@@ -496,6 +499,12 @@ public class World implements Drawable, State<WorldState> {
 	@Override
 	public void draw(Batch batch, float x, float y, float width, float height) {
 		this.labyrinth.draw(batch, x, y, width, height);
+		this.player.draw(batch, x, y, width, height);
+
+		for (Monster m : this.monsters){
+			if(m.isVisible())
+				m.draw(batch, x, y, width, height);
+		}
 
 		for(Pastille p : this.pastilles) {
 			if(p.isVisible())
@@ -504,13 +513,6 @@ public class World implements Drawable, State<WorldState> {
 
 		for (Case c : this.specialCases){
 			c.draw(batch, x, y, width, height);
-		}
-
-		this.player.draw(batch, x, y, width, height);
-
-		for (Monster m : this.monsters){
-			m.setPlayerIsMagic(this.player.isMagic());
-			m.draw(batch, x, y, width, height);
 		}
 	}
 }
