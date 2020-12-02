@@ -16,7 +16,6 @@ public interface Monster extends Entity{
 	 * @implNote considérer la factorisation de l'algorithme à l'entité, afin d'en faire profiter d'hypothétiques autres entités
 	 */
 	Algorithm getAlgorithm();
-
 	void setAlgorithm(Algorithm algorithm);
 
 	void setNextPositionX(float x);
@@ -24,6 +23,9 @@ public interface Monster extends Entity{
 
 	float getNextPositionX();
 	float getNextPositionY();
+
+	boolean isVisible();
+	void setVisible(boolean visible);
 
 	void addMouvement(int direction, int number);
 

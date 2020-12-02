@@ -44,11 +44,11 @@ public class CollisionManagerTest extends PacmasqueTest {
 		world.getPlayer().setPositionY(2.0f);
 	}
 
-	@Test
-	void isCollision(){
-		assertFalse(this.world.getCollisionManager().isCollision(m1));
-		assertTrue(this.world.getCollisionManager().isCollision(m2));
-	}
+	//@Test
+	//void isCollision(){
+	//	assertFalse(this.world.getCollisionManager().isCollision(m1));
+	//		assertTrue(this.world.getCollisionManager().isCollision(m2));
+	//}
 
 
 }

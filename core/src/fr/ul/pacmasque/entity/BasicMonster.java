@@ -42,6 +42,8 @@ public class BasicMonster implements Monster {
 	 */
 	private boolean playerIsMagic;
 
+	private boolean visible;
+
 	public BasicMonster(int x, int y) {
 		this.position = new Vector2(x,y);
 		this.nextPosition = new Vector2(x,y);
@@ -56,6 +58,8 @@ public class BasicMonster implements Monster {
 		} catch (TextureException e) {
 			e.printStackTrace();
 		}
+
+		visible = true;
 	}
 
 	/**
@@ -146,6 +150,11 @@ public class BasicMonster implements Monster {
 	public boolean isMoving() {
 		return !this.movesList.isEmpty();
 	}
+
+	@Override
+	public boolean isVisible() { return this.visible; }
+	@Override
+	public void setVisible(boolean visible){this.visible = visible;}
 
 	/**
 	 * Renseigne si le player est actuellement sous un effet magique,
