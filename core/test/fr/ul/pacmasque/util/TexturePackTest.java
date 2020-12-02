@@ -38,6 +38,7 @@ class TexturePackTest extends PacmasqueTest {
 
 		assertDoesNotThrow(() -> {
 			for (TexturePack.TypeTexture type : TexturePack.TypeTexture.values()) {
+				if (type.equals(TexturePack.TypeTexture.test_only_do_not_use)) continue;
 				Texture texture = texturePack.get(type);
 				assertNotNull(texture);
 			}
