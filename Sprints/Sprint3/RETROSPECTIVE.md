@@ -5,9 +5,9 @@
 
 ### Algorithme de cases spéciales
 
-Au début, l'algorithme qui se chargeait de vérifier si le joueur était dans une case spéciale était beaucoup 
-trop lent, donc si on créait un labyrinthe de grande taille, le jeu prenait beaucoup de temps. L'algorithme a
-donc été modifié.
+À sa première version l'algorithme qui se chargeait de vérifier si le joueur était sur une case spéciale était 
+trop lent, ainsi avec un labyrinthe de grande taille le jeu prenait beaucoup de temps à se charger. L'algorithme a
+donc été modifié et optimisé.
 
 ### La fonctionnalité "Cases spéciales" n'est pas terminée
 
@@ -21,3 +21,19 @@ affiner cela au sprint 4.
 Nous avons envisagé d'utiliser l'algorithme A* pour le déplacement intelligent des monstres. Cependant, comme
 les labyrinthes générés n'ont qu'un seul chemin libre, un déplacement plus intelligent des monstres aurait 
 provoqué l'impossibilité de gagner. Nous avons donc décidé de repousser cette fonctionnalité au sprint 4.
+
+### La fonctionnalité de la case téléportation 
+
+La fonctionnalité de la case téléportation et celle du mouvement du joueur n'ont pas été écrites par les mêmes personnes
+ainsi après téléportation, le mouvement du joueur n'était pas ré-initialisé correctement et l'algorithme du 
+mouvement du personnage ne fonctionnait plus correctement.
+Le correctif a été ajouté au sprint 4.
+
+### Génération du labyrinthe
+
+Nous avons utilisé Kruskal afin de générer des labyrinthes aléatoires, la mise en place de l'algorithme a été difficile et nous avons 
+dû ajouter plusieurs classes auxiliaires pour implémenter l'algorithme dans notre programme existant et
+améliorer sa visibilité.
+
+
+
