@@ -25,6 +25,7 @@ public class TexturePack {
 		pacman,
 		stone,
 		monster,
+		magicMonster,
 		pastille,
 		treasure,
 		trap,
@@ -45,11 +46,12 @@ public class TexturePack {
 
 		this.resources.put(TypeTexture.pacman, "pacman.png");
 		this.resources.put(TypeTexture.stone, "stone.png");
-		this.resources.put(TypeTexture.monster, "monster.png");
 		this.resources.put(TypeTexture.pastille, "pastille.png");
 		this.resources.put(TypeTexture.treasure, "treasure.png");
 		this.resources.put(TypeTexture.trap, "trap.png");
 		this.resources.put(TypeTexture.magic, "magic.png");
+		this.resources.put(TypeTexture.monster, "monster.png");
+		this.resources.put(TypeTexture.magicMonster, "magicMonster.png");
 		this.resources.put(TypeTexture.teleportation, "teleportation.png");
 	}
 
