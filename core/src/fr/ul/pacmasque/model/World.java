@@ -99,7 +99,7 @@ public class World implements Drawable {
 		//des cases de magie et des pièges.
 		this.createSpecialCases();
 
-		this.ajouterChemins(this.getWidth()/2);
+		this.ajouterChemins(this.getWidth());
 	}
 
 	/**
