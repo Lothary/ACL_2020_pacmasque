@@ -87,7 +87,7 @@ public class World implements Drawable {
 		this.pastilles = new ArrayList<>();
 		this.monsters = new ArrayList<>();
 		this.specialCases = new ArrayList<>();
-		this.numberOfMonsters = 3;
+		this.numberOfMonsters = this.getWidth()/2;
 
 		this.worldName = worldName;
 
@@ -203,10 +203,12 @@ public class World implements Drawable {
 	 * Ajoute des chemins au labyrinthe généré
 	 */
 	private void ajouterChemins(int nb){
-		Vector2 finalCase;
-		for(int i = 0; i < nb ; i++){
-			finalCase = this.findWall();
-			this.labyrinth.deleteWall(finalCase);
+		if(!this.labyrinth.getWalls().isEmpty()) {
+			Vector2 finalCase;
+			for (int i = 0; i < nb; i++) {
+				finalCase = this.findWall();
+				this.labyrinth.deleteWall(finalCase);
+			}
 		}
 	}
 
