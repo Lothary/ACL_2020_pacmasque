@@ -18,11 +18,35 @@ import fr.ul.pacmasque.model.World;
 import java.util.*;
 
 public class AlgorithmAStar extends Algorithm {
+    /**
+     * Monstre qui bougera selon cette algorithme. Le départ
+     * de l'algorithme est donc sa position initiale.
+     */
     private final Monster monster;
+
+    /**
+     * La position à atteindre dans l'algorithme est celle du
+     * player.
+     */
     private final Player player;
+
+    /**
+     * Graphe représentant le labyrinthe.
+     */
     private final Graph graph;
+
+    /**
+     * Labyrinthe où se trouvent le monstre et le player.
+     */
     private final Labyrinth labyrinth;
 
+    /**
+     * Récupère le monstre, le player, le labyrinthe et crée,
+     * à partir de ce dernier, un graphe.
+     *
+     * @param world dans lequel est placé le monstre.
+     * @param monster qu'on fait bouger.
+     */
     public AlgorithmAStar(World world, Monster monster) {
         this.monster = monster;
         this.player = world.getPlayer();
@@ -32,6 +56,13 @@ public class AlgorithmAStar extends Algorithm {
 
     /**
      * Le monstre bouge selon le chemin donné par l'algorithme A*.
+     * Le tick() est appelé à chaque update du jeu.
+     *
+     * Il serait peut-être plus efficace de relancer cette algorithme
+     * seulement quand la position du player ("target") change. Le
+     * design pattern Observer pourrait par exemple être utilisé dans
+     * une future version. Ou ne pas récupérer tout un chemin ("path")
+     * avec A* mais seulement un pas.
      */
     @Override
     public void tick() {
@@ -66,6 +97,7 @@ public class AlgorithmAStar extends Algorithm {
     /**
      * Donne le chemin plus rapide pour arriver à targetPos depuis startPos en
      * appliquant l'algorithme de A étoile.
+     * L'heuristique choisie est la distance à vol d'oiseau.
      *
      * @param targetPos position du player à ce moment donné.
      * @param startPos position initiale du monstre.
@@ -129,6 +161,14 @@ public class AlgorithmAStar extends Algorithm {
         return (int) (x + y);
     }
 
+    /**
+     * Utilisée pour récupérer le chemin créé par A* : on utilise le
+     * prédécesseur de chaque case.
+     *
+     * @param c case à partir de laquelle on doit construire le chemin.
+     * @param start case d'arrivée (la position du player).
+     * @param path chemin créé par A*.
+     */
     private void findPath(Vertex c, Vertex start, List<Vertex> path){
         while (!c.equals(start)){
             path.add(c);
@@ -165,6 +205,15 @@ public class AlgorithmAStar extends Algorithm {
         return graph;
     }
 
+    /**
+     * Récupère les voisins du haut, bas, droite et gauche que s'il
+     * ne s'agit pas de murs, donc potentiellement vide.
+     *
+     * @param x abscisse de la case
+     * @param y ordonnée de la case
+     * @return liste des voisins de la case qui a pour abscisse x
+     * et pour ordonnée y.
+     */
     private List<Vertex> findNeighbors(int x, int y){
         List<Vertex> neighbors = new ArrayList<>();
         int width = labyrinth.getWidth();
@@ -207,6 +256,11 @@ public class AlgorithmAStar extends Algorithm {
         return neighbors;
     }
 
+    /**
+     * Utilisée pour le test.
+     *
+     * @return le graphe créé.
+     */
     public Graph getGraph() {
         return graph;
     }

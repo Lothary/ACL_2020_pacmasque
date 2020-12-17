@@ -170,8 +170,10 @@ public class World implements Drawable, State<WorldState> {
 	}
 
 	/**
-	 * Créer un monstre puis l'ajoute au monde
-	 * @param nb nombre de monstres à créer
+	 * Créer un monstre puis l'ajoute au monde avec l'algorithme de
+	 * mouvement correspondant.
+	 *
+	 * @param nb nombre de monstres à créer.
 	 */
 	private void createMonster(int nb) {
 		Vector2 finalCase;
@@ -511,6 +513,11 @@ public class World implements Drawable, State<WorldState> {
 		}
 	}
 
+	/**
+	 * Utilisé pour le test.
+	 *
+	 * @return algorithme A*
+	 */
 	public Algorithm getAlgorithmAStar() {
 		return algorithmAStar;
 	}
