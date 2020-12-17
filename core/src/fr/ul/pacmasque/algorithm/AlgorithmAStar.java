@@ -8,6 +8,7 @@
 
 package fr.ul.pacmasque.algorithm;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import fr.ul.pacmasque.entity.Monster;
 import fr.ul.pacmasque.entity.Player;
@@ -20,11 +21,13 @@ public class AlgorithmAStar extends Algorithm {
     private final Monster monster;
     private final Player player;
     private final Graph graph;
+    private final Labyrinth labyrinth;
 
     public AlgorithmAStar(World world, Monster monster) {
         this.monster = monster;
         this.player = world.getPlayer();
-        this.graph = this.toGraph(world.getLabyrinth());
+        this.labyrinth = world.getLabyrinth();
+        this.graph = this.createGraph();
     }
 
     /**
@@ -32,21 +35,44 @@ public class AlgorithmAStar extends Algorithm {
      */
     @Override
     public void tick() {
-        //todo: voir si getPosition ou getNextPosition
-        Vector2 start = new Vector2(monster.getNextPositionX(), monster.getNextPositionX());
+        Vector2 start = new Vector2(monster.getNextPositionX(), monster.getNextPositionY());
         Vector2 target = new Vector2(player.getNextPositionX(), player.getNextPositionY());
-        List<Vector2> path = this.aStarPath(target, start);
+        List<Vertex> path = this.aStarPath(target, start);
+        if (!path.isEmpty()) System.out.println("monster: "+start+" has pathsize: "+path.size()+" when player is "+target);
 
         if (!monster.isMoving()){
-            for (Vector2 nextCase : path){
-                monster.setNextPositionX(nextCase.x);
-                monster.setNextPositionY(nextCase.y);
+            for (Vertex nextCase : path){
+                System.out.println(nextCase.getPosition());
+                monster.setNextPositionX(nextCase.getPosition().x);
+                monster.setNextPositionY(nextCase.getPosition().y);
+                switch (nextCase.getType()){
+                    case up :
+                        monster.addMouvement(Input.Keys.UP, 10);
+                        break;
+                    case down :
+                        monster.addMouvement(Input.Keys.DOWN, 10);
+                        break;
+                    case left :
+                        monster.addMouvement(Input.Keys.LEFT, 10);
+                        break;
+                    case right :
+                        monster.addMouvement(Input.Keys.RIGHT, 10);
+                        break;
+                }
             }
         }
     }
 
-    private List<Vector2> aStarPath(Vector2 targetPos, Vector2 startPos){
-        List<Vector2> path = new ArrayList<>();
+    /**
+     * Donne le chemin plus rapide pour arriver à targetPos depuis startPos en
+     * appliquant l'algorithme de A étoile.
+     *
+     * @param targetPos position du player à ce moment donné.
+     * @param startPos position initiale du monstre.
+     * @return liste des cases à parcourir par le monstre, ie le chemin trouvé.
+     */
+    public List<Vertex> aStarPath(Vector2 targetPos, Vector2 startPos){
+        List<Vertex> path = new ArrayList<>();
         boolean reached = false;
 
         Vertex target = new Vertex(targetPos);
@@ -58,33 +84,36 @@ public class AlgorithmAStar extends Algorithm {
         Stack<Vertex> open = new Stack();
         open.push(start);
 
-        while(!open.empty() && !reached){
+
+        while(!open.isEmpty() && !reached){
+            open.sort(Vertex::compareTo);
             Vertex actualCase = open.pop();
+
             if (actualCase.equals(target)){
                 this.findPath(actualCase, start, path);
                 reached = true;
             }
             else{
                 List<Vertex> neighbors = this.graph.getAdjacency(actualCase.getPosition());
-                for (Vertex neighbor : neighbors){
-                    boolean closer = neighbor.getDistance() < actualCase.getDistance();
-                    if (!(closed.contains(neighbor)) || (open.contains(neighbor) && closer)){
-                        float newDistance = actualCase.getDistance() + 1;
-                        neighbor.setDistance(newDistance);
+                if (neighbors != null) {
+                    for (Vertex neighbor : neighbors) {
+                        boolean closer = neighbor.getDistance() < actualCase.getDistance();
+                        if (!(closed.contains(neighbor)) || (open.contains(neighbor) && closer)) {
+                            int newDistance = actualCase.getDistance() + 1;
+                            neighbor.setDistance(newDistance);
 
-                        float newHeuristique = neighbor.getDistance() + this.distanceAsTheCrowFlies(neighbor.getPosition(), targetPos);
-                        neighbor.setHeuristique(newHeuristique);
+                            int newHeuristic = neighbor.getDistance() + this.distanceAsTheCrowFlies(neighbor.getPosition(), targetPos);
+                            neighbor.setHeuristique(newHeuristic);
 
-                        open.push(neighbor);
-                        neighbor.setPredecessor(actualCase);
+                            open.push(neighbor);
+                            neighbor.setPredecessor(actualCase);
+                        }
                     }
                 }
                 closed.push(actualCase);
             }
         }
-        if (open.empty()){
-            System.out.println("Pas de chemin trouvé.");
-        }
+
         return path;
     }
 
@@ -94,20 +123,28 @@ public class AlgorithmAStar extends Algorithm {
      * @return distance à vol d'oiseau entre la position actuelle
      * et la position du player.
      */
-    private float distanceAsTheCrowFlies(Vector2 actualC, Vector2 target){
-        float x = (float) Math.pow(actualC.x - target.x, 2);
-        float y = (float) Math.pow(actualC.y - target.y, 2);
-        return x + y;
+    private int distanceAsTheCrowFlies(Vector2 actualC, Vector2 target){
+        double x = Math.pow(actualC.x - target.x, 2);
+        double y = Math.pow(actualC.y - target.y, 2);
+        return (int) (x + y);
     }
 
-    private void findPath(Vertex c, Vertex start, List<Vector2> path){
+    private void findPath(Vertex c, Vertex start, List<Vertex> path){
         while (!c.equals(start)){
-            path.add(c.getPosition());
+            path.add(c);
             c = c.getPredecessor();
         }
     }
 
-    private Graph toGraph(Labyrinth labyrinth){
+    /**
+     * Transforme la labyrinthe en un graphe de la forme :
+     * Map<Vertex, List<Vertex> où Vertex est un sommet (une
+     * case du labyrinthe) et les arêtes existent quand les
+     * deux cases sont adjacentes et aucune des deux est un mur.
+     *
+     * @return le graphe correspondant au labyrinthe
+     */
+    public Graph createGraph(){
         Graph graph = new Graph();
         int width = labyrinth.getWidth();
         int height = labyrinth.getHeight();
@@ -117,39 +154,60 @@ public class AlgorithmAStar extends Algorithm {
                 if (!labyrinth.isWall(x, y)){
                     Vector2 pos = new Vector2(x, y);
                     graph.addVertex(pos);
-                    for (Vector2 v : findNeighbors(x, y, labyrinth))
-                        graph.addEdge(pos, v);
+                    List<Vertex> neighbors = findNeighbors(x, y);
+                    for (Vertex v : neighbors)
+                        if (!labyrinth.isWall(v.getPosition()))
+                            graph.addEdge(pos, v.getPosition());
                 }
             }
         }
 
-
         return graph;
     }
 
-    private List<Vector2> findNeighbors(int x, int y, Labyrinth labyrinth){
-        List<Vector2> neighbors = new ArrayList<>();
+    private List<Vertex> findNeighbors(int x, int y){
+        List<Vertex> neighbors = new ArrayList<>();
         int width = labyrinth.getWidth();
         int height = labyrinth.getHeight();
+        Vector2 pos = new Vector2();
 
         if (x > 0){
-            if (!labyrinth.isWall(x - 1, y))
-                neighbors.add(new Vector2(x + 1, y));
+            pos.set(x - 1, y);
+            if (!labyrinth.isWall(pos)){
+                Vertex v = new Vertex(pos);
+                v.setType(Vertex.typeNeighbor.left);
+                neighbors.add(v);
+            }
         }
         if (x < width - 1){
-            if (!labyrinth.isWall(x + 1, y))
-                neighbors.add(new Vector2(x + 1, y));
+            pos.set(x + 1, y);
+            if (!labyrinth.isWall(pos)) {
+                Vertex v = new Vertex(pos);
+                v.setType(Vertex.typeNeighbor.right);
+                neighbors.add(v);
+            }
         }
         if (y > 0){
-            if (!labyrinth.isWall(x, y - 1))
-                neighbors.add(new Vector2(x, y - 1));
+            pos.set(x, y - 1);
+            if (!labyrinth.isWall(pos)) {
+                Vertex v = new Vertex(pos);
+                v.setType(Vertex.typeNeighbor.down);
+                neighbors.add(v);
+            }
         }
         if (y < height - 1){
-            if (!labyrinth.isWall(x, y + 1))
-                neighbors.add(new Vector2(x, y + 1));
+            pos.set(x, y + 1);
+            if (!labyrinth.isWall(pos)) {
+                Vertex v = new Vertex(pos);
+                v.setType(Vertex.typeNeighbor.up);
+                neighbors.add(v);
+            }
         }
 
-        //todo : add type neighbor ? (si Input.KEYS quand monster move)?
         return neighbors;
+    }
+
+    public Graph getGraph() {
+        return graph;
     }
 }

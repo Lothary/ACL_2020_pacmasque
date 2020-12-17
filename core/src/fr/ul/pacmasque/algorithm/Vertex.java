@@ -15,21 +15,30 @@ import java.util.Objects;
 
 public class Vertex implements Comparable<Vertex>{
     private final Vector2 position;
-    private float distance;
-    private float heuristique;
-    private Vertex predecessor; // todo: à initialiser à (-1, -1) ?
+    private int distance;
+    private int heuristique;
+    private Vertex predecessor;
+    public enum typeNeighbor {
+        up,
+        down,
+        left,
+        right,
+        none
+    }
+    private typeNeighbor type;
 
     public Vertex(Vector2 position){
         this.position = position;
-        this.distance = Integer.MAX_VALUE;
-        this.heuristique = Integer.MAX_VALUE;
+        this.distance = 0;
+        this.heuristique = 0;
+        this.type = typeNeighbor.none;
     }
 
-    public void setDistance(float distance) {
+    public void setDistance(int distance) {
         this.distance = distance;
     }
 
-    public void setHeuristique(float heuristique) {
+    public void setHeuristique(int heuristique) {
         this.heuristique = heuristique;
     }
 
@@ -37,20 +46,28 @@ public class Vertex implements Comparable<Vertex>{
         this.predecessor = predecessor;
     }
 
+    public void setType(typeNeighbor type) {
+        this.type = type;
+    }
+
     public Vector2 getPosition() {
         return position;
     }
 
-    public float getDistance() {
+    public int getDistance() {
         return distance;
     }
 
-    public float getHeuristique() {
+    public int getHeuristique() {
         return heuristique;
     }
 
     public Vertex getPredecessor() {
         return predecessor;
+    }
+
+    public typeNeighbor getType() {
+        return type;
     }
 
     @Override

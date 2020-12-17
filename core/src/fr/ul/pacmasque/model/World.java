@@ -14,6 +14,8 @@ import com.badlogic.gdx.math.Vector2;
 import fr.ul.pacmasque.Drawable;
 import fr.ul.pacmasque.State;
 import fr.ul.pacmasque.WorldState;
+import fr.ul.pacmasque.algorithm.Algorithm;
+import fr.ul.pacmasque.algorithm.AlgorithmAStar;
 import fr.ul.pacmasque.algorithm.AlgorithmRandom;
 import fr.ul.pacmasque.entity.*;
 import fr.ul.pacmasque.entity.BasicPlayer;
@@ -73,6 +75,12 @@ public class World implements Drawable, State<WorldState> {
 	private final int numberOfMonsters;
 
 	@NotNull private WorldState state;
+
+	/**
+	 * Algorithme pour le mouvement des monstres.
+	 */
+	private Algorithm algorithmAStar;
+
 
 	/**
 	 * Crée un monde
@@ -172,7 +180,8 @@ public class World implements Drawable, State<WorldState> {
 			finalCase = this.findFreeCase();
 
 			BasicMonster dummyMonster = new BasicMonster((int)finalCase.x, (int)finalCase.y);
-			dummyMonster.setAlgorithm(new AlgorithmRandom(this, dummyMonster));
+			algorithmAStar = new AlgorithmAStar(this, dummyMonster);
+			dummyMonster.setAlgorithm(algorithmAStar);
 			this.addMonster(dummyMonster);
 
 		}
@@ -500,5 +509,9 @@ public class World implements Drawable, State<WorldState> {
 		for (Case c : this.specialCases){
 			c.draw(batch, x, y, width, height);
 		}
+	}
+
+	public Algorithm getAlgorithmAStar() {
+		return algorithmAStar;
 	}
 }
