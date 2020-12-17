@@ -8,10 +8,14 @@
 
 package fr.ul.pacmasque.model;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import fr.ul.pacmasque.Drawable;
+import fr.ul.pacmasque.Pacmasque;
 import fr.ul.pacmasque.State;
 import fr.ul.pacmasque.WorldState;
 import fr.ul.pacmasque.algorithm.Algorithm;
@@ -350,6 +354,13 @@ public class World implements Drawable, State<WorldState> {
 						this.player.takeALife();
 					} else { // le player est tombé sur une case magique donc il peut tuer le monstre
 						monster.setVisible(false);
+						if (Pacmasque.ENVIRONMENT == Pacmasque.Environment.PRODUCTION) {
+							FileHandle internal = Gdx.files.internal("sounds/eat_monster.ogg");
+							if (internal.exists()) {
+								Sound sound = Gdx.audio.newSound(internal);
+								sound.play();
+							}
+						}
 					}
 				}
 			}
