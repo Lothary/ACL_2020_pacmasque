@@ -26,7 +26,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class DeathView extends OverlayView {
 
-	private World world;
+	private final World world;
 
 	/**
 	 * Crée une vue munie d'une scène

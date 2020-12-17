@@ -371,10 +371,9 @@ public class World implements Drawable, State<WorldState> {
 			collision = this.collisionManager.isInside(c);
 			if (collision){
 				switch (c.getType()) {
+
 					// Le player gagne
 					case treasure:
-						// boolean hasWin ou enum state of the game ?
-						//todo : nouvelle view de gagnant? ou nouveau laby?
 						iter.remove();	//retire la case
 						this.setState(WorldState.Win);
 						break;

@@ -21,6 +21,7 @@ import fr.ul.pacmasque.model.World;
 import fr.ul.pacmasque.view.hierarchy.PortedView;
 import fr.ul.pacmasque.view.menu.DeathView;
 import fr.ul.pacmasque.view.menu.PauseMenuView;
+import fr.ul.pacmasque.view.menu.WinView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -144,6 +145,15 @@ public class GameView extends PortedView {
 			Skin skin = new Skin(skinFileHandle);
 			DeathView deathView = new DeathView(getWidth(), getHeight(), skin, getWorld());
 			present(deathView);
+		}
+
+		if (state == WorldState.Win){
+			// FIXME!! pas une bonne pratique!
+			@Nullable FileHandle skinFileHandle = Gdx.files.internal("skin/craftacular/craftacular-ui.json");
+			assert skinFileHandle != null;
+			Skin skin = new Skin(skinFileHandle);
+			WinView winView = new WinView(getWidth(), getHeight(), skin, getWorld());
+			present(winView);
 		}
 
 		this.world.update();
